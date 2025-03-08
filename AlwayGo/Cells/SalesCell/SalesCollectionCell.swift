@@ -31,6 +31,11 @@ class SalesCollectionCell: UICollectionViewCell {
 
     private func configUI() {
         contentView.addSubview(collection)
+        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(setupScroll), userInfo: nil, repeats: true)
+    }
+    
+    @objc func setupScroll() {
+        
     }
     
     private func configConstraints() {
