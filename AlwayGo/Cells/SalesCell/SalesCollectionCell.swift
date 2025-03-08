@@ -9,14 +9,13 @@ import UIKit
 
 class SalesCollectionCell: UICollectionViewCell {
     var index = 0
-    var cellPhotos = [UIImage]()
     var photos = [UIImage(named: "image1"), UIImage(named: "image2"), UIImage(named: "image3"), UIImage(named: "image4"),]
     
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.isPagingEnabled = true
+//        collection.isPagingEnabled = true
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -40,10 +39,6 @@ class SalesCollectionCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        cellPhotos.append(UIImage(named: "image1") ?? UIImage())
-        cellPhotos.append(UIImage(named: "image2") ?? UIImage())
-        cellPhotos.append(UIImage(named: "image3") ?? UIImage())
-        cellPhotos.append(UIImage(named: "image4") ?? UIImage())
         [collection, pageControl].forEach({ contentView.addSubview($0) })
         collection.delegate = self
         collection.dataSource = self
@@ -52,12 +47,12 @@ class SalesCollectionCell: UICollectionViewCell {
     }
     
     @objc func setupScroll() {
-        if index < (cellPhotos.count) - 1 {
+        if index < (photos.count) - 1 {
             index += 1
         } else {
             index = 0
         }
-        pageControl.numberOfPages = cellPhotos.count
+        pageControl.numberOfPages = photos.count
         pageControl.currentPage = index
         collection.scrollToItem(at: IndexPath(item: index, section: 0), at: .right, animated: true)
     }
@@ -69,7 +64,7 @@ class SalesCollectionCell: UICollectionViewCell {
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            pageControl.centerYAnchor.constraint(equalTo: collection.centerYAnchor),
+            pageControl.centerXAnchor.constraint(equalTo: collection.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: collection.bottomAnchor, constant: -8)
         ])
     }
