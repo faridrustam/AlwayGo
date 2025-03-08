@@ -9,12 +9,19 @@ import Foundation
 enum CellType {
     case sales
     case categories
-    
+    case forYou
+    case recentlyViewed
+    case trendingNow
+    case bestDealsDiscounts
 }
 
 class HomeViewModel {
     let cellTypes: [CellType] = [
         .sales,
-        .categories
+        .categories,
+        .forYou,
+        .recentlyViewed,
+        .trendingNow,
+        .bestDealsDiscounts
     ]
 }

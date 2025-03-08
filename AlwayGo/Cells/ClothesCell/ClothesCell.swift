@@ -17,7 +17,7 @@ class ClothesCell: UICollectionViewCell {
     
     private lazy var clothName: UILabel = {
        let label = UILabel()
-        label.text = "Miss Murem Kruvuaze Baglamali Hirka "
+        label.text = "Miss Murem Kruvuaze Baglamali Hirka"
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = .black
         label.numberOfLines = 0

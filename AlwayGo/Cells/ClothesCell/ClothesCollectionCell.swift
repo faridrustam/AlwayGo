@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ClothesCollection: UICollectionViewCell {
+class ClothesCollectionCell: UICollectionViewCell {
     private lazy var forYouLabel: UILabel = {
         let label = UILabel()
         label.text = "For you"
@@ -69,7 +69,7 @@ class ClothesCollection: UICollectionViewCell {
     }
 }
 
-extension ClothesCollection: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ClothesCollectionCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }
@@ -80,6 +80,6 @@ extension ClothesCollection: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 163, height: 324)
+        .init(width: 163, height: 284)
     }
 }
