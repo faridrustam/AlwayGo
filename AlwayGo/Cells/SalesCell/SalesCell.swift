@@ -9,14 +9,38 @@ import UIKit
 
 class SalesCell: UICollectionViewCell {
 
-    @IBOutlet private weak var salesImage: UIImageView!
+    private lazy var salesImage: UIImageView = {
+        let image = UIImageView()
+        image.backgroundColor = .red
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
+        configureUI()
+        configureConstraints()
     }
     
-    func configImage() {
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureUI() {
+        contentView.addSubview(salesImage)
+    }
+    
+    private func configureConstraints() {
+        NSLayoutConstraint.activate([
+            salesImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            salesImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            salesImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            salesImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+    }
+    
+    func configureImage(image: UIImage) {
+        salesImage.image = image
     }
 }

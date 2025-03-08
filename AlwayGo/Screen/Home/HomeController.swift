@@ -25,27 +25,41 @@ class HomeController: BaseController {
     }
     
     override func configureUI() {
+        view.addSubview(collection)
+        view.backgroundColor = .systemBackground
         collection.delegate = self
         collection.dataSource = self
+        collection.register(SalesCollectionCell.self, forCellWithReuseIdentifier: "\(SalesCollectionCell.self)")
     }
     
     override func configureConstraints() {
-        <#code#>
+        NSLayoutConstraint.activate([
+            collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     override func configureviewModel() {
-        <#code#>
+        print("")
     }
 }
 
 extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        <#code#>
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SalesCollectionCell.self)",
+                                                      for: indexPath) as! SalesCollectionCell
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        .init(width: collectionView.frame.width, height: 132)
     }
 }
 
