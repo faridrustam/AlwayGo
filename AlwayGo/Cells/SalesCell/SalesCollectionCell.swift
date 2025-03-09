@@ -9,13 +9,14 @@ import UIKit
 
 class SalesCollectionCell: UICollectionViewCell {
     var index = 0
-    var photos = [UIImage(named: "image1"), UIImage(named: "image2"), UIImage(named: "image3"), UIImage(named: "image4")]
+    var photos = ["image1", "image2", "image3", "image4"]
     
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collection.isPagingEnabled = true
+        collection.isPagingEnabled = true
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -78,7 +79,7 @@ extension SalesCollectionCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SalesCell.self)", for: indexPath) as! SalesCell
-        cell.configureImage(image: photos[indexPath.row] ?? UIImage())
+        cell.configureImage(image: photos[indexPath.row])
         return cell
     }
 
