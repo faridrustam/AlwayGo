@@ -10,10 +10,12 @@ enum CellType {
     case sales
     case categories
     case forYou
+    case appExclusive
     case recentlyViewed
     case topStores
     case trendingNow
     case bestDealsDiscounts
+    case discover
 }
 
 class HomeViewModel {
@@ -21,9 +23,11 @@ class HomeViewModel {
         .sales,
         .categories,
         .forYou,
+        .appExclusive,
         .recentlyViewed,
         .topStores,
         .trendingNow,
-        .bestDealsDiscounts
+        .bestDealsDiscounts,
+        .discover
     ]
 }

@@ -29,7 +29,7 @@ class ClothesCollectionCell: UICollectionViewCell {
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 12)
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +63,7 @@ class ClothesCollectionCell: UICollectionViewCell {
             seeMoreButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             
             collection.topAnchor.constraint(equalTo: forYouLabel.bottomAnchor, constant: 16),
-            collection.leadingAnchor.constraint(equalTo: forYouLabel.leadingAnchor),
+            collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])

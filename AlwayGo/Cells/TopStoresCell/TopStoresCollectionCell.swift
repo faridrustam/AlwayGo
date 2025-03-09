@@ -25,7 +25,9 @@ class TopStoresCollectionCell: UICollectionViewCell {
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -53,9 +55,9 @@ class TopStoresCollectionCell: UICollectionViewCell {
             topStoresLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             topStoresLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
-            collection.topAnchor.constraint(equalTo: topStoresLabel.topAnchor, constant: 16),
-            collection.leadingAnchor.constraint(equalTo: topStoresLabel.leadingAnchor),
-            collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            collection.topAnchor.constraint(equalTo: topStoresLabel.bottomAnchor, constant: 16),
+            collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
@@ -74,6 +76,6 @@ extension TopStoresCollectionCell: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width / 4, height: 72)
+        .init(width: 72, height: 72)
     }
 }

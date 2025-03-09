@@ -73,7 +73,7 @@ class HomeController: BaseController {
         NSLayoutConstraint.activate([
             searchView.widthAnchor.constraint(equalToConstant: 370),
             searchView.heightAnchor.constraint(equalToConstant: 48),
-            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -16),
             searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
@@ -107,6 +107,10 @@ class HomeController: BaseController {
                             forCellWithReuseIdentifier: "\(ClothesCollectionCell.self)")
         collection.register(TopStoresCollectionCell.self,
                             forCellWithReuseIdentifier: "\(TopStoresCollectionCell.self)")
+        collection.register(AppExclusiveCollectionCell.self,
+                            forCellWithReuseIdentifier: "\(AppExclusiveCollectionCell.self)")
+        collection.register(DiscoverCollectionCell.self,
+                            forCellWithReuseIdentifier: "\(DiscoverCollectionCell.self)")
     }
     
     override func configureviewModel() {
@@ -128,29 +132,45 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SalesCollectionCell.self)",
                                                           for: indexPath) as! SalesCollectionCell
             return cell
+            
         case .categories:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionCell.self)",
                                                           for: indexPath) as! CategoryCollectionCell
             return cell
+            
         case .forYou:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
             return cell
+            
+        case .appExclusive:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(AppExclusiveCollectionCell.self)",
+                                                          for: indexPath) as! AppExclusiveCollectionCell
+            return cell
+            
         case .recentlyViewed:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
             return cell
+            
         case .topStores:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TopStoresCollectionCell.self)",
                                                           for: indexPath) as! TopStoresCollectionCell
             return cell
+            
         case .trendingNow:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
             return cell
+            
         case .bestDealsDiscounts:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            return cell
+            
+        case .discover:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCollectionCell.self)",
+                                                          for: indexPath) as! DiscoverCollectionCell
             return cell
         }
     }
@@ -165,15 +185,18 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return .init(width: collectionView.frame.width, height: 212)
         case .forYou:
             return .init(width: collectionView.frame.width, height: 324)
+        case .appExclusive:
+            return .init(width: collectionView.frame.width, height: 95)
         case .recentlyViewed:
             return .init(width: collectionView.frame.width, height: 324)
         case .topStores:
-            return .init(width: collectionView.frame.width, height: 112)
+            return .init(width: collectionView.frame.width, height: 130)
         case .trendingNow:
             return .init(width: collectionView.frame.width, height: 324)
         case .bestDealsDiscounts:
             return .init(width: collectionView.frame.width, height: 324)
+        case .discover:
+            return .init(width: collectionView.frame.width, height: collectionView.frame.height)
         }
-        
     }
 }
