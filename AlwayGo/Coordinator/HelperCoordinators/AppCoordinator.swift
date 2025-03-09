@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-class AppCoordinator: Coordinator {
+final class AppCoordinator: Coordinator {
     var window: UIWindow?
     var navigationController: UINavigationController
     
