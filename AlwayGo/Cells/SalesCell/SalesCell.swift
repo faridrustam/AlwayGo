@@ -40,7 +40,7 @@ class SalesCell: UICollectionViewCell {
         ])
     }
     
-    func configureImage(image: UIImage) {
-        salesImage.image = image
+    func configureImage(image: String) {
+        salesImage.image = UIImage(named: image)
     }
 }

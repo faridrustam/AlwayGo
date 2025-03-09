@@ -31,6 +31,7 @@ class ClothesCollectionCell: UICollectionViewCell {
         layout.scrollDirection = .horizontal
         layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 12)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
