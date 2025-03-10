@@ -240,8 +240,16 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return .init(width: collectionView.frame.width, height: 340)
         case .bestDealsDiscounts:
             return .init(width: collectionView.frame.width, height: 340)
-        case .discover:
-            return .init(width: collectionView.frame.width, height: collectionView.frame.height)
+        case .newSeason:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .arriveIn:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .home:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .kids:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .denimFits:
+            return .init(width: collectionView.frame.width, height: 310)
         }
     }
 }
