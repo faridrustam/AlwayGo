@@ -141,6 +141,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .forYou:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.handleSeeMoreButton = { [weak self] in
+                guard let self else { return }
+                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
             return cell
             
         case .appExclusive:
@@ -151,6 +156,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .recentlyViewed:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.handleSeeMoreButton = { [weak self] in
+                guard let self else { return }
+                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
             return cell
             
         case .topStores:
@@ -161,11 +171,21 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .trendingNow:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.handleSeeMoreButton = { [weak self] in
+                guard let self else { return }
+                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
             return cell
             
         case .bestDealsDiscounts:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.handleSeeMoreButton = { [weak self] in
+                guard let self else { return }
+                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
             return cell
             
         case .newSeason:
@@ -209,27 +229,19 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .categories:
             return .init(width: collectionView.frame.width, height: 212)
         case .forYou:
-            return .init(width: collectionView.frame.width, height: 324)
+            return .init(width: collectionView.frame.width, height: 340)
         case .appExclusive:
             return .init(width: collectionView.frame.width, height: 95)
         case .recentlyViewed:
-            return .init(width: collectionView.frame.width, height: 324)
+            return .init(width: collectionView.frame.width, height: 340)
         case .topStores:
             return .init(width: collectionView.frame.width, height: 130)
         case .trendingNow:
-            return .init(width: collectionView.frame.width, height: 324)
+            return .init(width: collectionView.frame.width, height: 340)
         case .bestDealsDiscounts:
-            return .init(width: collectionView.frame.width, height: 324)
-        case .newSeason:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .arriveIn:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .home:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .kids:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .denimFits:
-            return .init(width: collectionView.frame.width, height: 310)
+            return .init(width: collectionView.frame.width, height: 340)
+        case .discover:
+            return .init(width: collectionView.frame.width, height: collectionView.frame.height)
         }
     }
 }
