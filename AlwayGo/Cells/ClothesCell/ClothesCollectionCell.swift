@@ -8,6 +8,8 @@
 import UIKit
 
 class ClothesCollectionCell: UICollectionViewCell {
+    var handleSeeMoreButton: (() -> Void)?
+    
     private lazy var forYouLabel: UILabel = {
         let label = UILabel()
         label.text = "For you"
@@ -22,6 +24,7 @@ class ClothesCollectionCell: UICollectionViewCell {
         button.setTitle("See more", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = UIFont(name: "DMSans-SemiBold", size: 12)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -45,6 +48,10 @@ class ClothesCollectionCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func buttonTapped() {
+        handleSeeMoreButton?()
     }
     
     private func configureUI() {

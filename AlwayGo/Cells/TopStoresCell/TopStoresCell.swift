@@ -11,10 +11,9 @@ class TopStoresCell: UICollectionViewCell {
     private lazy var storeView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 16
-        //view.layer.borderWidth = 0.1
         view.backgroundColor = .white
         view.layer.shadowColor = UIColor.gray.cgColor
-        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOpacity = 0.2
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
