@@ -109,8 +109,8 @@ class HomeController: BaseController {
                             forCellWithReuseIdentifier: "\(TopStoresCollectionCell.self)")
         collection.register(AppExclusiveCollectionCell.self,
                             forCellWithReuseIdentifier: "\(AppExclusiveCollectionCell.self)")
-        collection.register(DiscoverCollectionCell.self,
-                            forCellWithReuseIdentifier: "\(DiscoverCollectionCell.self)")
+        collection.register(DiscoverCell.self,
+                            forCellWithReuseIdentifier: "\(DiscoverCell.self)")
     }
     
     override func configureviewModel() {
@@ -168,9 +168,34 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! ClothesCollectionCell
             return cell
             
-        case .discover:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCollectionCell.self)",
-                                                          for: indexPath) as! DiscoverCollectionCell
+        case .newSeason:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure(hide: false)
+            return cell
+            
+        case .arriveIn:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
+            return cell
+            
+        case .home:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
+            return cell
+            
+        case .kids:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
+            return cell
+            
+        case .denimFits:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
             return cell
         }
     }
@@ -195,8 +220,16 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return .init(width: collectionView.frame.width, height: 324)
         case .bestDealsDiscounts:
             return .init(width: collectionView.frame.width, height: 324)
-        case .discover:
-            return .init(width: collectionView.frame.width, height: collectionView.frame.height)
+        case .newSeason:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .arriveIn:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .home:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .kids:
+            return .init(width: collectionView.frame.width, height: 310)
+        case .denimFits:
+            return .init(width: collectionView.frame.width, height: 310)
         }
     }
 }
