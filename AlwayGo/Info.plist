@@ -19,5 +19,12 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DMSans-SemiBold.ttf</string>
+		<string>PlusJakartaSans-Medium.ttf</string>
+		<string>PlusJakartaSans-Bold.ttf</string>
+		<string>SFPRODISPLAYMEDIUM.OTF</string>
+	</array>
 </dict>
 </plist>
