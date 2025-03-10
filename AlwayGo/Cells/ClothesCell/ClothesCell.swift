@@ -18,7 +18,7 @@ class ClothesCell: UICollectionViewCell {
     private lazy var clothName: UILabel = {
        let label = UILabel()
         label.text = "Miss Murem Kruvuaze Baglamali Hirka"
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = UIFont(name: "PlusJakartaSans-Medium", size: 14)
         label.textColor = .black
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +28,7 @@ class ClothesCell: UICollectionViewCell {
     private lazy var clothPrice: UILabel = {
         let label = UILabel()
         label.text = "35.69"
-        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.font = UIFont(name: "PlusJakartaSans-Bold", size: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

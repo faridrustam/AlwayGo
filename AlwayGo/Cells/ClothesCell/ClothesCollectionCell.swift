@@ -21,7 +21,7 @@ class ClothesCollectionCell: UICollectionViewCell {
         let button = UIButton()
         button.setTitle("See more", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
+        button.titleLabel?.font = UIFont(name: "DMSans-SemiBold", size: 12)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
