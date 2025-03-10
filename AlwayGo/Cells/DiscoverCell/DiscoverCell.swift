@@ -3,11 +3,19 @@
 //  AlwayGo
 //
 //  Created by Farid Rustamov on 09.03.25.
-//
 
 import UIKit
 
 class DiscoverCell: UICollectionViewCell {
+    
+    private lazy var headerLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "SFPRODISPLAYMEDIUM", size: 20)
+        label.textColor = .label
+        label.text = "DISCOVER"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -22,6 +30,7 @@ class DiscoverCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "discover")
         imageView.layer.cornerRadius = 12
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -30,6 +39,7 @@ class DiscoverCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        configureUI()
         configureConstraints()
     }
     
@@ -37,24 +47,31 @@ class DiscoverCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func configureUI() {
+        headerLabel.isHidden = true
+    }
+    
     private func configureConstraints() {
+        addSubview(headerLabel)
         addSubview(discoverImageView)
         discoverImageView.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            headerLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
-            discoverImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            discoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            discoverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: discoverImageView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: discoverImageView.centerYAnchor),
+            
+            discoverImageView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 16),
+            discoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            discoverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 16),
             discoverImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
-    func configure(text: String) {
-        discoverImageView.image = UIImage(named: text)
-        titleLabel.text = text
+    func configure(hide: Bool = true) {
+        headerLabel.isHidden = hide
     }
 }
 

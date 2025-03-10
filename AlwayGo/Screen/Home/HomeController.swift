@@ -109,8 +109,8 @@ class HomeController: BaseController {
                             forCellWithReuseIdentifier: "\(TopStoresCollectionCell.self)")
         collection.register(AppExclusiveCollectionCell.self,
                             forCellWithReuseIdentifier: "\(AppExclusiveCollectionCell.self)")
-        collection.register(DiscoverCollectionCell.self,
-                            forCellWithReuseIdentifier: "\(DiscoverCollectionCell.self)")
+        collection.register(DiscoverCell.self,
+                            forCellWithReuseIdentifier: "\(DiscoverCell.self)")
     }
     
     override func configureviewModel() {
@@ -188,9 +188,34 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             }
             return cell
             
-        case .discover:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCollectionCell.self)",
-                                                          for: indexPath) as! DiscoverCollectionCell
+        case .newSeason:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure(hide: false)
+            return cell
+            
+        case .arriveIn:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
+            return cell
+            
+        case .home:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
+            return cell
+            
+        case .kids:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
+            return cell
+            
+        case .denimFits:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
+                                                          for: indexPath) as! DiscoverCell
+            cell.configure()
             return cell
         }
     }
