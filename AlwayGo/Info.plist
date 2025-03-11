@@ -24,7 +24,8 @@
 		<string>DMSans-SemiBold.ttf</string>
 		<string>PlusJakartaSans-Medium.ttf</string>
 		<string>PlusJakartaSans-Bold.ttf</string>
-		<string>SFPRODISPLAYMEDIUM.OTF</string>
+		<string>SFProText-Medium.ttf</string>
+        <string>SFProText-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

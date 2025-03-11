@@ -65,7 +65,7 @@ class HomeController: BaseController {
         view.backgroundColor = .systemBackground
         collection.delegate = self
         collection.dataSource = self
-        cellRegister()
+        registerCell()
         
     }
     
@@ -98,7 +98,7 @@ class HomeController: BaseController {
         ])
     }
     
-    func cellRegister() {
+    func registerCell() {
         collection.register(SalesCollectionCell.self,
                             forCellWithReuseIdentifier: "\(SalesCollectionCell.self)")
         collection.register(CategoryCollectionCell.self,
@@ -111,6 +111,8 @@ class HomeController: BaseController {
                             forCellWithReuseIdentifier: "\(AppExclusiveCollectionCell.self)")
         collection.register(DiscoverCell.self,
                             forCellWithReuseIdentifier: "\(DiscoverCell.self)")
+        collection.register(HeaderCollectionCell.self,
+                            forCellWithReuseIdentifier: "\(HeaderCollectionCell.self)")
     }
     
     override func configureviewModel() {
@@ -128,6 +130,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         let cellType = viewModel.cellTypes[indexPath.item]
         
         switch cellType {
+        case .header:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HeaderCollectionCell.self)",
+                                                          for: indexPath) as! HeaderCollectionCell
+            return cell
         case .sales:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SalesCollectionCell.self)",
                                                           for: indexPath) as! SalesCollectionCell
@@ -224,30 +230,20 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         let cellType = viewModel.cellTypes[indexPath.item]
         
         switch cellType {
+        case .header:
+            return .init(width: collectionView.frame.width, height: 50)
         case .sales:
             return .init(width: collectionView.frame.width, height: 132)
         case .categories:
             return .init(width: collectionView.frame.width, height: 212)
-        case .forYou:
+        case .forYou, .bestDealsDiscounts, .trendingNow, .recentlyViewed:
             return .init(width: collectionView.frame.width, height: 340)
         case .appExclusive:
             return .init(width: collectionView.frame.width, height: 95)
-        case .recentlyViewed:
-            return .init(width: collectionView.frame.width, height: 340)
         case .topStores:
             return .init(width: collectionView.frame.width, height: 130)
-        case .trendingNow:
-            return .init(width: collectionView.frame.width, height: 340)
-        case .bestDealsDiscounts:
-            return .init(width: collectionView.frame.width, height: 340)
-        case .newSeason:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .arriveIn:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .home:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .kids:
-            return .init(width: collectionView.frame.width, height: 310)
+        case .newSeason, .arriveIn, .home, .kids:
+            return .init(width: collectionView.frame.width, height: 270)
         case .denimFits:
             return .init(width: collectionView.frame.width, height: 310)
         }
