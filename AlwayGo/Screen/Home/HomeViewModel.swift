@@ -7,6 +7,7 @@
 import Foundation
 
 enum CellType {
+    case header
     case sales
     case categories
     case forYou
@@ -24,6 +25,7 @@ enum CellType {
 
 class HomeViewModel {
     let cellTypes: [CellType] = [
+        .header,
         .sales,
         .categories,
         .forYou,
