@@ -60,20 +60,20 @@ class HomeController: BaseController {
     }
     
     override func configureUI() {
+        navigationController?.navigationBar.isHidden = true
         [searchView, collection].forEach({ view.addSubview($0) })
         [searchImage, searchTextField, cameraImage].forEach({ searchView.addSubview($0) })
         view.backgroundColor = .systemBackground
         collection.delegate = self
         collection.dataSource = self
         registerCell()
-        
     }
     
     override func configureConstraints() {
         NSLayoutConstraint.activate([
             searchView.widthAnchor.constraint(equalToConstant: 370),
             searchView.heightAnchor.constraint(equalToConstant: 48),
-            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -16),
+            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             

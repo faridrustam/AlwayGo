@@ -13,6 +13,7 @@ class TopStoresCell: UICollectionViewCell {
         view.layer.cornerRadius = 16
         view.backgroundColor = .white
         view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowOpacity = 0.2
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

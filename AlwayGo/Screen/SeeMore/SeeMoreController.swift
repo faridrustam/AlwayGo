@@ -14,6 +14,7 @@ class SeeMoreController: BaseController {
     }
 
     override func configureUI() {
+        navigationController?.navigationBar.isHidden = false
         view.backgroundColor = .white
     }
 }
