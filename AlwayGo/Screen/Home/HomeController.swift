@@ -44,7 +44,7 @@ class HomeController: BaseController {
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 24
+        layout.minimumLineSpacing = 14
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .systemBackground
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -197,31 +197,31 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .newSeason:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure(hide: false)
+            cell.configure(text: "New season", hideHeader: false)
             return cell
             
         case .arriveIn:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure()
+            cell.configure(text: "Just arrive in", hideHeader: true)
             return cell
             
         case .home:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure()
+            cell.configure(text: "Home", hideHeader: true)
             return cell
             
         case .kids:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure()
+            cell.configure(text: "Kids", hideHeader: true)
             return cell
             
         case .denimFits:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure()
+            cell.configure(text: "Denim fits", hideHeader: true)
             return cell
         }
     }
@@ -242,10 +242,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return .init(width: collectionView.frame.width, height: 95)
         case .topStores:
             return .init(width: collectionView.frame.width, height: 130)
-        case .newSeason, .arriveIn, .home, .kids:
-            return .init(width: collectionView.frame.width, height: 270)
-        case .denimFits:
+        case .newSeason:
             return .init(width: collectionView.frame.width, height: 310)
+        case .arriveIn, .home, .kids, .denimFits:
+            return .init(width: collectionView.frame.width, height: 270)
         }
     }
 }

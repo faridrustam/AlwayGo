@@ -22,6 +22,8 @@ class HeaderCollectionCell: UICollectionViewCell {
         return collection
     }()
     
+    let headerTitles: [String] = ["Woman", "Man", "Kids", "Accessories"]
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -58,12 +60,18 @@ class HeaderCollectionCell: UICollectionViewCell {
 extension HeaderCollectionCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        headerTitles.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HeaderCell.self)", for: indexPath) as! HeaderCell
+        if indexPath.item == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HeaderCell.self)", for: indexPath) as! HeaderCell
+            cell.configure(text: "All Categories", hideIcon: false)
+            return cell
+        }
         
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HeaderCell.self)", for: indexPath) as! HeaderCell
+        cell.configure(text: headerTitles[indexPath.item - 1], hideIcon: true)
         return cell
     }
     
