@@ -29,6 +29,13 @@ class HeaderCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var icon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "headerIcon")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -39,18 +46,42 @@ class HeaderCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func configureUI() {
+    }
+    
     private func configureConstraints() {
         contentView.addSubview(categoryView)
         categoryView.addSubview(categoryLabel)
+        categoryView.addSubview(icon)
+        
         NSLayoutConstraint.activate([
             categoryView.topAnchor.constraint(equalTo: contentView.topAnchor),
             categoryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             categoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             categoryView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            categoryLabel.leadingAnchor.constraint(equalTo: categoryView.leadingAnchor, constant: 16),
-            categoryLabel.trailingAnchor.constraint(equalTo: categoryView.trailingAnchor, constant: -16),
             categoryLabel.centerYAnchor.constraint(equalTo: categoryView.centerYAnchor)
+        ])
+        
+        if icon.isHidden {
+            NSLayoutConstraint.activate([
+                categoryLabel.leadingAnchor.constraint(equalTo: categoryView.leadingAnchor, constant: 16),
+                categoryLabel.trailingAnchor.constraint(equalTo: categoryView.trailingAnchor, constant: -16)
             ])
+        } else {
+            NSLayoutConstraint.activate([
+                icon.leadingAnchor.constraint(equalTo: categoryView.leadingAnchor, constant: 8),
+                icon.centerYAnchor.constraint(equalTo: categoryView.centerYAnchor),
+                icon.trailingAnchor.constraint(equalTo: categoryLabel.leadingAnchor, constant: -8),
+
+                categoryLabel.trailingAnchor.constraint(equalTo: categoryView.trailingAnchor, constant: -16)
+            ])
+        }
+    }
+    
+    func configure(text: String, hideIcon: Bool) {
+        categoryLabel.text = text
+        icon.isHidden = hideIcon
+        configureConstraints()
     }
 }
