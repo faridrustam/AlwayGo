@@ -55,34 +55,21 @@ class DiscoverCell: UICollectionViewCell {
         
         addSubview(discoverImageView)
         discoverImageView.addSubview(titleLabel)
-
-//        if !headerLabel.isHidden {
-//            addSubview(headerLabel)
-//            constraints.append(contentsOf: [
-//                headerLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-//                headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-//                discoverImageView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 16)
-//            ])
-//        } else {
-            constraints.append(discoverImageView.topAnchor.constraint(equalTo: contentView.topAnchor))
-        //}
-
         constraints.append(contentsOf: [
             titleLabel.centerXAnchor.constraint(equalTo: discoverImageView.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: discoverImageView.centerYAnchor),
 
             discoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             discoverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            discoverImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            discoverImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            discoverImageView.topAnchor.constraint(equalTo: contentView.topAnchor)
         ])
 
         NSLayoutConstraint.activate(constraints)
     }
     
-    func configure(text: String, hideHeader: Bool) {
+    func configure(text: String) {
         titleLabel.text = text
-        //headerLabel.isHidden = hideHeader
-        //configureConstraints()
     }
 }
 

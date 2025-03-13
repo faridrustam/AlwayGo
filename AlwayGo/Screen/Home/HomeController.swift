@@ -204,31 +204,31 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .newSeason:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure(text: "New season", hideHeader: false)
+            cell.configure(text: "New season")
             return cell
             
         case .arriveIn:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure(text: "Just arrive in", hideHeader: true)
+            cell.configure(text: "Just arrive in")
             return cell
             
         case .home:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure(text: "Home", hideHeader: true)
+            cell.configure(text: "Home")
             return cell
             
         case .kids:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure(text: "Kids", hideHeader: true)
+            cell.configure(text: "Kids")
             return cell
             
         case .denimFits:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
-            cell.configure(text: "Denim fits", hideHeader: true)
+            cell.configure(text: "Denim fits")
             return cell
         }
     }

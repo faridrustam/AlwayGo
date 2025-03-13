@@ -1,27 +1,23 @@
 //
-//  AppCoordinator.swift
+//  LoginCoordinator.swift
 //  AlwayGo
 //
-//  Created by Mac on 09.03.25.
+//  Created by Mac on 12.03.25.
 //
 
 import UIKit
 import Foundation
 
-final class AppCoordinator: Coordinator {
-    var window: UIWindow?
+final class LogInCoordinator: Coordinator {
     var navigationController: UINavigationController
+    var window: UIWindow?
     
-    init(window: UIWindow?, navigationController: UINavigationController) {
-        self.window = window
+    init(navigationController: UINavigationController, window: UIWindow?) {
         self.navigationController = navigationController
+        self.window = window
     }
     
     func start() {
-        tabBarRoot()
-    }
-    
-    private func tabBarRoot() {
         let controller = LogInController()
         window?.rootViewController = controller
         window?.makeKeyAndVisible()
