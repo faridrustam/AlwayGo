@@ -1,18 +1,18 @@
 //
-//  SignUpController.swift
+//  LoginController.swift
 //  AlwayGo
 //
-//  Created by Mac on 11.03.25.
+//  Created by Mac on 12.03.25.
 //
 
 import UIKit
 
-class SignUpController: BaseController {
+class LogInController: BaseController {
     var isTermsButtonSelected = false
     
-    private lazy var signUpLabel: UILabel = {
+    private lazy var logInLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sign Up"
+        label.text = "Log in"
         label.font = UIFont(name: "SFProText-Semibold", size: 38)
         label.textColor = UIColor(named: "AppColor")
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,20 +42,6 @@ class SignUpController: BaseController {
         return view
     }()
     
-    private lazy var emailField: UITextField = {
-        let field = UITextField()
-        field.placeholder = "Email"
-        field.borderStyle = .none
-        field.translatesAutoresizingMaskIntoConstraints = false
-        return field
-    }()
-    
-    private lazy var emailView: UserFieldsView = {
-        let view = UserFieldsView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     private lazy var passwordField: UITextField = {
         let field = UITextField()
         field.placeholder = "Password"
@@ -80,43 +66,27 @@ class SignUpController: BaseController {
         return button
     }()
     
-    private lazy var conditionLabel: UILabel = {
+    private lazy var forgotLabel: UILabel = {
         let label = UILabel()
-        label.text = "At least 8 characters, with 1 number and 1 lowercase letter (no spaces allowed)"
-        label.font = UIFont(name: "PlusJakartaSans-Regular", size: 12)
+        label.text = "Forgot Password?"
+        label.font = UIFont(name: "SFProText-Medium", size: 14)
         label.numberOfLines = 0
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(forgotPasswordButtonTapped))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tapGesture)
         return label
     }()
     
-    private lazy var termsButton: UIButton = {
+    private lazy var logInButton: UIButton = {
         let button = UIButton()
-        button.layer.borderWidth = 2
-        button.layer.cornerRadius = 6
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.addTarget(self, action: #selector(termsButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var termsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "I accept the Terms and privacy policy"
-        label.font = UIFont(name: "SFProText-Medium", size: 14)
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var createAccountButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Create Account", for: .normal)
+        button.setTitle("Log in", for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
         button.backgroundColor = .app
         button.layer.borderWidth = 0.1
         button.layer.cornerRadius = 25
-        button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -189,19 +159,19 @@ class SignUpController: BaseController {
     
     private lazy var alreadyLabel: UILabel = {
         let label = UILabel()
-        label.text = "Already have an account?"
+        label.text = "Don't have an account?"
         label.font = UIFont(name: "SFProText-Regular", size: 14)
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private lazy var loginButton: UIButton = {
+    private lazy var signUpButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Log in", for: .normal)
+        button.setTitle("Sign up", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 14)
-        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -217,56 +187,21 @@ class SignUpController: BaseController {
         super.viewDidLoad()
     }
     
-    @objc func hidePasswordButtonTapped(_ sender: UIButton) {
-        if !isTermsButtonSelected {
-            hidePasswordButton.setImage(UIImage(named: "eye.slash"), for: .normal)
-            passwordField.isSecureTextEntry = true
-        } else {
-            hidePasswordButton.setImage(UIImage(systemName: "eye"), for: .normal)
-            passwordField.isSecureTextEntry = false
-        }
-        sender.isSelected = !sender.isSelected
-        isTermsButtonSelected = sender.isSelected
-    }
-    
-    @objc func loginButtonTapped() {
-    }
-    
-    @objc func termsButtonTapped(_ sender: UIButton) {
-        if !isTermsButtonSelected {
-            termsButton.layer.borderWidth = 3
-            termsButton.backgroundColor = .black
-            termsButton.setImage(UIImage(named: "DoneImage"), for: .normal)
-        } else {
-            termsButton.layer.borderWidth = 2
-            termsButton.backgroundColor = .white
-            termsButton.setImage(UIImage(named: ""), for: .normal)
-        }
-        sender.isSelected = !sender.isSelected
-        isTermsButtonSelected = sender.isSelected
-    }
-    
-    @objc func createButtonTapped() {
-        if termsButton.isSelected {
-            
-        }
-    }
-    
     override func configureUI() {
         view.backgroundColor = .systemBackground
-        [signUpLabel, textFieldsStack, conditionLabel, termsButton, termsLabel, createAccountButton, signUpButtonStack, alreadyLabel, loginButton, triangleImage, leftOrView, orLabel, rightOrView].forEach({ view.addSubview($0) })
-        [usernameField, usernameView, emailField, emailView, passwordField, passwordView].forEach({ textFieldsStack.addArrangedSubview($0) })
+        [logInLabel, textFieldsStack, forgotLabel, logInButton, signUpButtonStack, alreadyLabel, signUpButton, triangleImage, leftOrView, orLabel, rightOrView].forEach({ view.addSubview($0) })
+        [usernameField, usernameView, passwordField, passwordView].forEach({ textFieldsStack.addArrangedSubview($0) })
         passwordField.addSubview(hidePasswordButton)
         [facebookButton, googleButton, appleButton].forEach({ signUpButtonStack.addArrangedSubview($0) })
     }
     
     override func configureConstraints() {
         NSLayoutConstraint.activate([
-            signUpLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-            signUpLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
+            logInLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            logInLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
             
-            textFieldsStack.topAnchor.constraint(equalTo: signUpLabel.bottomAnchor, constant: 36),
-            textFieldsStack.leadingAnchor.constraint(equalTo: signUpLabel.leadingAnchor),
+            textFieldsStack.topAnchor.constraint(equalTo: logInLabel.bottomAnchor, constant: 56),
+            textFieldsStack.leadingAnchor.constraint(equalTo: logInLabel.leadingAnchor),
             textFieldsStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             
             hidePasswordButton.widthAnchor.constraint(equalToConstant: 24),
@@ -274,26 +209,19 @@ class SignUpController: BaseController {
             hidePasswordButton.trailingAnchor.constraint(equalTo: passwordField.trailingAnchor, constant: 0),
             hidePasswordButton.centerYAnchor.constraint(equalTo: passwordField.centerYAnchor),
             
-            conditionLabel.topAnchor.constraint(equalTo: textFieldsStack.bottomAnchor, constant: 16),
-            conditionLabel.leadingAnchor.constraint(equalTo: textFieldsStack.leadingAnchor),
-            conditionLabel.trailingAnchor.constraint(equalTo: textFieldsStack.trailingAnchor),
+            forgotLabel.topAnchor.constraint(equalTo: textFieldsStack.bottomAnchor, constant: 12),
+            forgotLabel.trailingAnchor.constraint(equalTo: textFieldsStack.trailingAnchor),
+            forgotLabel.widthAnchor.constraint(equalToConstant: 125),
+            forgotLabel.heightAnchor.constraint(equalToConstant: 16),
             
-            termsButton.widthAnchor.constraint(equalToConstant: 24),
-            termsButton.heightAnchor.constraint(equalToConstant: 24),
-            termsButton.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor, constant: 16),
-            termsButton.leadingAnchor.constraint(equalTo: conditionLabel.leadingAnchor),
-            
-            termsLabel.leadingAnchor.constraint(equalTo: termsButton.trailingAnchor, constant: 12),
-            termsLabel.centerYAnchor.constraint(equalTo: termsButton.centerYAnchor),
-            
-            createAccountButton.heightAnchor.constraint(equalToConstant: 56),
-            createAccountButton.topAnchor.constraint(equalTo: termsLabel.bottomAnchor, constant: 36),
-            createAccountButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            createAccountButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            logInButton.heightAnchor.constraint(equalToConstant: 56),
+            logInButton.topAnchor.constraint(equalTo: forgotLabel.bottomAnchor, constant: 36),
+            logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            logInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             leftOrView.widthAnchor.constraint(equalToConstant: 123),
             leftOrView.heightAnchor.constraint(equalToConstant: 1),
-            leftOrView.topAnchor.constraint(equalTo: createAccountButton.bottomAnchor, constant: 24),
+            leftOrView.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 24),
             leftOrView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 52),
             
             orLabel.centerYAnchor.constraint(equalTo: leftOrView.centerYAnchor),
@@ -312,8 +240,8 @@ class SignUpController: BaseController {
             alreadyLabel.topAnchor.constraint(equalTo: signUpButtonStack.bottomAnchor, constant: 16),
             alreadyLabel.leadingAnchor.constraint(equalTo: signUpButtonStack.leadingAnchor, constant: 44),
             
-            loginButton.centerYAnchor.constraint(equalTo: alreadyLabel.centerYAnchor),
-            loginButton.leadingAnchor.constraint(equalTo: alreadyLabel.trailingAnchor, constant: 8),
+            signUpButton.centerYAnchor.constraint(equalTo: alreadyLabel.centerYAnchor),
+            signUpButton.leadingAnchor.constraint(equalTo: alreadyLabel.trailingAnchor, constant: 8),
             
             triangleImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             triangleImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
@@ -322,5 +250,29 @@ class SignUpController: BaseController {
     
     override func configureviewModel() {
         print("")
+    }
+    
+    @objc func hidePasswordButtonTapped(_ sender: UIButton) {
+        if !isTermsButtonSelected {
+            hidePasswordButton.setImage(UIImage(named: "eye.slash"), for: .normal)
+            passwordField.isSecureTextEntry = true
+        } else {
+            hidePasswordButton.setImage(UIImage(systemName: "eye"), for: .normal)
+            passwordField.isSecureTextEntry = false
+        }
+        sender.isSelected = !sender.isSelected
+        isTermsButtonSelected = sender.isSelected
+    }
+    
+    @objc func signUpButtonTapped() {
+        print("sign up button tapped")
+    }
+    
+    @objc func signInButtonTapped() {
+        print("sign in button tapped")
+    }
+    
+    @objc func forgotPasswordButtonTapped() {
+        print("forget password tapped")
     }
 }
