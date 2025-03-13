@@ -53,7 +53,7 @@ class HomeController: BaseController {
     
     let viewModel = HomeViewModel()
     
-    //MARK: LifeCycle
+    //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,6 +113,8 @@ class HomeController: BaseController {
                             forCellWithReuseIdentifier: "\(DiscoverCell.self)")
         collection.register(HeaderCollectionCell.self,
                             forCellWithReuseIdentifier: "\(HeaderCollectionCell.self)")
+        collection.register(LabelCell.self,
+                            forCellWithReuseIdentifier: "\(LabelCell.self)")
     }
     
     override func configureviewModel() {
@@ -194,6 +196,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             }
             return cell
             
+        case .typeLabel:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(LabelCell.self)",
+                                                          for: indexPath) as! LabelCell
+            return cell
+            
         case .newSeason:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
                                                           for: indexPath) as! DiscoverCell
@@ -242,9 +249,9 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return .init(width: collectionView.frame.width, height: 95)
         case .topStores:
             return .init(width: collectionView.frame.width, height: 130)
-        case .newSeason:
-            return .init(width: collectionView.frame.width, height: 310)
-        case .arriveIn, .home, .kids, .denimFits:
+        case .typeLabel:
+            return .init(width: collectionView.frame.width, height: 30)
+        case .newSeason, .arriveIn, .home, .kids, .denimFits:
             return .init(width: collectionView.frame.width, height: 270)
         }
     }

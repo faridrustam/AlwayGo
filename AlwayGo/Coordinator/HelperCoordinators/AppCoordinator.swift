@@ -22,7 +22,7 @@ final class AppCoordinator: Coordinator {
     }
     
     private func tabBarRoot() {
-        let controller = SignUpController()
+        let controller = TabBarController()
         window?.rootViewController = controller
         window?.makeKeyAndVisible()
     }

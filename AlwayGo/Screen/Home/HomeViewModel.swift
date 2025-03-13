@@ -16,6 +16,7 @@ enum CellType {
     case topStores
     case trendingNow
     case bestDealsDiscounts
+    case typeLabel
     case newSeason
     case arriveIn
     case home
@@ -34,6 +35,7 @@ class HomeViewModel {
         .topStores,
         .trendingNow,
         .bestDealsDiscounts,
+        .typeLabel,
         .newSeason,
         .arriveIn,
         .home,
