@@ -23,7 +23,7 @@ class SignUpController: BaseController {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fill
-        stack.spacing = 21
+        stack.spacing = 18
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -31,7 +31,6 @@ class SignUpController: BaseController {
     private lazy var usernameField: UITextField = {
         let field = UITextField()
         field.placeholder = "Username"
-        field.addBottomBorderWithColor(color: .gray, height: 5)
         field.borderStyle = .none
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
@@ -46,7 +45,6 @@ class SignUpController: BaseController {
     private lazy var emailField: UITextField = {
         let field = UITextField()
         field.placeholder = "Email"
-        field.addBottomBorderWithColor(color: .gray, height: 5)
         field.borderStyle = .none
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
@@ -61,7 +59,6 @@ class SignUpController: BaseController {
     private lazy var passwordField: UITextField = {
         let field = UITextField()
         field.placeholder = "Password"
-        field.addBottomBorderWithColor(color: .gray, height: 0.5)
         field.borderStyle = .none
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
@@ -119,6 +116,7 @@ class SignUpController: BaseController {
         button.backgroundColor = .app
         button.layer.borderWidth = 0.1
         button.layer.cornerRadius = 25
+        button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -219,8 +217,16 @@ class SignUpController: BaseController {
         super.viewDidLoad()
     }
     
-    @objc func hidePasswordButtonTapped() {
-        hidePasswordButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+    @objc func hidePasswordButtonTapped(_ sender: UIButton) {
+        if !isTermsButtonSelected {
+            hidePasswordButton.setImage(UIImage(named: "eye.slash"), for: .normal)
+            passwordField.isSecureTextEntry = true
+        } else {
+            hidePasswordButton.setImage(UIImage(systemName: "eye"), for: .normal)
+            passwordField.isSecureTextEntry = false
+        }
+        sender.isSelected = !sender.isSelected
+        isTermsButtonSelected = sender.isSelected
     }
     
     @objc func loginButtonTapped() {
@@ -240,6 +246,12 @@ class SignUpController: BaseController {
         }
         sender.isSelected = !sender.isSelected
         isTermsButtonSelected = sender.isSelected
+    }
+    
+    @objc func createButtonTapped() {
+        if termsButton.isSelected {
+            
+        }
     }
     
     override func configureUI() {
@@ -312,17 +324,5 @@ class SignUpController: BaseController {
     
     override func configureviewModel() {
         print("")
-    }
-}
-
-extension UITextField {
-    func addBottomBorderWithColor(color: UIColor, height: CGFloat) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: self.frame.origin.x,
-                              y: self.frame.height - 2,
-                              width: self.frame.width,
-                              height: height)
-        self.layer.addSublayer(border)
     }
 }
