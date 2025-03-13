@@ -213,6 +213,13 @@ class SignUpController: BaseController {
         return image
     }()
     
+    private lazy var littleTriangleImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "LittleTriangle")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -256,7 +263,7 @@ class SignUpController: BaseController {
     
     override func configureUI() {
         view.backgroundColor = .systemBackground
-        [signUpLabel, textFieldsStack, conditionLabel, termsButton, termsLabel, createAccountButton, signUpButtonStack, alreadyLabel, loginButton, triangleImage, leftOrView, orLabel, rightOrView].forEach({ view.addSubview($0) })
+        [signUpLabel, textFieldsStack, conditionLabel, termsButton, termsLabel, createAccountButton, signUpButtonStack, alreadyLabel, loginButton, leftOrView, orLabel, rightOrView, triangleImage, littleTriangleImage].forEach({ view.addSubview($0) })
         [usernameField, usernameView, emailField, emailView, passwordField, passwordView].forEach({ textFieldsStack.addArrangedSubview($0) })
         passwordField.addSubview(hidePasswordButton)
         [facebookButton, googleButton, appleButton].forEach({ signUpButtonStack.addArrangedSubview($0) })
@@ -319,6 +326,9 @@ class SignUpController: BaseController {
             
             triangleImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             triangleImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            
+            littleTriangleImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            littleTriangleImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
     }
     

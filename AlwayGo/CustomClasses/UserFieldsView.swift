@@ -10,7 +10,7 @@ import UIKit
 class UserFieldsView: UIView {
     
     func setup() {
-        self.backgroundColor = .gray
+        self.backgroundColor = .lightGray
         NSLayoutConstraint.activate([
             self.widthAnchor.constraint(equalToConstant: bounds.width),
             self.heightAnchor.constraint(equalToConstant: 1),

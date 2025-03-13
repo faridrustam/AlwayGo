@@ -13,7 +13,7 @@ class CategoriesController: BaseController {
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = .init(top: 0, left: 0, bottom: 4, right: 0)
+        layout.minimumLineSpacing = 4
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -28,9 +28,6 @@ class CategoriesController: BaseController {
         navigationItem.title = "Categories"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-SemiBold", size: 16) ?? "",
                                                                    .foregroundColor: UIColor.black]
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "BackButton")
-        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "BackButton")
-        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "BackButton"), style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(magnifierButtonTapped))
         view.addSubview(collection)
         collection.delegate = self
