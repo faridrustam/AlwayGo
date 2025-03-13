@@ -8,14 +8,14 @@ import UIKit
 
 class DiscoverCell: UICollectionViewCell {
     
-    private lazy var headerLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "SFProText-Medium", size: 20)
-        label.textColor = .label
-        label.text = "DISCOVER"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+//    private lazy var headerLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont(name: "SFProText-Medium", size: 20)
+//        label.textColor = .label
+//        label.text = "DISCOVER"
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -56,16 +56,16 @@ class DiscoverCell: UICollectionViewCell {
         addSubview(discoverImageView)
         discoverImageView.addSubview(titleLabel)
 
-        if !headerLabel.isHidden {
-            addSubview(headerLabel)
-            constraints.append(contentsOf: [
-                headerLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-                headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-                discoverImageView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 16)
-            ])
-        } else {
+//        if !headerLabel.isHidden {
+//            addSubview(headerLabel)
+//            constraints.append(contentsOf: [
+//                headerLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+//                headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+//                discoverImageView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 16)
+//            ])
+//        } else {
             constraints.append(discoverImageView.topAnchor.constraint(equalTo: contentView.topAnchor))
-        }
+        //}
 
         constraints.append(contentsOf: [
             titleLabel.centerXAnchor.constraint(equalTo: discoverImageView.centerXAnchor),
@@ -81,8 +81,8 @@ class DiscoverCell: UICollectionViewCell {
     
     func configure(text: String, hideHeader: Bool) {
         titleLabel.text = text
-        headerLabel.isHidden = hideHeader
-        configureConstraints()
+        //headerLabel.isHidden = hideHeader
+        //configureConstraints()
     }
 }
 
