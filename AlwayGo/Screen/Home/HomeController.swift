@@ -57,7 +57,7 @@ class HomeController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
+    }  
     
     override func configureUI() {
         navigationController?.navigationBar.isHidden = true

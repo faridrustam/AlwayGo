@@ -26,6 +26,10 @@ class TabBarController: UITabBarController {
         tabBar.tintColor = .black
         self.delegate = self
         
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = .darkGray
+        tabBar.standardAppearance = tabBarAppearance
+        
         let firstVC = UINavigationController(rootViewController: HomeController())
         let secondVC = UINavigationController(rootViewController: CategoriesController())
         let thirdVC = UINavigationController(rootViewController: BasketController())

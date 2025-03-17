@@ -25,8 +25,8 @@ class CategoriesController: BaseController {
 
     override func configureUI() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Categories"
-        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-SemiBold", size: 16) ?? "",
+        navigationItem.title = "CATEGORIES"
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-Semibold", size: 16) ?? "",
                                                                    .foregroundColor: UIColor.black]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(magnifierButtonTapped))
         view.addSubview(collection)
