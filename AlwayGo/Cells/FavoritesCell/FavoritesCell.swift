@@ -32,6 +32,13 @@ class FavoritesCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var ratingImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "RatingImage")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
     private lazy var productShipping: UILabel = {
         let label = UILabel()
         label.text = "Free shipping"
@@ -43,7 +50,7 @@ class FavoritesCell: UICollectionViewCell {
     
     private lazy var productPrice: UILabel = {
         let label = UILabel()
-        label.text = "1579"
+        label.text = "1579 ₼"
         label.font = UIFont(name: "SFProText-Semibold", size: 16)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +73,7 @@ class FavoritesCell: UICollectionViewCell {
         button.setTitle("Size", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight: .forceRightToLeft
-        button.setImage(UIImage(named: "DoneImage"), for: .normal)
+        button.setImage(UIImage(named: "DownButton"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -95,7 +102,7 @@ class FavoritesCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        [productImage, productCompany, productName, productShipping, productPrice, buttonStack].forEach({ contentView.addSubview($0) })
+        [productImage, productCompany, productName, ratingImage, productShipping, productPrice, buttonStack].forEach({ contentView.addSubview($0) })
         [sizeButton, addToCartButton].forEach({ buttonStack.addArrangedSubview($0) })
     }
     
@@ -112,8 +119,11 @@ class FavoritesCell: UICollectionViewCell {
             productName.topAnchor.constraint(equalTo: productCompany.bottomAnchor, constant: 4),
             productName.leadingAnchor.constraint(equalTo: productCompany.leadingAnchor),
             
-            productShipping.topAnchor.constraint(equalTo: productName.bottomAnchor, constant: 20),
-            productShipping.leadingAnchor.constraint(equalTo: productName.leadingAnchor),
+            ratingImage.topAnchor.constraint(equalTo: productName.bottomAnchor, constant: 16),
+            ratingImage.leadingAnchor.constraint(equalTo: productName.leadingAnchor),
+            
+            productShipping.topAnchor.constraint(equalTo: ratingImage.bottomAnchor, constant: 4),
+            productShipping.leadingAnchor.constraint(equalTo: ratingImage.leadingAnchor),
             
             productPrice.topAnchor.constraint(equalTo: productShipping.bottomAnchor, constant: 8),
             productPrice.leadingAnchor.constraint(equalTo: productShipping.leadingAnchor),
