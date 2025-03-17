@@ -8,7 +8,7 @@
 import UIKit
 
 class FavoritesHeaderView: UIView {
-    var isButtonSelected = false
+    private var selectedViewConstraints: NSLayoutConstraint?
     
     private lazy var labelStack: UIStackView = {
         let stack = UIStackView()
@@ -58,21 +58,18 @@ class FavoritesHeaderView: UIView {
     }
     
     @objc func allItemsButtonTapped(_ sender: UIButton) {
-        NSLayoutConstraint.activate([
-            selectedButtonView.topAnchor.constraint(equalTo: allItemsButton.bottomAnchor),
-            selectedButtonView.widthAnchor.constraint(equalToConstant: 152),
-            selectedButtonView.heightAnchor.constraint(equalToConstant: 3),
-            selectedButtonView.leadingAnchor.constraint(equalTo: labelStack.leadingAnchor)
-        ])
+        moveSelectedView(to: allItemsButton)
     }
     
     @objc func boardsButtonTapped(_ sender: UIButton) {
-        NSLayoutConstraint.activate([
-            selectedButtonView.topAnchor.constraint(equalTo: boardsButton.bottomAnchor),
-            selectedButtonView.widthAnchor.constraint(equalToConstant: 152),
-            selectedButtonView.heightAnchor.constraint(equalToConstant: 3),
-            selectedButtonView.trailingAnchor.constraint(equalTo: labelStack.trailingAnchor)
-        ])
+        moveSelectedView(to: boardsButton)
+    }
+    
+    private func moveSelectedView(to button: UIButton) {
+        selectedButtonView.isHidden = false
+        selectedViewConstraints?.isActive = false
+        selectedViewConstraints = selectedButtonView.leadingAnchor.constraint(equalTo: button.leadingAnchor)
+        selectedViewConstraints?.isActive = true
     }
     
     private func configureUI() {
@@ -86,7 +83,13 @@ class FavoritesHeaderView: UIView {
             labelStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 48),
             labelStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -48),
             labelStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            selectedButtonView.topAnchor.constraint(equalTo: allItemsButton.bottomAnchor),
+            selectedButtonView.widthAnchor.constraint(equalToConstant: 152),
+            selectedButtonView.heightAnchor.constraint(equalToConstant: 3),
         ])
+        selectedViewConstraints = selectedButtonView.leadingAnchor.constraint(equalTo: allItemsButton.leadingAnchor)
+        selectedViewConstraints?.isActive = true
     }
 }
 
