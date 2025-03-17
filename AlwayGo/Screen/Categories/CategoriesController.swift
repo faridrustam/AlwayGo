@@ -64,3 +64,7 @@ extension CategoriesController: UICollectionViewDelegate, UICollectionViewDataSo
         .init(width: collectionView.frame.width, height: 120)
     }
 }
+
+#Preview {
+    CategoriesController()
+}
