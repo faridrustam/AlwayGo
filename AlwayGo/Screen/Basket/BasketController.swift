@@ -14,6 +14,6 @@ class BasketController: BaseController {
     }
 
     override func configureUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
     }
 }

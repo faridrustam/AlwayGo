@@ -260,7 +260,7 @@ class SignUpController: BaseController {
     }
     
     override func configureUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         [signUpLabel, textFieldsStack, conditionLabel, termsButton, termsLabel, createAccountButton, signUpButtonStack, alreadyLabel, loginButton, leftOrView, orLabel, rightOrView, triangleImage, littleTriangleImage].forEach({ view.addSubview($0) })
         [usernameField, usernameView, emailField, emailView, passwordField, passwordView].forEach({ textFieldsStack.addArrangedSubview($0) })
         passwordField.addSubview(hidePasswordButton)

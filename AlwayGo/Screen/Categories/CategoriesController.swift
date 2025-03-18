@@ -24,7 +24,7 @@ class CategoriesController: BaseController {
     }
 
     override func configureUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         navigationItem.title = "CATEGORIES"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-Semibold", size: 16) ?? "",
                                                                    .foregroundColor: UIColor.black]

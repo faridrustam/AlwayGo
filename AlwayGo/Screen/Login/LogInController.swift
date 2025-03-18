@@ -188,7 +188,7 @@ class LogInController: BaseController {
     }
     
     override func configureUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         [logInLabel, textFieldsStack, forgotLabel, logInButton, signUpButtonStack, alreadyLabel, signUpButton, triangleImage, leftOrView, orLabel, rightOrView].forEach({ view.addSubview($0) })
         [usernameField, usernameView, passwordField, passwordView].forEach({ textFieldsStack.addArrangedSubview($0) })
         passwordField.addSubview(hidePasswordButton)
