@@ -21,7 +21,7 @@ class ItemsView: UIView {
         let button = UIButton()
         button.setTitle("Recently added", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.setImage(UIImage(named: "DownButton"), for: .normal)
+        button.setImage(UIImage(named: "RecentlyDown"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Regular", size: 14)
         button.imageView?.tintColor = .lightGray
         button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight: .forceRightToLeft

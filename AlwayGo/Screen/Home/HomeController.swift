@@ -63,7 +63,7 @@ class HomeController: BaseController {
         navigationController?.navigationBar.isHidden = true
         [searchView, collection].forEach({ view.addSubview($0) })
         [searchImage, searchTextField, cameraImage].forEach({ searchView.addSubview($0) })
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         collection.delegate = self
         collection.dataSource = self
         registerCell()
