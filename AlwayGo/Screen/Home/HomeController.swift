@@ -60,6 +60,7 @@ class HomeController: BaseController {
     }  
     
     override func configureUI() {
+        navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.isHidden = true
         [searchView, collection].forEach({ view.addSubview($0) })
         [searchImage, searchTextField, cameraImage].forEach({ searchView.addSubview($0) })
@@ -154,6 +155,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
                 coordinator.start()
             }
+            cell.handleCellSelection = { [weak self] in
+                guard let self else { return }
+                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
             return cell
             
         case .appExclusive:
@@ -167,6 +173,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.handleSeeMoreButton = { [weak self] in
                 guard let self else { return }
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
+            cell.handleCellSelection = { [weak self] in
+                guard let self else { return }
+                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
                 coordinator.start()
             }
             return cell
@@ -184,6 +195,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
                 coordinator.start()
             }
+            cell.handleCellSelection = { [weak self] in
+                guard let self else { return }
+                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
             return cell
             
         case .bestDealsDiscounts:
@@ -192,6 +208,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.handleSeeMoreButton = { [weak self] in
                 guard let self else { return }
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
+            cell.handleCellSelection = { [weak self] in
+                guard let self else { return }
+                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
                 coordinator.start()
             }
             return cell
