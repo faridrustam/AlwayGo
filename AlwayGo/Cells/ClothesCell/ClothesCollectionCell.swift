@@ -9,6 +9,7 @@ import UIKit
 
 class ClothesCollectionCell: UICollectionViewCell {
     var handleSeeMoreButton: (() -> Void)?
+    var handleCellSelection: (() -> Void)?
     
     private lazy var forYouLabel: UILabel = {
         let label = UILabel()
@@ -85,6 +86,10 @@ extension ClothesCollectionCell: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCell.self)", for: indexPath) as! ClothesCell
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        handleCellSelection?()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

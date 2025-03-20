@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ProductDotImage.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
