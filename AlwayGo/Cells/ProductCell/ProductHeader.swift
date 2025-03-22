@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductHeader: UITableViewHeaderFooterView {
+class ProductHeader: UIView {
     var index = 0
     var productImages = ["ProductImage", "ProductImage", "ProductImage", "ProductImage"]
     
@@ -132,7 +132,7 @@ class ProductHeader: UITableViewHeaderFooterView {
     
     private lazy var productName: UILabel = {
         let label = UILabel()
-        label.text = "Hair dryer Dyson HD07 NICKEL PINK"
+        label.text = "Hair dryer Dyson HD07\nNICKEL PINK"
         label.textColor = .black
         label.numberOfLines = 2
         label.font = UIFont(name: "SFProText-Semibold", size: 16)
@@ -155,7 +155,7 @@ class ProductHeader: UITableViewHeaderFooterView {
     private lazy var userReviewStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 4
+        stack.spacing = 8
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -191,8 +191,8 @@ class ProductHeader: UITableViewHeaderFooterView {
         return label
     }()
 
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         configureUI()
         configureConstraints()
@@ -203,7 +203,7 @@ class ProductHeader: UITableViewHeaderFooterView {
     }
     
     private func configureUI() {
-        [collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack].forEach({ contentView.addSubview($0) })
+        [collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack].forEach({ addSubview($0) })
         [heartButtonView, shareButtonView, playButtonView].forEach({ buttonsStack.addArrangedSubview($0) })
         likesBackgroundView.addSubview(likesView)
         [likesCount, heartImage].forEach({ likesView.addSubview($0) })
@@ -217,13 +217,13 @@ class ProductHeader: UITableViewHeaderFooterView {
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            collection.topAnchor.constraint(equalTo: contentView.topAnchor),
-            collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            collection.topAnchor.constraint(equalTo: topAnchor),
+            collection.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collection.trailingAnchor.constraint(equalTo: trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: productName.topAnchor, constant: -16),
             
-            buttonsStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            buttonsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            buttonsStack.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            buttonsStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             buttonsStack.widthAnchor.constraint(equalToConstant: 40),
             
             heartButtonView.widthAnchor.constraint(equalToConstant: 40),
@@ -265,15 +265,15 @@ class ProductHeader: UITableViewHeaderFooterView {
             pageControl.centerXAnchor.constraint(equalTo: collection.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: collection.bottomAnchor, constant: -16),
             
-            productName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            productName.trailingAnchor.constraint(equalTo: checkStockLabel.leadingAnchor),
+            productName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+//            productName.trailingAnchor.constraint(equalTo: checkStockLabel.leadingAnchor, constant: -4),
             
             checkStockLabel.centerYAnchor.constraint(equalTo: productName.centerYAnchor),
-            checkStockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            checkStockLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
             userReviewStack.topAnchor.constraint(equalTo: productName.bottomAnchor, constant: 4),
             userReviewStack.leadingAnchor.constraint(equalTo: productName.leadingAnchor),
-            userReviewStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            userReviewStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             starImage.widthAnchor.constraint(equalToConstant: 14),
             starImage.heightAnchor.constraint(equalToConstant: 14)
