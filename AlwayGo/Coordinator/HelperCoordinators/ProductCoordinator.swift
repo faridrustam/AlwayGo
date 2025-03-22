@@ -17,6 +17,7 @@ class ProductCoordinator: Coordinator {
     
     func start() {
         let controller = ProductController()
+        controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)
     }
 }
