@@ -18,6 +18,8 @@ class ProductHeader: UIView {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.isPagingEnabled = true
         collection.showsHorizontalScrollIndicator = false
+        collection.delegate = self
+        collection.dataSource = self
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -203,14 +205,13 @@ class ProductHeader: UIView {
     }
     
     private func configureUI() {
+        backgroundColor = .white
         [collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack].forEach({ addSubview($0) })
         [heartButtonView, shareButtonView, playButtonView].forEach({ buttonsStack.addArrangedSubview($0) })
         likesBackgroundView.addSubview(likesView)
         [likesCount, heartImage].forEach({ likesView.addSubview($0) })
         [starImage, ratingLabel, commentButton, commentCountLabel].forEach({ userReviewStack.addArrangedSubview($0) })
         collection.backgroundColor = .systemGray5
-        collection.delegate = self
-        collection.dataSource = self
         collection.register(ProductHeaderCell.self, forCellWithReuseIdentifier: "\(ProductHeaderCell.self)")
         pageControl.numberOfPages = productImages.count
     }

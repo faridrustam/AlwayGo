@@ -22,7 +22,7 @@ class HeaderCollectionCell: UICollectionViewCell {
         return collection
     }()
     
-    let headerTitles: [String] = ["Woman", "Man", "Kids", "Accessories"]
+    let headerTitles: [String] = ["Woman", "Man", "Kid", "Accessories"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,7 +36,7 @@ class HeaderCollectionCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        collection.backgroundColor = .systemBackground
+        collection.backgroundColor = .white
         collection.delegate = self
         collection.dataSource = self
         

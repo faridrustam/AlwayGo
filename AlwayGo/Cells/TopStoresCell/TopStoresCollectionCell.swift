@@ -18,6 +18,7 @@ class TopStoresCollectionCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Top Stores"
         label.font = UIFont(name: "SFProText-Medium", size: 20)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -44,6 +45,7 @@ class TopStoresCollectionCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        collection.backgroundColor = .white
         collection.delegate = self
         collection.dataSource = self
         collection.register(TopStoresCell.self, forCellWithReuseIdentifier: "\(TopStoresCell.self)")

@@ -69,6 +69,7 @@ class ProductController: BaseController {
         navigationController?.navigationBar.backIndicatorImage = backButton
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton
         view.backgroundColor = .white
+        table.backgroundColor = .white
         [table, bottomView].forEach({ view.addSubview($0) })
         [priceLabel, productPrice, addToCartButton].forEach({ bottomView.addSubview($0) })
         table.register(ProductColorCell.self, forCellReuseIdentifier: "\(ProductColorCell.self)")
@@ -79,7 +80,7 @@ class ProductController: BaseController {
     
     override func configureConstraints() {
         NSLayoutConstraint.activate([
-            table.topAnchor.constraint(equalTo: view.topAnchor),
+            table.topAnchor.constraint(equalTo: view.topAnchor, constant: -48),
             table.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             table.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             table.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -20),
@@ -105,13 +106,13 @@ class ProductController: BaseController {
 
 extension ProductController: UITableViewDelegate, UITableViewDataSource {
 //    func numberOfSections(in tableView: UITableView) -> Int {
-//        return viewModel.cells.count
+//        return 5
 //    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let section = viewModel.model[section]
         if section.isOpened {
-            return section.cellInfo?.count ?? 0 + 1
+            return 5
         } else {
             return viewModel.cells.count
         }
@@ -141,7 +142,7 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
             cell.configureCell(with: "Features")
             if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
+                cell.configureCell(with: "Hello")
             }
             return cell
         case .reviews:
@@ -150,8 +151,6 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             cell.configureCell(with: "Reviews")
             if indexPath.row == 0 {
                 cell.textLabel?.text = "Hello"
-            } else {
-                (viewModel.model[indexPath.section].cellInfo?.count ?? 1) - 1
             }
             return cell
         case .overviewAndVideos:
@@ -160,8 +159,6 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             cell.configureCell(with: "Overviews and Videos")
             if indexPath.row == 0 {
                 cell.textLabel?.text = "Hello"
-            } else {
-                (viewModel.model[indexPath.section].cellInfo?.count ?? 1) - 1
             }
             return cell
         case .photos:
@@ -170,8 +167,6 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             cell.configureCell(with: "Photos")
             if indexPath.row == 0 {
                 cell.textLabel?.text = "Hello"
-            } else {
-                (viewModel.model[indexPath.section].cellInfo?.count ?? 1) - 1
             }
             return cell
         }
@@ -179,7 +174,7 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellTypes = viewModel.cells[indexPath.row]
-        
+    
         switch cellTypes {
         case .features, .reviews, .overviewAndVideos, .photos:
             tableView.deselectRow(at: indexPath, animated: true)
@@ -194,10 +189,12 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
         let cellTypes = viewModel.cells[indexPath.row]
         
         switch cellTypes {
-        case .color, .size, .features, .reviews, .overviewAndVideos, .photos:
-            return 56
+        case .color:
+            return 80
         case .info:
             return UITableView.automaticDimension
+        case .size, .features, .reviews, .overviewAndVideos, .photos:
+            return 56
         }
     }
 }

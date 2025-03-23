@@ -15,7 +15,7 @@ class ClothesCollectionCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "For you"
         label.font = UIFont(name: "SFProText-Medium", size: 20)
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -56,6 +56,8 @@ class ClothesCollectionCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        contentView.backgroundColor = .white
+        collection.backgroundColor = .white
         [forYouLabel, seeMoreButton, collection].forEach({ contentView.addSubview($0) })
         collection.delegate = self
         collection.dataSource = self

@@ -8,7 +8,7 @@
 import UIKit
 
 class CategoriesController: BaseController {
-    let cellData = ["Sale", "Woman", "Men", "Face & Body", "Home", "Kid", "Outdoor", "Accessories", "Technology"]
+    let viewModel = CategoriesViewModel()
     
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -25,6 +25,7 @@ class CategoriesController: BaseController {
 
     override func configureUI() {
         view.backgroundColor = .white
+        collection.backgroundColor = .white
         navigationItem.title = "CATEGORIES"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-Semibold", size: 16) ?? "",
                                                                    .foregroundColor: UIColor.black]
@@ -51,12 +52,12 @@ class CategoriesController: BaseController {
 
 extension CategoriesController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        cellData.count
+        viewModel.cellData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryControllerCell.self)", for: indexPath) as! CategoryControllerCell
-        cell.configureCell(name: cellData[indexPath.row])
+        cell.configureCell(name: viewModel.cellData[indexPath.row])
         return cell
     }
     

@@ -18,6 +18,7 @@ class FavoritesCell: UICollectionViewCell {
     private lazy var productCompany: UILabel = {
         let label = UILabel()
         label.text = "Technoaze"
+        label.textColor = .black
         label.font = UIFont(name: "SFProText-Medium", size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -27,6 +28,7 @@ class FavoritesCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Asus VivoBook 15 X 1504ZA-Nj547Wi5-1235U 8 Gb 512 Gb 15.6” W11H Laptop"
         label.font = UIFont(name: "SFProText-Medium", size: 12)
+        label.textColor = .black
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -102,7 +104,8 @@ class FavoritesCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        backgroundColor = .white
+
+        contentView.backgroundColor = .white
         [productImage, productCompany, productName, ratingImage, productShipping, productPrice, buttonStack].forEach({ contentView.addSubview($0) })
         [sizeButton, addToCartButton].forEach({ buttonStack.addArrangedSubview($0) })
     }

@@ -48,6 +48,7 @@ class DiscoverCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        contentView.backgroundColor = .white
     }
     
     private func configureConstraints() {

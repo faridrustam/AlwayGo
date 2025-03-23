@@ -29,6 +29,7 @@ class ProductInfoCell: UITableViewCell {
     }
     
     private func configureUI() {
+        contentView.backgroundColor = .white
         contentView.addSubview(productInfo)
         NSLayoutConstraint.activate([
             productInfo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36),

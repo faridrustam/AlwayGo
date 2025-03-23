@@ -65,6 +65,7 @@ class HomeController: BaseController {
         [searchView, collection].forEach({ view.addSubview($0) })
         [searchImage, searchTextField, cameraImage].forEach({ searchView.addSubview($0) })
         view.backgroundColor = .white
+        collection.backgroundColor = .white
         collection.delegate = self
         collection.dataSource = self
         registerCell()

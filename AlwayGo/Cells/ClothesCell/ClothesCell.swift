@@ -46,6 +46,7 @@ class ClothesCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "35.69"
         label.font = UIFont(name: "PlusJakartaSans-Bold", size: 14)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
