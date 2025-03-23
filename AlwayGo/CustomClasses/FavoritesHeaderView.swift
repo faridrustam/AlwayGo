@@ -46,6 +46,9 @@ class FavoritesHeaderView: UIView {
         return view
     }()
     
+    var allItemsSelected: ((Bool) -> Void)?
+    var boardsSelected: ((Bool) -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -59,10 +62,12 @@ class FavoritesHeaderView: UIView {
     
     @objc func allItemsButtonTapped(_ sender: UIButton) {
         moveSelectedView(to: allItemsButton)
+        allItemsSelected?(false)
     }
     
     @objc func boardsButtonTapped(_ sender: UIButton) {
         moveSelectedView(to: boardsButton)
+        boardsSelected?(true)
     }
     
     private func moveSelectedView(to button: UIButton) {
@@ -75,6 +80,9 @@ class FavoritesHeaderView: UIView {
     private func configureUI() {
         [labelStack, selectedButtonView].forEach({ addSubview($0) })
         [allItemsButton, boardsButton].forEach({ labelStack.addArrangedSubview($0) })
+        
+        allItemsButton.tag = 0
+        boardsButton.tag = 1
     }
     
     private func configureConstraints() {

@@ -102,6 +102,7 @@ class FavoritesCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        backgroundColor = .white
         [productImage, productCompany, productName, ratingImage, productShipping, productPrice, buttonStack].forEach({ contentView.addSubview($0) })
         [sizeButton, addToCartButton].forEach({ buttonStack.addArrangedSubview($0) })
     }
