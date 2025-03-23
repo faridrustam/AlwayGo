@@ -12,7 +12,7 @@ class LabelCell: UICollectionViewCell {
     private lazy var typeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "SFProText-Medium", size: 20)
-        label.textColor = .label
+        label.textColor = .black
         label.text = "DISCOVER"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -30,7 +30,7 @@ class LabelCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .white
     }
     
     private func configureConstraints() {

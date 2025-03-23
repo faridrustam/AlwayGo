@@ -33,7 +33,8 @@ class FavoritesController: BaseController {
     }
     
     override func configureUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
+        collection.backgroundColor = .white
         navigationItem.title = "FAVORITES"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-Semibold", size: 16) ?? "",
                                                                    .foregroundColor: UIColor.black]

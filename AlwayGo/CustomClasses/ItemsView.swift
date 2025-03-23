@@ -41,7 +41,7 @@ class ItemsView: UIView {
     }
     
     private func configureUI() {
-        backgroundColor = .systemGray6
+        backgroundColor = .systemGray5
         [itemsCountLabel, recentlyAddedButton].forEach({ addSubview($0) })
     }
     

@@ -13,7 +13,7 @@ class CategoryCollectionCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont(name: "SFProText-Medium", size: 20)
         label.text = "Categories"
-        label.textColor = .label
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,7 +45,7 @@ class CategoryCollectionCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        collection.backgroundColor = .systemBackground
+        collection.backgroundColor = .white
         collection.delegate = self
         collection.dataSource = self
     }

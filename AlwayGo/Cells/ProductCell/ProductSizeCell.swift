@@ -38,6 +38,7 @@ class ProductSizeCell: UITableViewCell {
     }
     
     private func configureUI() {
+        contentView.backgroundColor = .white
         [sizeLabel, productSize].forEach({ contentView.addSubview($0) })
     }
     
