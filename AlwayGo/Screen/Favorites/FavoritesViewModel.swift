@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum FavoritesSection {
+    case allItems
+    case boards
+}
+
 class FavoritesViewModel {
-    
+    let sections: [FavoritesSection] = [.allItems, .boards]
 }
