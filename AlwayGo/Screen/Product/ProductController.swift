@@ -55,7 +55,7 @@ class ProductController: BaseController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -105,21 +105,17 @@ class ProductController: BaseController {
 }
 
 extension ProductController: UITableViewDelegate, UITableViewDataSource {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 5
-//    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.model.count
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = viewModel.model[section]
-        if section.isOpened {
-            return 5
-        } else {
-            return viewModel.cells.count
-        }
+        let model = viewModel.model[section]
+        return model.isOpened ? (model.cellInfo?.count ?? 0) + 1 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellTypes = viewModel.cells[indexPath.row]
+        let cellTypes = viewModel.cells[indexPath.section]
         
         switch cellTypes {
         case .color:
@@ -137,63 +133,62 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             cell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             cell.selectionStyle = .none
             return cell
-        case .features:
+        case .expandable(type: .features):
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Features")
-            if indexPath.row == 0 {
-                cell.configureCell(with: "Hello")
+            if indexPath.section == 3 {
+                cell.configureCell(with: "Features")
+            } else {
+                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
             }
             return cell
-        case .reviews:
+        case .expandable(type: .reviews):
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Reviews")
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
+            if indexPath.section == 4 {
+                cell.configureCell(with: "Reviews")
+            } else {
+                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
             }
             return cell
-        case .overviewAndVideos:
+        case .expandable(type: .overviewAndVideos):
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Overviews and Videos")
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
+            if indexPath.section == 5 {
+                cell.configureCell(with: "Overview and videos")
+            } else {
+                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
             }
             return cell
-        case .photos:
+        case .expandable(type: .photos):
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Photos")
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
+            if indexPath.section == 6 {
+                cell.configureCell(with: "Photo")
+            } else {
+                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
             }
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellTypes = viewModel.cells[indexPath.row]
-    
-        switch cellTypes {
-        case .features, .reviews, .overviewAndVideos, .photos:
+        if indexPath.section >= 3 {
             tableView.deselectRow(at: indexPath, animated: true)
             viewModel.model[indexPath.section].isOpened = !viewModel.model[indexPath.section].isOpened
             tableView.reloadSections([indexPath.section], with: .none)
-        default:
-            return
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellTypes = viewModel.cells[indexPath.row]
+        let cellTypes = viewModel.cells[indexPath.section]
         
         switch cellTypes {
         case .color:
             return 80
         case .info:
             return UITableView.automaticDimension
-        case .size, .features, .reviews, .overviewAndVideos, .photos:
+        case .expandable, .size:
             return 56
         }
     }

@@ -126,3 +126,7 @@ extension FavoritesController: UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
 }
+
+#Preview {
+    FavoritesController()
+}

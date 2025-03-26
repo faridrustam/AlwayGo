@@ -11,9 +11,8 @@ class ClothesCollectionCell: UICollectionViewCell {
     var handleSeeMoreButton: (() -> Void)?
     var handleCellSelection: (() -> Void)?
     
-    private lazy var forYouLabel: UILabel = {
+    private lazy var cellLabel: UILabel = {
         let label = UILabel()
-        label.text = "For you"
         label.font = UIFont(name: "SFProText-Medium", size: 20)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +57,7 @@ class ClothesCollectionCell: UICollectionViewCell {
     private func configureUI() {
         contentView.backgroundColor = .white
         collection.backgroundColor = .white
-        [forYouLabel, seeMoreButton, collection].forEach({ contentView.addSubview($0) })
+        [cellLabel, seeMoreButton, collection].forEach({ contentView.addSubview($0) })
         collection.delegate = self
         collection.dataSource = self
         collection.register(ClothesCell.self, forCellWithReuseIdentifier: "\(ClothesCell.self)")
@@ -66,17 +65,21 @@ class ClothesCollectionCell: UICollectionViewCell {
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            forYouLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            forYouLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            cellLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            cellLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
-            seeMoreButton.centerYAnchor.constraint(equalTo: forYouLabel.centerYAnchor),
+            seeMoreButton.centerYAnchor.constraint(equalTo: cellLabel.centerYAnchor),
             seeMoreButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             
-            collection.topAnchor.constraint(equalTo: forYouLabel.bottomAnchor, constant: 16),
+            collection.topAnchor.constraint(equalTo: cellLabel.bottomAnchor, constant: 16),
             collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+    }
+    
+    func configureCell(with text: String) {
+        cellLabel.text = text
     }
 }
 
