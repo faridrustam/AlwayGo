@@ -14,7 +14,7 @@ class HomeController: BaseController {
     private lazy var searchView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.borderWidth = 0.5
+        view.layer.borderWidth = 1
         view.layer.cornerRadius = 25
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -30,6 +30,13 @@ class HomeController: BaseController {
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Search"
+        let attributedString = NSAttributedString(string: "Search",
+                                                  attributes: [NSAttributedString.Key.font: UIFont(name: "SFProText-Semibold", size: 16) ?? ""])
+        let attributedString2 = NSAttributedString(string: "Search",
+                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        textField.attributedPlaceholder = attributedString
+        textField.attributedPlaceholder = attributedString2
+        textField.textColor = .darkGray
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -151,6 +158,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .forYou:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.configureCell(with: "For you")
             cell.handleSeeMoreButton = { [weak self] in
                 guard let self else { return }
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
@@ -171,6 +179,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .recentlyViewed:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.configureCell(with: "Recently viewed")
             cell.handleSeeMoreButton = { [weak self] in
                 guard let self else { return }
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
@@ -191,6 +200,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .trendingNow:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.configureCell(with: "Trending now")
             cell.handleSeeMoreButton = { [weak self] in
                 guard let self else { return }
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
@@ -206,6 +216,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .bestDealsDiscounts:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            cell.configureCell(with: "Best deals & Discounts")
             cell.handleSeeMoreButton = { [weak self] in
                 guard let self else { return }
                 let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
