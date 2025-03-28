@@ -36,6 +36,7 @@ class FavoritesController: BaseController {
     let viewModel = FavoritesViewModel()
     let images = [UIImage(named: "Men"), UIImage(named: "Women"), UIImage(named: "Shoes")].compactMap { $0 }
     var isSelected: Bool = false
+    private var collectionTopConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,36 +69,45 @@ class FavoritesController: BaseController {
             collection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-        
-        //if itemsView.isHidden {
-        //    collection.topAnchor.constraint(equalTo: favoritesHeader.bottomAnchor, constant: 4).isActive = true
-        //} else {
-            collection.topAnchor.constraint(equalTo: itemsView.bottomAnchor).isActive = true
-        //}
+        collectionTopConstraint = collection.topAnchor.constraint(equalTo: itemsView.bottomAnchor)
+        collectionTopConstraint?.isActive = true
+    }
+    
+    private func updateCollectionTopConstraint() {
+        collectionTopConstraint?.isActive = false
+
+        if itemsView.isHidden {
+            collectionTopConstraint = collection.topAnchor.constraint(equalTo: favoritesHeader.bottomAnchor, constant: 4)
+        } else {
+            collectionTopConstraint = collection.topAnchor.constraint(equalTo: itemsView.bottomAnchor)
+        }
+        collectionTopConstraint?.isActive = true
+        collection.reloadData()
     }
     
     @objc func rightBarbuttonTapped() {
     }
     
-    func configureButtons() {
+    private func configureButtons() {
         favoritesHeader.allItemsSelected = { [weak self] selected in
             guard let self else { return }
             isSelected = selected
-            itemsView.isHidden = false
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(self.rightBarbuttonTapped))
-            //configureConstraints()
+            itemsView.isHidden = isSelected
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(rightBarbuttonTapped))
+            updateCollectionTopConstraint()
             collection.reloadData()
         }
         
         favoritesHeader.boardsSelected = { [weak self] selected in
             guard let self else { return }
             isSelected = selected
-            itemsView.isHidden = true
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Pluse"), style: .plain, target: self, action: #selector(self.rightBarbuttonTapped))
-            //configureConstraints()
+            itemsView.isHidden = isSelected
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Pluse"), style: .plain, target: self, action: #selector(rightBarbuttonTapped))
+            updateCollectionTopConstraint()
             collection.reloadData()
         }
     }
+    
 }
 
 extension FavoritesController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -110,6 +120,11 @@ extension FavoritesController: UICollectionViewDelegate, UICollectionViewDataSou
         
         if isSelected {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(BoardsCell.self)", for: indexPath) as! BoardsCell
+            cell.createTapped = { [weak self] in
+                guard let self else { return }
+                let coordinator = BoardCoordinator(navigationController: navigationController ?? UINavigationController())
+                coordinator.start()
+            }
             cell.configure(with: images)
             return cell
         } else {
@@ -123,6 +138,14 @@ extension FavoritesController: UICollectionViewDelegate, UICollectionViewDataSou
             return .init(width: 334, height: 258)
         } else {
             return .init(width: collectionView.frame.width, height: 191)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if isSelected {
+            return .init(top: 120, left: 0, bottom: 0, right: 0)
+        } else {
+            return .init(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
 }
