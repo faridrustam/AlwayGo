@@ -43,20 +43,29 @@ class ProductCell: UITableViewCell {
     }
     
     private func configureUI() {
-        [cellLabel, plusButton].forEach({ contentView.addSubview($0) })
+        contentView.backgroundColor = .white
+        [cellLabel, plusButton, cellInfoLabel].forEach({ contentView.addSubview($0) })
     }
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
+            cellLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             cellLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            cellLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             
             plusButton.centerYAnchor.constraint(equalTo: cellLabel.centerYAnchor),
-            plusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            plusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
+            cellInfoLabel.topAnchor.constraint(equalTo: cellLabel.bottomAnchor, constant: 28),
+            cellInfoLabel.leadingAnchor.constraint(equalTo: cellLabel.leadingAnchor),
+            cellInfoLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 16)
         ])
     }
     
     func configureCell(with text: String) {
         cellLabel.text = text
+    }
+    
+    func configureInfo(with text: String) {
+        cellInfoLabel.text = text
     }
 }

@@ -1,5 +1,5 @@
 //
-//  BasketController.swift
+//  CartController.swift
 //  AlwayGo
 //
 //  Created by Mac on 09.03.25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BasketController: BaseController {
+class CartController: BaseController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

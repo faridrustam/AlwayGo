@@ -9,4 +9,5 @@ import Foundation
 
 class CategoriesViewModel {
     
+    let cellData = ["Sale", "Woman", "Men", "Face & Body", "Home", "Kid", "Outdoor", "Accessories", "Technology"]
 }

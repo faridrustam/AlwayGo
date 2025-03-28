@@ -8,6 +8,7 @@
 import Foundation
 
 struct ProductCellModel {
-    let cellInfo: String?
+    let cellName: ProductCells
+    let cellInfo: [String]?
     var isOpened: Bool = false
 }

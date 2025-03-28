@@ -17,7 +17,7 @@ class CategoryControllerCell: UICollectionViewCell {
     
     private lazy var cellLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "PlusJakartaSans-SemiBold", size: 16)
+        label.font = UIFont(name: "SFProText-Semibold", size: 16)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

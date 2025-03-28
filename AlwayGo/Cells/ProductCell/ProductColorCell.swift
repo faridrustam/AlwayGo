@@ -29,6 +29,7 @@ class ProductColorCell: UITableViewCell {
     }
     
     private func configureUI() {
+        contentView.backgroundColor = .white
         contentView.addSubview(colorLabel)
     }
     

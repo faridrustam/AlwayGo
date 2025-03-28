@@ -55,7 +55,7 @@ class ProductController: BaseController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -69,6 +69,7 @@ class ProductController: BaseController {
         navigationController?.navigationBar.backIndicatorImage = backButton
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton
         view.backgroundColor = .white
+        table.backgroundColor = .white
         [table, bottomView].forEach({ view.addSubview($0) })
         [priceLabel, productPrice, addToCartButton].forEach({ bottomView.addSubview($0) })
         table.register(ProductColorCell.self, forCellReuseIdentifier: "\(ProductColorCell.self)")
@@ -79,7 +80,7 @@ class ProductController: BaseController {
     
     override func configureConstraints() {
         NSLayoutConstraint.activate([
-            table.topAnchor.constraint(equalTo: view.topAnchor),
+            table.topAnchor.constraint(equalTo: view.topAnchor, constant: -48),
             table.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             table.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             table.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -20),
@@ -104,23 +105,19 @@ class ProductController: BaseController {
 }
 
 extension ProductController: UITableViewDelegate, UITableViewDataSource {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return viewModel.cells.count
-//    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.model.count
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = viewModel.model[section]
-        if section.isOpened {
-            return section.cellInfo?.count ?? 0 + 1
-        } else {
-            return viewModel.cells.count
-        }
+        let model = viewModel.model[section]
+        return model.isOpened ? (model.cellInfo?.count ?? 0) : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellTypes = viewModel.cells[indexPath.row]
+        let cellName = viewModel.model[indexPath.section].cellName
         
-        switch cellTypes {
+        switch cellName {
         case .color:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductColorCell.self)") as! ProductColorCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
@@ -136,68 +133,52 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             cell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             cell.selectionStyle = .none
             return cell
-        case .features:
+            
+        case .expandable(let type):
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Features")
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
-            }
-            return cell
-        case .reviews:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
-            cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Reviews")
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
-            } else {
-                (viewModel.model[indexPath.section].cellInfo?.count ?? 1) - 1
-            }
-            return cell
-        case .overviewAndVideos:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
-            cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Overviews and Videos")
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
-            } else {
-                (viewModel.model[indexPath.section].cellInfo?.count ?? 1) - 1
-            }
-            return cell
-        case .photos:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
-            cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            cell.configureCell(with: "Photos")
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Hello"
-            } else {
-                (viewModel.model[indexPath.section].cellInfo?.count ?? 1) - 1
+            switch type {
+            case .features:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
+            case .reviews:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
+            case .overviewAndVideos:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
+            case .photos:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
             }
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellTypes = viewModel.cells[indexPath.row]
-        
-        switch cellTypes {
-        case .features, .reviews, .overviewAndVideos, .photos:
+        if indexPath.section >= 3 {
             tableView.deselectRow(at: indexPath, animated: true)
             viewModel.model[indexPath.section].isOpened = !viewModel.model[indexPath.section].isOpened
             tableView.reloadSections([indexPath.section], with: .none)
-        default:
-            return
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellTypes = viewModel.cells[indexPath.row]
+        let cellTypes = viewModel.model[indexPath.section].cellName
         
         switch cellTypes {
-        case .color, .size, .features, .reviews, .overviewAndVideos, .photos:
-            return 56
+        case .color:
+            return 80
         case .info:
             return UITableView.automaticDimension
+        case .expandable, .size:
+            return 56
         }
+    }
+}
+
+#Preview {
+    ProductController()
+}
+
+extension UIView {
+    func addSubViews(_ views: [UIView]) {
+        views.forEach({ self.addSubview($0) })
     }
 }

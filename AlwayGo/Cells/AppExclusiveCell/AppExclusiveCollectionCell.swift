@@ -33,6 +33,7 @@ class AppExclusiveCollectionCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        collection.backgroundColor = .white
         collection.delegate = self
         collection.dataSource = self
     }
