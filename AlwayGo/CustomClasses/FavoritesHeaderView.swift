@@ -100,7 +100,3 @@ class FavoritesHeaderView: UIView {
         selectedViewConstraints?.isActive = true
     }
 }
-
-#Preview {
-    FavoritesHeaderView()
-}

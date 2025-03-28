@@ -31,5 +31,7 @@
 		<string>PlusJakartaSans-SemiBold.ttf</string>
         <string>PlusJakartaSans-Bold.ttf</string>
 	</array>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 </dict>
 </plist>

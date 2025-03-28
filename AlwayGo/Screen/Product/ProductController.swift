@@ -201,7 +201,3 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
-#Preview {
-    ProductController()
-}

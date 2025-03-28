@@ -9,6 +9,8 @@ import UIKit
 
 class BoardsCell: UICollectionViewCell {
     
+    var createTapped: (() -> Void)?
+    
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -58,6 +60,7 @@ class BoardsCell: UICollectionViewCell {
         button.backgroundColor = UIColor.app
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -101,6 +104,10 @@ class BoardsCell: UICollectionViewCell {
             createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             createButton.heightAnchor.constraint(equalToConstant: 56)
         ])
+    }
+    
+    @objc private func createButtonTapped() {
+        createTapped?()
     }
     
     func configure(with images: [UIImage]) {

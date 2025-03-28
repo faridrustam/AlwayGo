@@ -15,7 +15,7 @@ class HeaderCell: UICollectionViewCell {
         view.clipsToBounds = true
         view.backgroundColor = .white
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor(named: "categoryColor")?.cgColor
+        view.layer.borderColor = UIColor(named: "AppColor")?.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
