@@ -111,13 +111,13 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let model = viewModel.model[section]
-        return model.isOpened ? (model.cellInfo?.count ?? 0) + 1 : 1
+        return model.isOpened ? (model.cellInfo?.count ?? 0) : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellTypes = viewModel.cells[indexPath.section]
+        let cellName = viewModel.model[indexPath.section].cellName
         
-        switch cellTypes {
+        switch cellName {
         case .color:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductColorCell.self)") as! ProductColorCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
@@ -133,40 +133,19 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             cell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             cell.selectionStyle = .none
             return cell
-        case .expandable(type: .features):
+            
+        case .expandable(let type):
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            if indexPath.section == 3 {
-                cell.configureCell(with: "Features")
-            } else {
-                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
-            }
-            return cell
-        case .expandable(type: .reviews):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
-            cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            if indexPath.section == 4 {
-                cell.configureCell(with: "Reviews")
-            } else {
-                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
-            }
-            return cell
-        case .expandable(type: .overviewAndVideos):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
-            cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            if indexPath.section == 5 {
-                cell.configureCell(with: "Overview and videos")
-            } else {
-                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
-            }
-            return cell
-        case .expandable(type: .photos):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductCell.self)") as! ProductCell
-            cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
-            if indexPath.section == 6 {
-                cell.configureCell(with: "Photo")
-            } else {
-                cell.configureInfo(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row - 1] ?? "")
+            switch type {
+            case .features:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
+            case .reviews:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
+            case .overviewAndVideos:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
+            case .photos:
+                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
             }
             return cell
         }
@@ -181,7 +160,7 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellTypes = viewModel.cells[indexPath.section]
+        let cellTypes = viewModel.model[indexPath.section].cellName
         
         switch cellTypes {
         case .color:
@@ -196,4 +175,10 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
 
 #Preview {
     ProductController()
+}
+
+extension UIView {
+    func addSubViews(_ views: [UIView]) {
+        views.forEach({ self.addSubview($0) })
+    }
 }

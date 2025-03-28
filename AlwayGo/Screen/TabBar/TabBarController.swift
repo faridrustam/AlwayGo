@@ -25,7 +25,7 @@ class TabBarController: UITabBarController {
         
         let firstVC = UINavigationController(rootViewController: HomeController())
         let secondVC = UINavigationController(rootViewController: CategoriesController())
-        let thirdVC = UINavigationController(rootViewController: BasketController())
+        let thirdVC = UINavigationController(rootViewController: CartController())
         let fourthVC = UINavigationController(rootViewController: FavoritesController())
         let fifthVC = UINavigationController(rootViewController: ProfileController())
             

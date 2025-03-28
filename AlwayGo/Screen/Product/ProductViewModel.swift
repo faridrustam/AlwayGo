@@ -11,10 +11,10 @@ enum ProductCells {
     case color
     case size
     case info
-    case expandable(type: ExpandableCell)
+    case expandable(type: Expandable)
 }
 
-enum ExpandableCell {
+enum Expandable {
     case features
     case reviews
     case overviewAndVideos
@@ -32,16 +32,24 @@ class ProductViewModel {
                                            cellInfo: [""],
                                            isOpened: false),
                                      .init(cellName: .expandable(type: .features),
-                                           cellInfo: ["Welcome to features"],
+                                           cellInfo: ["Features",
+                                                      "Welcome to features",
+                                                      "Welcome to features"],
                                            isOpened: false),
                                      .init(cellName: .expandable(type: .reviews),
-                                           cellInfo: ["Welcome to reviews"],
+                                           cellInfo: ["Reviews",
+                                                      "Welcome to reviews",
+                                                      "Welcome to reviews"],
                                            isOpened: false),
                                      .init(cellName: .expandable(type: .overviewAndVideos),
-                                           cellInfo: ["Welcome to overview and videos"],
+                                           cellInfo: ["Overview and videos",
+                                                      "Welcome to overview and videos",
+                                                      "Welcome to overview and videos"],
                                            isOpened: false),
                                      .init(cellName: .expandable(type: .photos),
-                                           cellInfo: ["Welcome to photos"],
+                                           cellInfo: ["Photos",
+                                                      "Welcome to photos",
+                                                      "Welcome to photos"],
                                            isOpened: false)]
     let cells: [ProductCells] = [
         .color,
