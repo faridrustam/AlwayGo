@@ -49,9 +49,8 @@ class ProductCell: UITableViewCell {
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            cellLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-//            cellLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             cellLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            cellLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             plusButton.centerYAnchor.constraint(equalTo: cellLabel.centerYAnchor),
             plusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
