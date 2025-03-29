@@ -30,34 +30,32 @@ class NameSuggestionCell: UITableViewCell {
         return view
     }()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        configureConsraints()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
+        configureConstraints()
     }
     
-    private func configureConsraints() {
-        addSubview(nameLabel)
-        addSubview(iconImage)
-        addSubview(suggestionView)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureConstraints() {
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(iconImage)
+        contentView.addSubview(suggestionView)
         
         NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            nameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
-            nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
             suggestionView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
-            suggestionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            suggestionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            suggestionView.trailingAnchor.constraint(equalTo: leadingAnchor),
+            suggestionView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            suggestionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            iconImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            iconImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             iconImage.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
             iconImage.widthAnchor.constraint(equalToConstant: 24),
             iconImage.heightAnchor.constraint(equalToConstant: 24)
