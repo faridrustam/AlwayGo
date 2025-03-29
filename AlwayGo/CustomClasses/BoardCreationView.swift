@@ -41,70 +41,17 @@ class BoardCreationView: UIView {
         return label
     }()
     
-    private lazy var suggestionStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.spacing = 12
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    private lazy var firstSuggestion: BoardSuggestionNameView = {
-        let view = BoardSuggestionNameView()
-        view.configureLabel(suggestName: "Ramadan & Eid  🎉")
-        view.isUserInteractionEnabled = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var firstsuggestionView: UserFieldsView = {
-        let view = UserFieldsView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var secondSuggestion: BoardSuggestionNameView = {
-        let view = BoardSuggestionNameView()
-        view.configureLabel(suggestName: "Home Sweet Home  🏠")
-        view.isUserInteractionEnabled = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var secondSuggestionView: UserFieldsView = {
-        let view = UserFieldsView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var thirdSuggestion: BoardSuggestionNameView = {
-        let view = BoardSuggestionNameView()
-        view.configureLabel(suggestName: "Make up  💄")
-        view.isUserInteractionEnabled = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var thirdSuggestionView: UserFieldsView = {
-        let view = UserFieldsView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var fourthSuggestion: BoardSuggestionNameView = {
-        let view = BoardSuggestionNameView()
-        view.configureLabel(suggestName: "Accessories  💍")
-        view.isUserInteractionEnabled = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     private lazy var table: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(NameSuggestionCell.self, forCellReuseIdentifier: "\(NameSuggestionCell.self)")
         return tableView
     }()
+    
+    let suggestedNames: [String] = ["Ramadan & Eid  🎉", "Home Sweet Home  🏠", "Make up  💄", "Accessories  💍"]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -121,8 +68,7 @@ class BoardCreationView: UIView {
     }
     
     private func configureConstraints() {
-        [titleLabel, boardNameTextField, boardNameTextFieldView, suggestLabel].forEach({ addSubview($0) })
-        [firstSuggestion, firstsuggestionView, secondSuggestion, secondSuggestionView, thirdSuggestion, thirdSuggestionView, fourthSuggestion].forEach { addSubview($0) }
+        [titleLabel, boardNameTextField, boardNameTextFieldView, suggestLabel, table].forEach({ addSubview($0) })
         
         NSLayoutConstraint.activate([
 
@@ -142,39 +88,10 @@ class BoardCreationView: UIView {
             suggestLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             suggestLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            firstSuggestion.topAnchor.constraint(equalTo: suggestLabel.bottomAnchor, constant: 4),
-            firstSuggestion.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            firstSuggestion.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            firstsuggestionView.topAnchor.constraint(equalTo: firstSuggestion.bottomAnchor, constant: 4),
-            firstsuggestionView.leadingAnchor.constraint(equalTo: firstSuggestion.leadingAnchor),
-            firstsuggestionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            secondSuggestion.topAnchor.constraint(equalTo: firstsuggestionView.bottomAnchor, constant: 2),
-            secondSuggestion.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            secondSuggestion.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            secondSuggestionView.topAnchor.constraint(equalTo: secondSuggestion.bottomAnchor, constant: 4),
-            secondSuggestionView.leadingAnchor.constraint(equalTo: secondSuggestion.leadingAnchor),
-            secondSuggestionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            thirdSuggestion.topAnchor.constraint(equalTo: secondSuggestionView.bottomAnchor, constant: 2),
-            thirdSuggestion.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            thirdSuggestion.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            thirdSuggestionView.topAnchor.constraint(equalTo: thirdSuggestion.bottomAnchor, constant: 4),
-            thirdSuggestionView.leadingAnchor.constraint(equalTo: thirdSuggestion.leadingAnchor),
-            thirdSuggestionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            fourthSuggestion.topAnchor.constraint(equalTo: thirdSuggestionView.bottomAnchor, constant: 2),
-            fourthSuggestion.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            fourthSuggestion.trailingAnchor.constraint(equalTo: trailingAnchor),
-            fourthSuggestion.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            
-            firstSuggestion.heightAnchor.constraint(equalToConstant: 48),
-            secondSuggestion.heightAnchor.constraint(equalToConstant: 48),
-            thirdSuggestion.heightAnchor.constraint(equalToConstant: 48),
-            fourthSuggestion.heightAnchor.constraint(equalToConstant: 48),
+            table.topAnchor.constraint(equalTo: suggestLabel.bottomAnchor, constant: 8),
+            table.leadingAnchor.constraint(equalTo: suggestLabel.leadingAnchor),
+            table.trailingAnchor.constraint(equalTo: trailingAnchor),
+            table.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
@@ -182,12 +99,21 @@ class BoardCreationView: UIView {
 extension BoardCreationView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return suggestedNames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(NameSuggestionCell.self)", for: indexPath) as! NameSuggestionCell
+        cell.configureLabel(suggestName: suggestedNames[indexPath.row])
+        cell.selectionStyle = .none
+        return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        boardNameTextField.text = suggestedNames[indexPath.row]
+    }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 48
+    }
 }
