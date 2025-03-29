@@ -44,7 +44,7 @@ class ProductCell: UITableViewCell {
     
     private func configureUI() {
         contentView.backgroundColor = .white
-        [cellLabel, plusButton, cellInfoLabel].forEach({ contentView.addSubview($0) })
+        contentView.addSubViews(cellLabel, plusButton, cellInfoLabel)
     }
     
     private func configureConstraints() {
