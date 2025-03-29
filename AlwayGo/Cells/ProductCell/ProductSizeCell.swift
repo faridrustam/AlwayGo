@@ -21,7 +21,7 @@ class ProductSizeCell: UITableViewCell {
         let label = UILabel()
         label.text = "Standard"
         label.font = UIFont(name: "SFProText-Regular", size: 16)
-        label.textColor = .gray
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

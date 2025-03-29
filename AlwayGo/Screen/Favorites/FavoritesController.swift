@@ -46,7 +46,7 @@ class FavoritesController: BaseController {
         view.backgroundColor = .white
         collection.backgroundColor = .systemGray6
         navigationItem.title = "FAVORITES"
-        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-Semibold", size: 16) ?? "",
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "SFProText-Semibold", size: 16) ?? "",
                                                                    .foregroundColor: UIColor.black]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(rightBarbuttonTapped))
     }

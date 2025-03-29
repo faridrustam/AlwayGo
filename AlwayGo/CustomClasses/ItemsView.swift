@@ -11,7 +11,7 @@ class ItemsView: UIView {
     private lazy var itemsCountLabel: UILabel = {
         let label = UILabel()
         label.text = "15 items"
-        label.textColor = .lightGray
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.font = UIFont(name: "SFProText-Regular", size: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -20,10 +20,10 @@ class ItemsView: UIView {
     private lazy var recentlyAddedButton: UIButton = {
         let button = UIButton()
         button.setTitle("Recently added", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.6), for: .normal)
         button.setImage(UIImage(named: "RecentlyDown"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Regular", size: 14)
-        button.imageView?.tintColor = .lightGray
+        button.imageView?.tintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight: .forceRightToLeft
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -41,7 +41,7 @@ class ItemsView: UIView {
     }
     
     private func configureUI() {
-        backgroundColor = .systemGray5
+        backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         [itemsCountLabel, recentlyAddedButton].forEach({ addSubview($0) })
     }
     

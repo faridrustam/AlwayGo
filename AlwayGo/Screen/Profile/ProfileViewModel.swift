@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum ProfileCells {
+    case buttons
+}
+
 class ProfileViewModel {
-    
+    let cells: [ProfileCells] = [
+        .buttons
+    ]
 }

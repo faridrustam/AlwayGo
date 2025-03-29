@@ -70,8 +70,8 @@ class ProductController: BaseController {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton
         view.backgroundColor = .white
         table.backgroundColor = .white
-        [table, bottomView].forEach({ view.addSubview($0) })
-        [priceLabel, productPrice, addToCartButton].forEach({ bottomView.addSubview($0) })
+        view.addSubViews(table, bottomView)
+        bottomView.addSubViews(priceLabel, productPrice, addToCartButton)
         table.register(ProductColorCell.self, forCellReuseIdentifier: "\(ProductColorCell.self)")
         table.register(ProductSizeCell.self, forCellReuseIdentifier: "\(ProductSizeCell.self)")
         table.register(ProductInfoCell.self, forCellReuseIdentifier: "\(ProductInfoCell.self)")
@@ -175,10 +175,4 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
 
 #Preview {
     ProductController()
-}
-
-extension UIView {
-    func addSubViews(_ views: [UIView]) {
-        views.forEach({ self.addSubview($0) })
-    }
 }

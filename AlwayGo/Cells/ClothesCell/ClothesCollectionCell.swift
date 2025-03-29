@@ -22,8 +22,8 @@ class ClothesCollectionCell: UICollectionViewCell {
     private lazy var seeMoreButton: UIButton = {
         let button = UIButton()
         button.setTitle("See more", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
-        button.titleLabel?.font = UIFont(name: "DMSans-SemiBold", size: 12)
+        button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.6), for: .normal)
+        button.titleLabel?.font = UIFont(name: "SFProText-SemiBold", size: 12)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

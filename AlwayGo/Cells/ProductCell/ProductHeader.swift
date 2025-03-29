@@ -248,8 +248,8 @@ class ProductHeader: UIView {
             
             likesBackgroundView.trailingAnchor.constraint(equalTo: collection.trailingAnchor),
             likesBackgroundView.bottomAnchor.constraint(equalTo: collection.bottomAnchor, constant: -16),
-            likesBackgroundView.widthAnchor.constraint(equalToConstant: 56),
-            likesBackgroundView.heightAnchor.constraint(equalToConstant: 35),
+            likesBackgroundView.widthAnchor.constraint(equalToConstant: 55),
+            likesBackgroundView.heightAnchor.constraint(equalToConstant: 32),
             
             likesView.trailingAnchor.constraint(equalTo: collection.trailingAnchor, constant: 0),
             likesView.centerYAnchor.constraint(equalTo: likesBackgroundView.centerYAnchor),
