@@ -18,7 +18,7 @@ class FavoritesCell: UICollectionViewCell {
     private lazy var productCompany: UILabel = {
         let label = UILabel()
         label.text = "Technoaze"
-        label.textColor = .black
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.font = UIFont(name: "SFProText-Medium", size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +28,7 @@ class FavoritesCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Asus VivoBook 15 X 1504ZA-Nj547Wi5-1235U 8 Gb 512 Gb 15.6” W11H Laptop"
         label.font = UIFont(name: "SFProText-Medium", size: 12)
-        label.textColor = .black
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -45,7 +45,7 @@ class FavoritesCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Free shipping"
         label.font = UIFont(name: "SFProText-Regular", size: 12)
-        label.textColor = .gray
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -54,7 +54,7 @@ class FavoritesCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "1579 ₼"
         label.font = UIFont(name: "SFProText-Semibold", size: 16)
-        label.textColor = .black
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -73,7 +73,7 @@ class FavoritesCell: UICollectionViewCell {
         button.layer.borderColor = UIColor.app.cgColor
         button.layer.cornerRadius = 8
         button.setTitle("Size", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.87), for: .normal)
         button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight: .forceRightToLeft
         button.setImage(UIImage(named: "DownButton"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
