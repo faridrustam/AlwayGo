@@ -34,6 +34,11 @@ class ProfileController: BaseController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
 
     override func configureUI() {
         view.layer.backgroundColor = UIColor(red: 0.928, green: 0.928, blue: 0.928, alpha: 1).cgColor
@@ -68,7 +73,7 @@ extension ProfileController: UITableViewDelegate, UITableViewDataSource {
         } else if section == 1 {
             return 32
         }
-        return 16
+        return 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
