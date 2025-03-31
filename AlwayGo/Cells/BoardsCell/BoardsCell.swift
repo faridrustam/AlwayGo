@@ -80,7 +80,7 @@ class BoardsCell: UICollectionViewCell {
     }
     
     private func configureConstraints() {
-        [stackView, titleLabel, subtitleLabel, createButton].forEach({contentView.addSubview($0)})
+        contentView.addSubViews(stackView, titleLabel, subtitleLabel, createButton)
         
         imageViews.forEach { stackView.addArrangedSubview($0) }
         
