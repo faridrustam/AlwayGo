@@ -27,7 +27,7 @@ class CategoriesController: BaseController {
         view.backgroundColor = .white
         collection.backgroundColor = .white
         navigationItem.title = "CATEGORIES"
-        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "PlusJakartaSans-Semibold", size: 16) ?? "",
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.customFont(.sfProSemibold, size: 16),
                                                                    .foregroundColor: UIColor.black]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(magnifierButtonTapped))
         view.addSubview(collection)
@@ -64,8 +64,4 @@ extension CategoriesController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: collectionView.frame.width, height: 120)
     }
-}
-
-#Preview {
-    CategoriesController()
 }

@@ -15,7 +15,7 @@ class CustomPresentNavigationView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "CREATE BOARD"
-        label.font = UIFont(name: "SFProText-Semibold", size: 16)
+        label.font = .customFont(.sfProSemibold, size: 16)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -56,5 +56,10 @@ class CustomPresentNavigationView: UIView {
     
     @objc private func iconButtonTapped() {
         iconTapped?()
+    }
+    
+    func configure(with title: String, iconName: String) {
+        titleLabel.text = title
+        iconButton.setImage(UIImage(named: iconName), for: .normal)
     }
 }

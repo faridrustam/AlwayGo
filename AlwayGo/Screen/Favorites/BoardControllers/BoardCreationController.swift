@@ -37,7 +37,7 @@ class BoardCreationController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
     override func configureUI() {
@@ -65,19 +65,20 @@ class BoardCreationController: BaseController {
             boardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             boardView.bottomAnchor.constraint(equalTo: createButton.topAnchor, constant: -16),
             boardView.heightAnchor.constraint(equalToConstant: 350),
-
+            
             createButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             createButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             createButton.heightAnchor.constraint(equalToConstant: 56),
-            ])
+        ])
     }
     
     override func configureviewModel() {
     }
     
     @objc private func createButtonTapped() {
-        
+        let controller = ItemSelectionController()
+        let navController = UINavigationController(rootViewController: controller)
+        present(navController, animated: true)
     }
-
 }
