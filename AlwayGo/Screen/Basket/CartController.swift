@@ -14,6 +14,16 @@ class CartController: BaseController {
     }
 
     override func configureUI() {
-        view.backgroundColor = .white
+        navigationItem.title = "FAVORITES"
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "SFProText-Semibold", size: 16) ?? "",
+                                                                   .foregroundColor: UIColor.black]
     }
+    
+    override func configureConstraints() {
+         
+    }
+}
+
+#Preview {
+    CartController()
 }
