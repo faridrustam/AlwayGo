@@ -14,6 +14,11 @@ class ProductController: BaseController {
         let table = UITableView()
         table.delegate = self
         table.dataSource = self
+        table.backgroundColor = .white
+        table.register(ProductColorCell.self, forCellReuseIdentifier: "\(ProductColorCell.self)")
+        table.register(ProductSizeCell.self, forCellReuseIdentifier: "\(ProductSizeCell.self)")
+        table.register(ProductInfoCell.self, forCellReuseIdentifier: "\(ProductInfoCell.self)")
+        table.register(ProductCell.self, forCellReuseIdentifier: "\(ProductCell.self)")
         let header = ProductHeader(frame: .init(x: 0, y: 0, width: table.frame.width, height: 538))
         table.tableHeaderView = header
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -69,13 +74,9 @@ class ProductController: BaseController {
         navigationController?.navigationBar.backIndicatorImage = backButton
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton
         view.backgroundColor = .white
-        table.backgroundColor = .white
         view.addSubViews(table, bottomView)
         bottomView.addSubViews(priceLabel, productPrice, addToCartButton)
-        table.register(ProductColorCell.self, forCellReuseIdentifier: "\(ProductColorCell.self)")
-        table.register(ProductSizeCell.self, forCellReuseIdentifier: "\(ProductSizeCell.self)")
-        table.register(ProductInfoCell.self, forCellReuseIdentifier: "\(ProductInfoCell.self)")
-        table.register(ProductCell.self, forCellReuseIdentifier: "\(ProductCell.self)")
+        
     }
     
     override func configureConstraints() {
