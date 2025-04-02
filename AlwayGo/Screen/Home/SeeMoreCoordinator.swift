@@ -19,6 +19,4 @@ class SeeMoreCoordinator: Coordinator {
         let controller = SeeMoreController()
         navigationController.show(controller, sender: nil)
     }
-    
-    
 }

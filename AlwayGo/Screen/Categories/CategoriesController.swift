@@ -61,6 +61,12 @@ extension CategoriesController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let coordinator = CategoryDetailCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                    title: viewModel.cellData[indexPath.row])
+        coordinator.start()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: collectionView.frame.width, height: 120)
     }
