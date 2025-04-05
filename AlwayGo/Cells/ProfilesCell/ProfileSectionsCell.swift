@@ -17,7 +17,7 @@ class ProfileSectionsCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Medium", size: 16)
+        label.font = .customFont(.sfProMedium, size: 16)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

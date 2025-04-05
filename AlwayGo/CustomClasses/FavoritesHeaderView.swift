@@ -23,7 +23,7 @@ class FavoritesHeaderView: UIView {
         let button = UIButton()
         button.setTitle("All Items", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
         button.addTarget(self, action: #selector(allItemsButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -33,7 +33,7 @@ class FavoritesHeaderView: UIView {
         let button = UIButton()
         button.setTitle("Boards", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
         button.addTarget(self, action: #selector(boardsButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -78,9 +78,8 @@ class FavoritesHeaderView: UIView {
     }
     
     private func configureUI() {
-        [labelStack, selectedButtonView].forEach({ addSubview($0) })
-        [allItemsButton, boardsButton].forEach({ labelStack.addArrangedSubview($0) })
-        
+        addSubViews(labelStack, selectedButtonView)
+        labelStack.addArrangedSubViews(allItemsButton, boardsButton)
         allItemsButton.tag = 0
         boardsButton.tag = 1
     }

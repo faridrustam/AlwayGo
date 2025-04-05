@@ -36,7 +36,7 @@ class ProductController: BaseController {
         let label = UILabel()
         label.text = "Price:"
         label.textColor = .black
-        label.font = UIFont(name: "SFProText-Regular", size: 16)
+        label.font = .customFont(.sfProRegular, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,7 +45,7 @@ class ProductController: BaseController {
         let label = UILabel()
         label.text = "$149.00"
         label.textColor = .black
-        label.font = UIFont(name: "SFProText-Semibold", size: 16)
+        label.font = .customFont(.sfProSemibold, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,7 +53,7 @@ class ProductController: BaseController {
     private lazy var addToCartButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add to Cart", for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
         button.backgroundColor = .app
         button.layer.borderWidth = 0.2
         button.layer.cornerRadius = 31

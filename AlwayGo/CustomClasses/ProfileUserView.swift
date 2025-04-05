@@ -19,7 +19,7 @@ class ProfileUserView: UIView {
     private lazy var userInitialLetters: UILabel = {
         let label = UILabel()
         label.text = "GI"
-        label.font = UIFont(name: "SFProText-Semibold", size: 22)
+        label.font = .customFont(.sfProSemibold, size: 22)
         label.textColor = .app
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -29,7 +29,7 @@ class ProfileUserView: UIView {
         let label = UILabel()
         label.text = "Hi, Gulta"
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
-        label.font = UIFont(name: "SFProText-Semibold", size: 14)
+        label.font = .customFont(.sfProSemibold, size: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -38,7 +38,7 @@ class ProfileUserView: UIView {
         let label = UILabel()
         label.text = "psjshdh@privaterelay.appleid.com"
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
-        label.font = UIFont(name: "SFProText-Regular", size: 12)
+        label.font = .customFont(.sfProRegular, size: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -69,7 +69,7 @@ class ProfileUserView: UIView {
         let label = UILabel()
         label.textColor =  UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.text = "Add your phone number now to enjoy the best shopping experience."
-        label.font = UIFont(name: "SFProText-Regular", size: 12)
+        label.font = .customFont(.sfProRegular, size: 12)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -81,7 +81,7 @@ class ProfileUserView: UIView {
         button.layer.borderWidth = 0.5
         button.layer.cornerRadius = 8
         button.setTitle("Add Number", for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
+        button.titleLabel?.font = .customFont(.sfProRegular, size: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

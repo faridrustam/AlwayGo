@@ -39,7 +39,7 @@ class CategoryDetailController: BaseController {
                                                             target: self,
                                                             action: #selector(magnifierButtonTapped))
         navigationController?.navigationBar.topItem?.title = ""
-        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "SFProText-Semibold", size: 16) ?? "",
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.customFont(.sfProSemibold, size: 16),
                                                                    .foregroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)]
     }
     
@@ -61,7 +61,13 @@ extension CategoryDetailController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "\(CategoryDetailCell.self)") as! CategoryDetailCell
         cell.configureCell(with: viewModel.cells[indexPath.row])
+        cell.hideButtons(with: indexPath.row)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let coordinator = CategoryProductCoordinator(navigationController: navigationController ?? UINavigationController(), title: viewModel.cells[indexPath.row])
+        coordinator.start()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -26,7 +26,7 @@ class BoardCreationController: BaseController {
     private lazy var createButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Create board", for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Bold", size: 14)
+        button.titleLabel?.font = .customFont(.sfProBold, size: 14)
         button.backgroundColor = UIColor.app
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10

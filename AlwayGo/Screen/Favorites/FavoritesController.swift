@@ -47,13 +47,13 @@ class FavoritesController: BaseController {
         view.backgroundColor = .white
         collection.backgroundColor = .systemGray6
         navigationItem.title = "FAVORITES"
-        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "SFProText-Semibold", size: 16) ?? "",
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.customFont(.sfProSemibold, size: 16),
                                                                    .foregroundColor: UIColor.black]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(rightBarbuttonTapped))
     }
     
     override func configureConstraints() {
-        [favoritesHeader, itemsView, collection].forEach({ view.addSubview($0) })
+        view.addSubViews(favoritesHeader, itemsView, collection)
         NSLayoutConstraint.activate([
             favoritesHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             favoritesHeader.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

@@ -35,8 +35,7 @@ class BoardSuggestionNameView: UIView {
     }
     
     private func configureConsraints() {
-        addSubview(nameLabel)
-        addSubview(iconImage)
+        addSubViews(nameLabel, iconImage)
         
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

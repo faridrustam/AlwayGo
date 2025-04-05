@@ -11,7 +11,7 @@ class CategoryCell: UICollectionViewCell {
     
     private lazy var categoryLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         label.textColor = .black
         label.text = "Man"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -37,8 +37,7 @@ class CategoryCell: UICollectionViewCell {
     }
     
     private func configureConstraints() {
-        addSubview(categoryLabel)
-        addSubview(categoryImageView)
+        contentView.addSubViews(categoryLabel, categoryImageView)
         
         NSLayoutConstraint.activate([
             categoryLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

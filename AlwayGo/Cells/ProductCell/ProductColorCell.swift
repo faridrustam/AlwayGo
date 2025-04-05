@@ -11,7 +11,7 @@ class ProductColorCell: UITableViewCell {
     private lazy var colorLabel: UILabel = {
         let label = UILabel()
         label.text = "Color"
-        label.font = UIFont(name: "SFProText-Medium", size: 16)
+        label.font = .customFont(.sfProMedium, size: 16)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

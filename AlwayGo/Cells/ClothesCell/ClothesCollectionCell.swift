@@ -13,7 +13,7 @@ class ClothesCollectionCell: UICollectionViewCell {
     
     private lazy var cellLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Medium", size: 20)
+        label.font = .customFont(.sfProMedium, size: 20)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -23,7 +23,7 @@ class ClothesCollectionCell: UICollectionViewCell {
         let button = UIButton()
         button.setTitle("See more", for: .normal)
         button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.6), for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-SemiBold", size: 12)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 12)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -57,7 +57,7 @@ class ClothesCollectionCell: UICollectionViewCell {
     private func configureUI() {
         contentView.backgroundColor = .white
         collection.backgroundColor = .white
-        [cellLabel, seeMoreButton, collection].forEach({ contentView.addSubview($0) })
+        contentView.addSubViews(cellLabel, seeMoreButton, collection)
         collection.delegate = self
         collection.dataSource = self
         collection.register(ClothesCell.self, forCellWithReuseIdentifier: "\(ClothesCell.self)")

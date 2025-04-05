@@ -13,7 +13,7 @@ class LogInController: BaseController {
     private lazy var logInLabel: UILabel = {
         let label = UILabel()
         label.text = "Log in"
-        label.font = UIFont(name: "SFProText-Semibold", size: 38)
+        label.font = .customFont(.sfProSemibold, size: 38)
         label.textColor = UIColor(named: "AppColor")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -69,7 +69,7 @@ class LogInController: BaseController {
     private lazy var forgotLabel: UILabel = {
         let label = UILabel()
         label.text = "Forgot Password?"
-        label.font = UIFont(name: "SFProText-Medium", size: 14)
+        label.font = .customFont(.sfProMedium, size: 14)
         label.numberOfLines = 0
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +82,7 @@ class LogInController: BaseController {
     private lazy var logInButton: UIButton = {
         let button = UIButton()
         button.setTitle("Log in", for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
         button.backgroundColor = .app
         button.layer.borderWidth = 0.1
         button.layer.cornerRadius = 25
@@ -102,7 +102,7 @@ class LogInController: BaseController {
     private lazy var orLabel: UILabel = {
         let label = UILabel()
         label.text = "or"
-        label.font = UIFont(name: "SFProText-Regular", size: 12)
+        label.font = .customFont(.sfProRegular, size: 12)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -160,7 +160,7 @@ class LogInController: BaseController {
     private lazy var alreadyLabel: UILabel = {
         let label = UILabel()
         label.text = "Don't have an account?"
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -170,7 +170,7 @@ class LogInController: BaseController {
         let button = UIButton()
         button.setTitle("Sign up", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 14)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 14)
         button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -196,10 +196,10 @@ class LogInController: BaseController {
     
     override func configureUI() {
         view.backgroundColor = .systemBackground
-        [logInLabel, textFieldsStack, forgotLabel, logInButton, signUpButtonStack, alreadyLabel, signUpButton, triangleImage, littleTriangleImage, leftOrView, orLabel, rightOrView].forEach({ view.addSubview($0) })
-        [usernameField, usernameView, passwordField, passwordView].forEach({ textFieldsStack.addArrangedSubview($0) })
+        view.addSubViews(logInLabel, textFieldsStack, forgotLabel, logInButton, signUpButtonStack, alreadyLabel, signUpButton, triangleImage, littleTriangleImage, leftOrView, orLabel, rightOrView)
+        textFieldsStack.addArrangedSubViews(usernameField, usernameView, passwordField, passwordView)
         passwordField.addSubview(hidePasswordButton)
-        [facebookButton, googleButton, appleButton].forEach({ signUpButtonStack.addArrangedSubview($0) })
+        signUpButtonStack.addArrangedSubViews(facebookButton, googleButton, appleButton)
     }
     
     override func configureConstraints() {

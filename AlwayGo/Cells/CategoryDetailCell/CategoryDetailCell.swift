@@ -65,6 +65,12 @@ class CategoryDetailCell: UITableViewCell {
         ])
     }
     
+    func hideButtons(with index: Int) {
+        if index < 2 {
+            cellButton.isHidden = true
+        }
+    }
+    
     func configureCell(with text: String) {
         titleLabel.text = text
     }

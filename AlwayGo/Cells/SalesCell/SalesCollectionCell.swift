@@ -41,7 +41,7 @@ class SalesCollectionCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        [collection, pageControl].forEach({ contentView.addSubview($0) })
+        contentView.addSubViews(collection, pageControl)
         collection.delegate = self
         collection.dataSource = self
         collection.register(SalesCell.self, forCellWithReuseIdentifier: "\(SalesCell.self)")

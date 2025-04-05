@@ -17,7 +17,7 @@ class CategoryControllerCell: UICollectionViewCell {
     
     private lazy var cellLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Semibold", size: 16)
+        label.font = .customFont(.sfProSemibold, size: 16)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -38,7 +38,7 @@ class CategoryControllerCell: UICollectionViewCell {
         if cellLabel.text == "Sale" {
             cellLabel.textColor = .red
         }
-        [cellImage, cellLabel].forEach({ contentView.addSubview($0) })
+        contentView.addSubViews(cellImage, cellLabel)
     }
     
     private func configureConstraints() {

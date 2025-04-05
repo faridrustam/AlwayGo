@@ -22,11 +22,15 @@ class CategoriesController: BaseController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = "CATEGORIES"
+    }
 
     override func configureUI() {
         view.backgroundColor = .white
         collection.backgroundColor = .white
-        navigationItem.title = "CATEGORIES"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.customFont(.sfProSemibold, size: 16),
                                                                    .foregroundColor: UIColor.black]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "LeftMagnifier"), style: .plain, target: self, action: #selector(magnifierButtonTapped))

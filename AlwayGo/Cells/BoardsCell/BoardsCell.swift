@@ -35,7 +35,7 @@ class BoardsCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "BOARDS"
-        label.font = UIFont(name: "SFProText-Bold", size: 16)
+        label.font = .customFont(.sfProBold, size: 16)
         label.textAlignment = .center
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +45,7 @@ class BoardsCell: UICollectionViewCell {
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Group your favorite items to suit you"
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         label.textAlignment = .center
         label.textColor = .black
         label.numberOfLines = 0
@@ -56,7 +56,7 @@ class BoardsCell: UICollectionViewCell {
     private lazy var createButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Create board", for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Bold", size: 14)
+        button.titleLabel?.font = .customFont(.sfProBold, size: 14)
         button.backgroundColor = UIColor.app
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
@@ -81,7 +81,6 @@ class BoardsCell: UICollectionViewCell {
     
     private func configureConstraints() {
         contentView.addSubViews(stackView, titleLabel, subtitleLabel, createButton)
-        
         imageViews.forEach { stackView.addArrangedSubview($0) }
         
         NSLayoutConstraint.activate([

@@ -40,8 +40,7 @@ class CustomPresentNavigationView: UIView {
     }
     
     private func configureConstraints() {
-        addSubview(titleLabel)
-        addSubview(iconButton)
+        addSubViews(titleLabel, iconButton)
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),

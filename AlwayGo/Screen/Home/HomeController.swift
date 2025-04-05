@@ -31,7 +31,7 @@ class HomeController: BaseController {
         let textField = UITextField()
         textField.placeholder = "Search"
         let attributedString = NSAttributedString(string: "Search",
-                                                  attributes: [NSAttributedString.Key.font: UIFont(name: "SFProText-Semibold", size: 16) ?? ""])
+                                                  attributes: [NSAttributedString.Key.font: UIFont.customFont(.sfProSemibold, size: 16)])
         let attributedString2 = NSAttributedString(string: "Search",
                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
         textField.attributedPlaceholder = attributedString
@@ -69,8 +69,8 @@ class HomeController: BaseController {
     override func configureUI() {
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.isHidden = true
-        [searchView, collection].forEach({ view.addSubview($0) })
-        [searchImage, searchTextField, cameraImage].forEach({ searchView.addSubview($0) })
+        view.addSubViews(searchView, collection)
+        searchView.addSubViews(searchImage, searchTextField, cameraImage)
         view.backgroundColor = .white
         collection.backgroundColor = .white
         collection.delegate = self
