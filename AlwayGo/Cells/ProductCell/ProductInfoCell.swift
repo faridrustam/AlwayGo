@@ -10,7 +10,7 @@ import UIKit
 class ProductInfoCell: UITableViewCell {
     private lazy var productInfo: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Regular", size: 16)
+        label.font = .customFont(.sfProRegular, size: 16)
         label.text = "Intelligent heat control helps protect your hair's natural shine. Powered by a powerful Dyson digital motor V9, spinning at up to 110,000rpm. With Air Multiplier™ technology to produce a high-pressure jet of controlled air, for fast drying and precision styling."
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.numberOfLines = 0

@@ -19,7 +19,7 @@ class DiscoverCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Medium", size: 20)
+        label.font = .customFont(.sfProMedium, size: 20)
         label.textColor = .white
         label.text = "New Season"
         label.translatesAutoresizingMaskIntoConstraints = false

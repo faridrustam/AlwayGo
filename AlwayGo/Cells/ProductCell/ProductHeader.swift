@@ -120,7 +120,7 @@ class ProductHeader: UIView {
         let label = UILabel()
         label.text = "4K"
         label.textColor = .white
-        label.font = UIFont(name: "SFProText-Semibold", size: 14)
+        label.font = .customFont(.sfProSemibold, size: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -137,7 +137,7 @@ class ProductHeader: UIView {
         label.text = "Hair dryer Dyson HD07\nNICKEL PINK"
         label.textColor = .black
         label.numberOfLines = 2
-        label.font = UIFont(name: "SFProText-Semibold", size: 16)
+        label.font = .customFont(.sfProSemibold, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -145,7 +145,7 @@ class ProductHeader: UIView {
     private lazy var checkStockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         let attributedString = NSMutableAttributedString.init(string: "in stock")
         attributedString.addAttribute(.underlineStyle, value: 1, range: .init(location: 0, length: attributedString.length))
         attributedString.addAttribute(.baselineOffset, value: 8, range: .init(location: 0, length: attributedString.length))
@@ -172,7 +172,7 @@ class ProductHeader: UIView {
     private lazy var ratingLabel: UILabel = {
         let label = UILabel()
         label.text = "5.0"
-        label.font = UIFont(name: "SFProText-Regular", size: 12)
+        label.font = .customFont(.sfProRegular, size: 12)
         label.textColor = .black
         return label
     }()
@@ -187,7 +187,7 @@ class ProductHeader: UIView {
     private lazy var commentCountLabel: UILabel = {
         let label = UILabel()
         label.text = "21 comments"
-        label.font = UIFont(name: "SFProText-Regular", size: 12)
+        label.font = .customFont(.sfProRegular, size: 12)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -206,11 +206,11 @@ class ProductHeader: UIView {
     
     private func configureUI() {
         backgroundColor = .white
-        [collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack].forEach({ addSubview($0) })
-        [heartButtonView, shareButtonView, playButtonView].forEach({ buttonsStack.addArrangedSubview($0) })
+        addSubViews(collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack)
+        buttonsStack.addArrangedSubViews(heartButtonView, shareButtonView, playButtonView)
         likesBackgroundView.addSubview(likesView)
-        [likesCount, heartImage].forEach({ likesView.addSubview($0) })
-        [starImage, ratingLabel, commentButton, commentCountLabel].forEach({ userReviewStack.addArrangedSubview($0) })
+        likesView.addSubViews(likesCount, heartImage)
+        userReviewStack.addArrangedSubViews(starImage, ratingLabel, commentButton, commentCountLabel)
         collection.backgroundColor = .systemGray5
         collection.register(ProductHeaderCell.self, forCellWithReuseIdentifier: "\(ProductHeaderCell.self)")
         pageControl.numberOfPages = productImages.count

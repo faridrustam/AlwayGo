@@ -41,9 +41,7 @@ class NameSuggestionCell: UITableViewCell {
     }
     
     private func configureConstraints() {
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(iconImage)
-        contentView.addSubview(suggestionView)
+        contentView.addSubViews(nameLabel, iconImage, suggestionView)
         
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

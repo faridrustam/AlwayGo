@@ -12,7 +12,7 @@ class BoardCreationView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "BOARD NAME"
-        label.font = UIFont(name: "SFProText-Semibold", size: 16)
+        label.font = .customFont(.sfProSemibold, size: 16)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -68,7 +68,7 @@ class BoardCreationView: UIView {
     }
     
     private func configureConstraints() {
-        [titleLabel, boardNameTextField, boardNameTextFieldView, suggestLabel, table].forEach({ addSubview($0) })
+        addSubViews(titleLabel, boardNameTextField, boardNameTextFieldView, suggestLabel, table)
         
         NSLayoutConstraint.activate([
 

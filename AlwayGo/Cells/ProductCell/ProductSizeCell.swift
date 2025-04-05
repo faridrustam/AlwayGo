@@ -11,7 +11,7 @@ class ProductSizeCell: UITableViewCell {
     private lazy var sizeLabel: UILabel = {
         let label = UILabel()
         label.text = "Size"
-        label.font = UIFont(name: "SFProText-Medium", size: 16)
+        label.font = .customFont(.sfProMedium, size: 16)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -20,7 +20,7 @@ class ProductSizeCell: UITableViewCell {
     private lazy var productSize: UILabel = {
         let label = UILabel()
         label.text = "Standard"
-        label.font = UIFont(name: "SFProText-Regular", size: 16)
+        label.font = .customFont(.sfProRegular, size: 16)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -39,7 +39,7 @@ class ProductSizeCell: UITableViewCell {
     
     private func configureUI() {
         contentView.backgroundColor = .white
-        [sizeLabel, productSize].forEach({ contentView.addSubview($0) })
+        contentView.addSubViews(sizeLabel, productSize)
     }
     
     private func configureConstraints() {

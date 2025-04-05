@@ -20,7 +20,7 @@ class ProfileButtonsCell: UITableViewCell {
     private lazy var allOrdersLabel: UILabel = {
         let label = UILabel()
         label.text = "All orders"
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -38,7 +38,7 @@ class ProfileButtonsCell: UITableViewCell {
     private lazy var reviewsLabel: UILabel = {
         let label = UILabel()
         label.text = "Reviews"
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -56,7 +56,7 @@ class ProfileButtonsCell: UITableViewCell {
     private lazy var forYouLabel: UILabel = {
         let label = UILabel()
         label.text = "For you"
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -74,7 +74,7 @@ class ProfileButtonsCell: UITableViewCell {
     private lazy var recentsLabel: UILabel = {
         let label = UILabel()
         label.text = "Recents"
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

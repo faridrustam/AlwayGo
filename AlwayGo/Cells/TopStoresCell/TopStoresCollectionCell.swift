@@ -17,7 +17,7 @@ class TopStoresCollectionCell: UICollectionViewCell {
     private lazy var topStoresLabel: UILabel = {
         let label = UILabel()
         label.text = "Top Stores"
-        label.font = UIFont(name: "SFProText-Medium", size: 20)
+        label.font = .customFont(.sfProMedium, size: 20)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -49,7 +49,7 @@ class TopStoresCollectionCell: UICollectionViewCell {
         collection.delegate = self
         collection.dataSource = self
         collection.register(TopStoresCell.self, forCellWithReuseIdentifier: "\(TopStoresCell.self)")
-        [topStoresLabel, collection].forEach({ contentView.addSubview($0) })
+        contentView.addSubViews(topStoresLabel, collection)
     }
     
     private func configureConstraints() {

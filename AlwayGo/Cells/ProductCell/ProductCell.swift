@@ -10,7 +10,7 @@ import UIKit
 class ProductCell: UITableViewCell {
     private lazy var cellLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Medium", size: 16)
+        label.font = .customFont(.sfProMedium, size: 16)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -25,7 +25,7 @@ class ProductCell: UITableViewCell {
     
     private lazy var cellInfoLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Regular", size: 16)
+        label.font = .customFont(.sfProRegular, size: 16)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

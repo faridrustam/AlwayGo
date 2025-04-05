@@ -30,7 +30,7 @@ class ClothesCell: UICollectionViewCell {
        let label = UILabel()
         label.text = "Miss Murem Kruvuaze Baglamali Hirka"
         print(label.text?.count ?? 1)
-        label.font = UIFont(name: "SFProText-Regular", size: 14)
+        label.font = .customFont(.sfProRegular, size: 14)
         var mutableString = NSMutableAttributedString(string: label.text ?? "")
         mutableString.addAttribute(.foregroundColor,
                                    value: UIColor.gray,
@@ -45,7 +45,7 @@ class ClothesCell: UICollectionViewCell {
     private lazy var clothPrice: UILabel = {
         let label = UILabel()
         label.text = "35.69 ₼"
-        label.font = UIFont(name: "SFProText-Heavy", size: 14)
+        label.font = .customFont(.sfProHeavy, size: 14)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -78,7 +78,7 @@ class ClothesCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        [clothImage, clothName, clothPrice, buttonView].forEach({ cellView.addSubview($0) })
+        cellView.addSubViews(clothImage, clothName, clothPrice, buttonView)
         contentView.addSubview(cellView)
         buttonView.addSubview(heartButton)
     }

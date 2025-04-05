@@ -19,7 +19,7 @@ class FavoritesCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Technoaze"
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
-        label.font = UIFont(name: "SFProText-Medium", size: 16)
+        label.font = .customFont(.sfProMedium, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,7 +27,7 @@ class FavoritesCell: UICollectionViewCell {
     private lazy var productName: UILabel = {
         let label = UILabel()
         label.text = "Asus VivoBook 15 X 1504ZA-Nj547Wi5-1235U 8 Gb 512 Gb 15.6” W11H Laptop"
-        label.font = UIFont(name: "SFProText-Medium", size: 12)
+        label.font = .customFont(.sfProMedium, size: 12)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ class FavoritesCell: UICollectionViewCell {
     private lazy var productShipping: UILabel = {
         let label = UILabel()
         label.text = "Free shipping"
-        label.font = UIFont(name: "SFProText-Regular", size: 12)
+        label.font = .customFont(.sfProRegular, size: 12)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -53,7 +53,7 @@ class FavoritesCell: UICollectionViewCell {
     private lazy var productPrice: UILabel = {
         let label = UILabel()
         label.text = "1579 ₼"
-        label.font = UIFont(name: "SFProText-Semibold", size: 16)
+        label.font = .customFont(.sfProSemibold, size: 16)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -76,7 +76,7 @@ class FavoritesCell: UICollectionViewCell {
         button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.87), for: .normal)
         button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight: .forceRightToLeft
         button.setImage(UIImage(named: "DownButton"), for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -87,7 +87,7 @@ class FavoritesCell: UICollectionViewCell {
         button.layer.borderWidth = 0.5
         button.layer.cornerRadius = 8
         button.setTitle("Add to cart", for: .normal)
-        button.titleLabel?.font = UIFont(name: "SFProText-Semibold", size: 16)
+        button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -106,8 +106,8 @@ class FavoritesCell: UICollectionViewCell {
     private func configureUI() {
 
         contentView.backgroundColor = .white
-        [productImage, productCompany, productName, ratingImage, productShipping, productPrice, buttonStack].forEach({ contentView.addSubview($0) })
-        [sizeButton, addToCartButton].forEach({ buttonStack.addArrangedSubview($0) })
+        contentView.addSubViews(productImage, productCompany, productName, ratingImage, productShipping, productPrice, buttonStack)
+        buttonStack.addArrangedSubViews(sizeButton, addToCartButton)
     }
     
     private func configureConstraints() {

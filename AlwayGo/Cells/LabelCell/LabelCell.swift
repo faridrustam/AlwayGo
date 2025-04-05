@@ -11,7 +11,7 @@ class LabelCell: UICollectionViewCell {
     
     private lazy var typeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "SFProText-Medium", size: 20)
+        label.font = .customFont(.sfProMedium, size: 20)
         label.textColor = .black
         label.text = "DISCOVER"
         label.translatesAutoresizingMaskIntoConstraints = false
