@@ -66,8 +66,8 @@ extension CategoryDetailController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let coordinator = CategoryProductCoordinator(navigationController: navigationController ?? UINavigationController(), title: viewModel.cells[indexPath.row])
-        coordinator.start()
+        let coordinator = CategoryFlowCoordinator(navigationController: navigationController ?? UINavigationController() , title: viewModel.cells[indexPath.row])
+        coordinator.showProduct()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

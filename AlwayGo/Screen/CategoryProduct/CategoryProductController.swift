@@ -45,6 +45,7 @@ class CategoryProductController: BaseController {
         navigationController?.navigationBar.backIndicatorImage = backButton
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton
         navigationController?.navigationBar.topItem?.title = ""
+        configureButtons()
     }
     
     override func configureConstraints() {
@@ -60,6 +61,15 @@ class CategoryProductController: BaseController {
             collection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    private func configureButtons() {
+        productHeaderView.filterButtonHandle = { [weak self] in
+            guard let self else { return }
+            let coordinator = CategoryFlowCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                        title: nil)
+            coordinator.showFilter()
+        }
     }
 }
 

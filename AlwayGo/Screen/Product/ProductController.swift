@@ -31,16 +31,7 @@ class ProductController: BaseController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    private lazy var priceLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Price:"
-        label.textColor = .black
-        label.font = .customFont(.sfProRegular, size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+        
     private lazy var productPrice: UILabel = {
         let label = UILabel()
         label.text = "$149.00"
@@ -50,13 +41,31 @@ class ProductController: BaseController {
         return label
     }()
     
-    private lazy var addToCartButton: UIButton = {
+    private lazy var shippingLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Free shipping"
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        label.font = .customFont(.sfProRegular, size: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var checkoutButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Add to Cart", for: .normal)
+        button.setTitle("Checkout", for: .normal)
+        button.layer.cornerRadius = 8
+        button.backgroundColor = UIColor(red: 169/255, green: 184/255, blue: 202/255, alpha: 1)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var addBagButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Add bag", for: .normal)
         button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
         button.backgroundColor = .app
         button.layer.borderWidth = 0.2
-        button.layer.cornerRadius = 31
+        button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -75,7 +84,7 @@ class ProductController: BaseController {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton
         view.backgroundColor = .white
         view.addSubViews(table, bottomView)
-        bottomView.addSubViews(priceLabel, productPrice, addToCartButton)
+        bottomView.addSubViews(productPrice, shippingLabel, checkoutButton, addBagButton)
         
     }
     
@@ -86,20 +95,26 @@ class ProductController: BaseController {
             table.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             table.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -20),
             
-            priceLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
-            priceLabel.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -20),
+            productPrice.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
+            productPrice.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: 20),
             
-            productPrice.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor),
-            productPrice.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 16),
+            shippingLabel.leadingAnchor.constraint(equalTo: productPrice.leadingAnchor),
+            shippingLabel.topAnchor.constraint(equalTo: productPrice.bottomAnchor, constant: 4),
             
-            addToCartButton.widthAnchor.constraint(equalToConstant: 177),
-            addToCartButton.heightAnchor.constraint(equalToConstant: 56),
-            addToCartButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
-            addToCartButton.centerYAnchor.constraint(equalTo: productPrice.centerYAnchor),
+            checkoutButton.widthAnchor.constraint(equalToConstant: 124),
+            checkoutButton.heightAnchor.constraint(equalToConstant: 48),
+            checkoutButton.leadingAnchor.constraint(equalTo: shippingLabel.trailingAnchor, constant: 16),
+            checkoutButton.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: 20),
+            
+            addBagButton.widthAnchor.constraint(equalToConstant: 140),
+            addBagButton.heightAnchor.constraint(equalToConstant: 48),
+            addBagButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
+            addBagButton.centerYAnchor.constraint(equalTo: checkoutButton.centerYAnchor),
+            
             
             bottomView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            bottomView.heightAnchor.constraint(equalToConstant: 78),
+            bottomView.heightAnchor.constraint(equalToConstant: 66),
             bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }

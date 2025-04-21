@@ -22,7 +22,7 @@ class TabBarController: UITabBarController {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.stackedLayoutAppearance.normal.iconColor = .darkGray
         tabBar.standardAppearance = tabBarAppearance
-        
+       
         let firstVC = UINavigationController(rootViewController: HomeController())
         let secondVC = UINavigationController(rootViewController: CategoriesController())
         let thirdVC = UINavigationController(rootViewController: CartController())

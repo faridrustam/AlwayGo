@@ -51,7 +51,7 @@ class ClothesCell: UICollectionViewCell {
         return label
     }()
     
-    private let buttonView: UIView = {
+    private let heartView: UIView = {
         let view = UIButton()
         view.backgroundColor = .white
         view.layer.cornerRadius = 12
@@ -62,6 +62,22 @@ class ClothesCell: UICollectionViewCell {
     private lazy var heartButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "heartButton"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var bagView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var bagButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "bag"), for: .normal)
+        button.imageView?.tintColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -78,9 +94,10 @@ class ClothesCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        cellView.addSubViews(clothImage, clothName, clothPrice, buttonView)
+        cellView.addSubViews(clothImage, clothName, clothPrice, heartView, bagView)
         contentView.addSubview(cellView)
-        buttonView.addSubview(heartButton)
+        heartView.addSubview(heartButton)
+        bagView.addSubview(bagButton)
     }
     
     private func configureConstraints() {
@@ -102,15 +119,25 @@ class ClothesCell: UICollectionViewCell {
             clothPrice.topAnchor.constraint(equalTo: clothName.bottomAnchor, constant: 4),
             clothPrice.leadingAnchor.constraint(equalTo: clothName.leadingAnchor),
             
-            buttonView.widthAnchor.constraint(equalToConstant: 24),
-            buttonView.heightAnchor.constraint(equalToConstant: 24),
-            buttonView.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 8),
-            buttonView.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -8),
+            heartView.widthAnchor.constraint(equalToConstant: 24),
+            heartView.heightAnchor.constraint(equalToConstant: 24),
+            heartView.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 8),
+            heartView.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -8),
             
             heartButton.widthAnchor.constraint(equalToConstant: 14.4),
             heartButton.heightAnchor.constraint(equalToConstant: 14.4),
-            heartButton.centerXAnchor.constraint(equalTo: buttonView.centerXAnchor),
-            heartButton.centerYAnchor.constraint(equalTo: buttonView.centerYAnchor)
+            heartButton.centerXAnchor.constraint(equalTo: heartView.centerXAnchor),
+            heartButton.centerYAnchor.constraint(equalTo: heartView.centerYAnchor),
+            
+            bagView.widthAnchor.constraint(equalToConstant: 24),
+            bagView.heightAnchor.constraint(equalToConstant: 24),
+            bagView.trailingAnchor.constraint(equalTo: heartView.trailingAnchor),
+            bagView.bottomAnchor.constraint(equalTo: clothImage.bottomAnchor, constant: -8),
+            
+            bagButton.widthAnchor.constraint(equalToConstant: 14.4),
+            bagButton.heightAnchor.constraint(equalToConstant: 14.4),
+            bagButton.centerXAnchor.constraint(equalTo: bagView.centerXAnchor),
+            bagButton.centerYAnchor.constraint(equalTo: bagView.centerYAnchor),
         ])
     }
 }

@@ -8,6 +8,8 @@
 import UIKit
 
 class LogInController: BaseController {
+    let viewModel = LogInViewModel()
+    
     var isTermsButtonSelected = false
     
     private lazy var logInLabel: UILabel = {
@@ -86,7 +88,7 @@ class LogInController: BaseController {
         button.backgroundColor = .app
         button.layer.borderWidth = 0.1
         button.layer.cornerRadius = 25
-        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -258,7 +260,12 @@ class LogInController: BaseController {
     }
     
     override func configureviewModel() {
-        print("")
+        viewModel.success = {
+            print("Success")
+        }
+        viewModel.errorMessage = { error in 
+            print("Error happened. \(error)")
+        }
     }
     
     @objc func hidePasswordButtonTapped(_ sender: UIButton) {
@@ -274,14 +281,16 @@ class LogInController: BaseController {
     }
     
     @objc func signUpButtonTapped() {
-        print("sign up button tapped")
+        let controller = SignUpController()
+        navigationController?.show(controller, sender: nil)
     }
     
-    @objc func signInButtonTapped() {
-        print("sign in button tapped")
+    @objc func loginButtonTapped() {
+        viewModel.getLoginData(with: usernameField.text ?? "", and: passwordField.text ?? "")
     }
     
     @objc func forgotPasswordButtonTapped() {
-        print("forget password tapped")
+        let coordinator = LogInCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.start()
     }
 }

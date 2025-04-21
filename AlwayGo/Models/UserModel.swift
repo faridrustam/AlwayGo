@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct User: Codable {
-    let id, name, surname, phone: String?
-    let username, email: String?
-    let enabled: Bool?
-    let role: String?
-}
+//struct User: Codable {
+//    let id, name, surname, phone: String?
+//    let username, email: String?
+//    let enabled: Bool?
+//    let role: String?
+//}
