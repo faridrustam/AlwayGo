@@ -8,6 +8,8 @@
 import UIKit
 
 class CategoryProductHeader: UIView {
+    var filterButtonHandle: (() -> Void)?
+    
     private lazy var sortButton: UIButton = {
         let button = UIButton()
         button.setTitle("Sort", for: .normal)
@@ -33,6 +35,7 @@ class CategoryProductHeader: UIView {
         button.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
         button.imageView?.tintColor = .black
         button.imageEdgeInsets = .init(top: 0, left: -8, bottom: 0, right: 0)
+        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -46,6 +49,10 @@ class CategoryProductHeader: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func filterButtonTapped() {
+        filterButtonHandle?()
     }
     
     private func configureUI() {

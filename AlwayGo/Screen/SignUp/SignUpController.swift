@@ -10,6 +10,8 @@ import UIKit
 class SignUpController: BaseController {
     var isTermsButtonSelected = false
     
+    let viewModel = SignUpViewModel()
+    
     private lazy var signUpLabel: UILabel = {
         let label = UILabel()
         label.text = "Sign Up"
@@ -257,6 +259,10 @@ class SignUpController: BaseController {
         if termsButton.isSelected {
             
         }
+        viewModel.getRegisterData(firstName: usernameField.text ?? "",
+                                  lastName: "test",
+                                  email: emailField.text ?? "",
+                                  password: passwordField.text ?? "")
     }
     
     override func configureUI() {
@@ -331,6 +337,11 @@ class SignUpController: BaseController {
     }
     
     override func configureviewModel() {
-        print("")
+        viewModel.success = {
+            print("Success")
+        }
+        viewModel.errorMessage = { error in
+            print("Error happened. \(error)")
+        }
     }
 }

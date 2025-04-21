@@ -22,7 +22,7 @@ final class AppCoordinator: Coordinator {
     }
     
     private func tabBarRoot() {
-        let controller = TabBarController()
+        let controller = UINavigationController(rootViewController: LogInController())
         window?.rootViewController = controller
         window?.makeKeyAndVisible()
     }

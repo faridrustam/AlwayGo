@@ -10,16 +10,13 @@ import Foundation
 
 final class LogInCoordinator: Coordinator {
     var navigationController: UINavigationController
-    var window: UIWindow?
     
-    init(navigationController: UINavigationController, window: UIWindow?) {
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        self.window = window
     }
     
     func start() {
-        let controller = LogInController()
-        window?.rootViewController = controller
-        window?.makeKeyAndVisible()
+        let controller = ResetPasswordController()
+        navigationController.show(controller, sender: nil)
     }
 }

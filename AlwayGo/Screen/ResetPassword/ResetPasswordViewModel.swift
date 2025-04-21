@@ -1,24 +1,24 @@
 //
-//  LoginViewModel.swift
+//  ResetPasswordViewModel.swift
 //  AlwayGo
 //
-//  Created by Mac on 12.03.25.
+//  Created by Mac on 21.04.25.
 //
 
 import Foundation
 
-class LogInViewModel {
-    let loginManager = LoginManager()
-    var model: LoginModel?
+class ResetPasswordViewModel {
+    let manager = ResetPasswordManager()
+    var model: ForgetPasswordModel?
     var success: (() -> Void)?
     var errorMessage: ((String) -> Void)?
     
-    func getLoginData(with email: String, and password: String) {
+    func getForgetPasswordData(with email: String) {
         let params: [String: Any] = [
-            "email": email,
-            "password": password
+            "email": email
         ]
-        loginManager.getRegisterData(params: params, model: LoginModel.self) { [weak self] data, error in
+        
+        manager.getRegisterData(params: params, model: ForgetPasswordModel.self) { [weak self] data, error in
             guard let self else { return }
             if let data {
                 model = data

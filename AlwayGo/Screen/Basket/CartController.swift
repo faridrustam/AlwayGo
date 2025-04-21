@@ -21,7 +21,6 @@ class CartController: BaseController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -66,7 +66,7 @@ extension CategoriesController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let coordinator = CategoryDetailCoordinator(navigationController: navigationController ?? UINavigationController(),
+        let coordinator = CategoryFlowCoordinator(navigationController: navigationController ?? UINavigationController(),
                                                     title: viewModel.cellData[indexPath.row])
         coordinator.start()
     }
