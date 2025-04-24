@@ -23,7 +23,7 @@ class ResetPasswordController: BaseController {
         let label = UILabel()
         label.text = "Enter the mail address you used when you joined and we’ll send you instructions to reset your password."
         label.numberOfLines = 3
-        label.textColor = .black
+        label.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 60)
         label.font = .customFont(.sfProRegular, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -88,11 +88,23 @@ class ResetPasswordController: BaseController {
     }()
     
     @objc func resetPasswordButtonTapped() {
-        viewModel.getForgetPasswordData(with: emailField.text ?? "")
+        if let text = emailField.text, !text.isEmpty, isValidEmailComplex(text) {
+            viewModel.getForgetPasswordData(with: text)
+            let coordinator = LogInCoordinator(navigationController: navigationController ?? UINavigationController())
+            coordinator.showSetNewPassword()
+        } else {
+            showAlert()
+        }
     }
     
     @objc func loginButtonTapped() {
         
+    }
+    
+    private func isValidEmailComplex(_ email: String) -> Bool {
+        let emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,64}$"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES[c] %@", emailRegex)
+        return emailPredicate.evaluate(with: email)
     }
     
     override func viewDidLoad() {

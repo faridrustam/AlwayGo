@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum EncodingType {
+    case url
+    case json
+}
+
 class NetworkHelper {
     static let shared = NetworkHelper()
     private let baseURL = "https://eccomerce-mongoose.vercel.app/api"

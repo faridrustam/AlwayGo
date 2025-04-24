@@ -19,4 +19,9 @@ final class LogInCoordinator: Coordinator {
         let controller = ResetPasswordController()
         navigationController.show(controller, sender: nil)
     }
+    
+    func showSetNewPassword() {
+        let controller = SetNewPasswordController()
+        navigationController.show(controller, sender: nil)
+    }
 }

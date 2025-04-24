@@ -6,12 +6,9 @@
 //
 
 import UIKit
+import CoreML
 
 class LogInController: BaseController {
-    let viewModel = LogInViewModel()
-    
-    var isTermsButtonSelected = false
-    
     private lazy var logInLabel: UILabel = {
         let label = UILabel()
         label.text = "Log in"
@@ -47,6 +44,8 @@ class LogInController: BaseController {
     private lazy var passwordField: UITextField = {
         let field = UITextField()
         field.placeholder = "Password"
+        field.rightView = hidePasswordButton
+        field.rightViewMode = .always
         field.borderStyle = .none
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
@@ -192,15 +191,30 @@ class LogInController: BaseController {
         return image
     }()
     
+    let viewModel = LogInViewModel()
+    var isTermsButtonSelected = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func configureUI() {
         view.backgroundColor = .systemBackground
-        view.addSubViews(logInLabel, textFieldsStack, forgotLabel, logInButton, signUpButtonStack, alreadyLabel, signUpButton, triangleImage, littleTriangleImage, leftOrView, orLabel, rightOrView)
+        view.addSubViews(
+            logInLabel,
+            textFieldsStack,
+            forgotLabel,
+            logInButton,
+            signUpButtonStack,
+            alreadyLabel,
+            signUpButton,
+            triangleImage,
+            littleTriangleImage,
+            leftOrView,
+            orLabel,
+            rightOrView
+        )
         textFieldsStack.addArrangedSubViews(usernameField, usernameView, passwordField, passwordView)
-        passwordField.addSubview(hidePasswordButton)
         signUpButtonStack.addArrangedSubViews(facebookButton, googleButton, appleButton)
     }
     
@@ -213,9 +227,6 @@ class LogInController: BaseController {
             textFieldsStack.leadingAnchor.constraint(equalTo: logInLabel.leadingAnchor),
             textFieldsStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             
-            hidePasswordButton.widthAnchor.constraint(equalToConstant: 24),
-            hidePasswordButton.heightAnchor.constraint(equalToConstant: 24),
-            hidePasswordButton.trailingAnchor.constraint(equalTo: passwordField.trailingAnchor, constant: 0),
             hidePasswordButton.centerYAnchor.constraint(equalTo: passwordField.centerYAnchor),
             
             forgotLabel.topAnchor.constraint(equalTo: textFieldsStack.bottomAnchor, constant: 12),
@@ -260,11 +271,20 @@ class LogInController: BaseController {
     }
     
     override func configureviewModel() {
-        viewModel.success = {
+        viewModel.success = { [weak self] in
+            guard let self else { return }
             print("Success")
+            UserDefaultsManager.shared.setValue(true, and: .isLoggedIn)            
+            let controller = TabBarController()
+            guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene, let sceneDelegate = window.delegate as? SceneDelegate else { return }
+            sceneDelegate.window?.rootViewController = controller
         }
-        viewModel.errorMessage = { error in 
-            print("Error happened. \(error)")
+        viewModel.errorMessage = { [weak self] error in
+            guard let self else { return }
+            print("Error happened: \(error)")
+            usernameView.backgroundColor = .red
+            passwordView.backgroundColor = .red
+            hidePasswordButton.tintColor = .red
         }
     }
     
@@ -286,7 +306,12 @@ class LogInController: BaseController {
     }
     
     @objc func loginButtonTapped() {
-        viewModel.getLoginData(with: usernameField.text ?? "", and: passwordField.text ?? "")
+        if let userText = usernameField.text, !userText.isEmpty,
+           let passwordText = passwordField.text, !passwordText.isEmpty {
+            viewModel.getLoginData(with: userText, and: passwordText)
+//            UserDefaultsManager.shared.handle()
+//            UserDefaultsManager().handle()
+        }
     }
     
     @objc func forgotPasswordButtonTapped() {
