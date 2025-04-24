@@ -33,7 +33,7 @@ class AppExclusiveCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             backImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             backImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-            ])
+        ])
     }
     
     func configure() {

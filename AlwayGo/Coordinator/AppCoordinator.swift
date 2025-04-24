@@ -22,8 +22,14 @@ final class AppCoordinator: Coordinator {
     }
     
     private func tabBarRoot() {
-        let controller = UINavigationController(rootViewController: LogInController())
-        window?.rootViewController = controller
-        window?.makeKeyAndVisible()
+        if UserDefaultsManager.shared.getValue(for: .isLoggedIn) {
+            let controller = TabBarController()
+            window?.rootViewController = controller
+            window?.makeKeyAndVisible()
+        } else {
+            let controller = UINavigationController(rootViewController: LogInController())
+            window?.rootViewController = controller
+            window?.makeKeyAndVisible()
+        }
     }
 }
