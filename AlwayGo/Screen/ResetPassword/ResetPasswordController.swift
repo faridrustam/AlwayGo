@@ -90,8 +90,6 @@ class ResetPasswordController: BaseController {
     @objc func resetPasswordButtonTapped() {
         if let text = emailField.text, !text.isEmpty, isValidEmailComplex(text) {
             viewModel.getForgetPasswordData(with: text)
-            let coordinator = LogInCoordinator(navigationController: navigationController ?? UINavigationController())
-            coordinator.showSetNewPassword()
         } else {
             showAlert()
         }

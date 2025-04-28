@@ -47,6 +47,7 @@ class LogInController: BaseController {
         field.rightView = hidePasswordButton
         field.rightViewMode = .always
         field.borderStyle = .none
+        field.isSecureTextEntry = true
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -59,7 +60,7 @@ class LogInController: BaseController {
     
     private lazy var hidePasswordButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "eye"), for: .normal)
+        button.setImage(UIImage(named: "eye.slash"), for: .normal)
         button.imageView?.image?.withRenderingMode(.alwaysTemplate)
         button.tintColor = .gray
         button.addTarget(self, action: #selector(hidePasswordButtonTapped), for: .touchUpInside)
@@ -227,8 +228,6 @@ class LogInController: BaseController {
             textFieldsStack.leadingAnchor.constraint(equalTo: logInLabel.leadingAnchor),
             textFieldsStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             
-            hidePasswordButton.centerYAnchor.constraint(equalTo: passwordField.centerYAnchor),
-            
             forgotLabel.topAnchor.constraint(equalTo: textFieldsStack.bottomAnchor, constant: 12),
             forgotLabel.trailingAnchor.constraint(equalTo: textFieldsStack.trailingAnchor),
             forgotLabel.widthAnchor.constraint(equalToConstant: 125),
@@ -274,18 +273,27 @@ class LogInController: BaseController {
         viewModel.success = { [weak self] in
             guard let self else { return }
             print("Success")
-            UserDefaultsManager.shared.setValue(true, and: .isLoggedIn)            
-            let controller = TabBarController()
-            guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene, let sceneDelegate = window.delegate as? SceneDelegate else { return }
-            sceneDelegate.window?.rootViewController = controller
+            handleSuccessCase()
         }
         viewModel.errorMessage = { [weak self] error in
             guard let self else { return }
             print("Error happened: \(error)")
-            usernameView.backgroundColor = .red
-            passwordView.backgroundColor = .red
-            hidePasswordButton.tintColor = .red
+            handleErrorCase()
         }
+    }
+    
+    private func handleSuccessCase() {
+        UserDefaultsManager.shared.setValue(true, and: .isLoggedIn)
+        let controller = TabBarController()
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = window.delegate as? SceneDelegate else { return }
+        sceneDelegate.window?.rootViewController = controller
+    }
+    
+    private func handleErrorCase() {
+        usernameView.backgroundColor = .red
+        passwordView.backgroundColor = .red
+        hidePasswordButton.tintColor = .red
     }
     
     @objc func hidePasswordButtonTapped(_ sender: UIButton) {
@@ -309,8 +317,6 @@ class LogInController: BaseController {
         if let userText = usernameField.text, !userText.isEmpty,
            let passwordText = passwordField.text, !passwordText.isEmpty {
             viewModel.getLoginData(with: userText, and: passwordText)
-//            UserDefaultsManager.shared.handle()
-//            UserDefaultsManager().handle()
         }
     }
     

@@ -261,11 +261,14 @@ class SignUpController: BaseController {
         if termsButton.isSelected {
             
         }
-        if isValidEmailComplex(emailField.text ?? "") && isValidPassword(passwordField.text ?? "") {
-            viewModel.getRegisterData(firstName: usernameField.text ?? "",
+        guard let usernameText = usernameField.text,
+              let emailText = emailField.text,
+              let passwordText = passwordField.text else { return }
+        if isValidEmailComplex(emailText) && isValidPassword(passwordText) {
+            viewModel.getRegisterData(firstName: usernameText,
                                       lastName: "test",
-                                      email: emailField.text ?? "",
-                                      password: passwordField.text ?? "")
+                                      email: emailText,
+                                      password: passwordText)
         } else {
             showAlert()
         }
