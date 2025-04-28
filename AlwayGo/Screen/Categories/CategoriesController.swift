@@ -8,12 +8,14 @@
 import UIKit
 
 class CategoriesController: BaseController {
-    private lazy var searchController: UISearchController = {
-        let search = UISearchController()
-        search.searchBar.delegate = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchResultsUpdater = self
-        search.searchBar.isHidden = true
+    private lazy var searchController: UISearchBar = {
+        let search = UISearchBar()
+        search.delegate = self
+        search.backgroundImage = UIImage()
+//        search.obscuresBackgroundDuringPresentation = false
+//        search.searchResultsUpdater = self
+//        search.isHidden = true
+        search.translatesAutoresizingMaskIntoConstraints = false
         return search
     }()
     
@@ -31,14 +33,6 @@ class CategoriesController: BaseController {
         loadingView.tintColor = .blue
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         return loadingView
-    }()
-    
-    private lazy var button: UIButton = {
-        let button = UIButton()
-        button.setTitle("Tap Me", for: .normal)
-        button.backgroundColor = .systemBlue
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
     }()
     
     let viewModel = CategoriesViewModel()
@@ -105,23 +99,23 @@ class CategoriesController: BaseController {
     
     @objc func magnifierButtonTapped(_ sender: UIButton) {
         collectionTopAnchor?.isActive = false
-        collectionTopAnchor = collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60)
+        collectionTopAnchor = collection.topAnchor.constraint(equalTo: searchController.bottomAnchor, constant: 16)
         if !sender.isSelected {
             navigationItem.rightBarButtonItem?.tintColor = .clear
             UIView.animate(withDuration: 0.5) { [weak self] in
                 guard let self else { return }
-                view.addSubview(button)
+                view.addSubview(searchController)
                 collectionTopAnchor?.isActive = true
-                button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
-                button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-                button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+                searchController.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+                searchController.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
+                searchController.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
                 view.layoutIfNeeded()
             }
         } else {
             collectionTopAnchor = collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
             UIView.animate(withDuration: 0.5) { [weak self] in
                 guard let self else { return }
-                button.removeFromSuperview()
+                searchController.removeFromSuperview()
                 collectionTopAnchor?.isActive = true
                 view.layoutIfNeeded()
             }
@@ -157,6 +151,15 @@ extension CategoriesController: UICollectionViewDelegate, UICollectionViewDataSo
 
 extension CategoriesController: UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        
+        print("")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if !searchText.isEmpty {
+            viewModel.categoryModel = viewModel.allCategories.filter { $0.name?.lowercased().contains(searchText.lowercased()) ?? false }
+        } else {
+            viewModel.categoryModel = viewModel.allCategories
+        }        
+        collection.reloadData()
     }
 }

@@ -25,7 +25,8 @@ class CategoriesViewModel {
                       "SocksAndUnderwearPhoto",
                       "AccessoriesPhoto"]
     let manager = CategoriesManager()
-    private(set) var categoryModel = [CategoryModel]()
+    var categoryModel = [CategoryModel]()
+    var allCategories = [CategoryModel]()
     var sendState: ((ViewState) -> Void)?
     
     var state: ViewState = .idle {
@@ -40,6 +41,7 @@ class CategoriesViewModel {
             guard let self else { return }
             if let data {
                 categoryModel = data
+                allCategories = data
                 print(categoryModel)
                 state = .loaded
                 state = .success
