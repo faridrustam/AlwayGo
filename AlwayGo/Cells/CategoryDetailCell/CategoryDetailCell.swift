@@ -71,7 +71,7 @@ class CategoryDetailCell: UITableViewCell {
         }
     }
     
-    func configureCell(with text: String) {
-        titleLabel.text = text
+    func configureCell(with data: CategoryNames) {
+        titleLabel.text = data.categoryName
     }
 }

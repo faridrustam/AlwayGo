@@ -9,4 +9,5 @@ import Foundation
 
 class CategoryDetailViewModel {
     let cells = ["All woman", "New in", "Clothing", "Shoes", "Bag", "Accessories"]
+    var categoryModel = [CategoryModel]()
 }

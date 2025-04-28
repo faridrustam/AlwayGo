@@ -10,7 +10,7 @@ import UIKit
 class CategoryControllerCell: UICollectionViewCell {
     private lazy var cellImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "CategoryImage")
+//        image.image = UIImage(named: "AccessoriesPhoto")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -35,9 +35,6 @@ class CategoryControllerCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        if cellLabel.text == "Sale" {
-            cellLabel.textColor = .red
-        }
         contentView.addSubViews(cellImage, cellLabel)
     }
     
@@ -53,8 +50,8 @@ class CategoryControllerCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(name: String) {
-        cellLabel.text = name
-        configureUI()
+    func configureCell(with data: CategoryNames, and imageName: String) {
+        cellLabel.text = data.categoryName
+        cellImage.image = UIImage(named: imageName)
     }
 }

@@ -51,30 +51,31 @@ class CategoryDetailController: BaseController {
             table.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+    
+    override func configureviewModel() {
+//        UIVisualEffectView
+    }
 }
 
 extension CategoryDetailController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.cells.count
+        return viewModel.categoryModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "\(CategoryDetailCell.self)") as! CategoryDetailCell
-        cell.configureCell(with: viewModel.cells[indexPath.row])
+        cell.configureCell(with: viewModel.categoryModel[indexPath.row])
         cell.hideButtons(with: indexPath.row)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let coordinator = CategoryFlowCoordinator(navigationController: navigationController ?? UINavigationController() , title: viewModel.cells[indexPath.row])
+        let coordinator = CategoryFlowCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                  title: viewModel.cells[indexPath.row])
         coordinator.showProduct()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
-}
-
-#Preview {
-    CategoryDetailController()
 }

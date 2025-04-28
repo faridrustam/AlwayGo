@@ -11,6 +11,7 @@ import Foundation
 class CategoryFlowCoordinator: Coordinator {
     var navigationController: UINavigationController
     let title: String?
+    var categoryModel = [CategoryModel]()
     
     init(navigationController: UINavigationController, title: String?) {
         self.navigationController = navigationController
@@ -20,6 +21,7 @@ class CategoryFlowCoordinator: Coordinator {
     func start() {
         let controller = CategoryDetailController()
         controller.title = "\(title ?? "") / Categories"
+        controller.viewModel.categoryModel = categoryModel
         navigationController.show(controller, sender: nil)
     }
     

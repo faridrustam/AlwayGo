@@ -9,6 +9,9 @@ import Foundation
 import Alamofire
 
 class NetworkManager {
+    static let shared = NetworkManager()
+    private init() {}
+    
     func sendRequest<T: Codable>(url: String,
                                  method: HTTPMethod = .get,
                                  encoding: EncodingType = .url,
