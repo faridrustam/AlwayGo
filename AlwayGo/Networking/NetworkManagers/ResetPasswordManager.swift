@@ -11,7 +11,7 @@ struct ForgetPasswordModel: Codable {
     let message: String?
 }
 
-class ResetPasswordManager: AuthenticationManagerUseCase {
+final class ResetPasswordManager: AuthenticationManagerUseCase {
     func getRegisterData<T: Codable>(params: [String: Any], model: T.Type, completion: @escaping (T?, String?) -> Void) {
         let url = NetworkHelper.shared.configureURL(with: "/forget_password")
         NetworkManager.shared.sendRequest(url: url, method: .post, encoding: .json, params: params, model: model.self, completion: completion)

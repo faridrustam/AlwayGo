@@ -6,10 +6,9 @@
 //
 
 import UIKit
+import StoreKit
 
 class ProfileController: BaseController {
-    let viewModel = ProfileViewModel()
-    
     private lazy var profileView: ProfileUserView = {
         let view = ProfileUserView(frame: .init(x: 0, y: 0, width: 370, height: 220))
         view.layer.cornerRadius = 8
@@ -30,6 +29,8 @@ class ProfileController: BaseController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
+    
+    private let viewModel = ProfileViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,8 +115,27 @@ extension ProfileController: UITableViewDelegate, UITableViewDataSource {
             return 56
         }
     }
-}
-
-#Preview {
-    ProfileController()
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = viewModel.model[indexPath.section]
+        let cellType = section.cell
+        
+        switch cellType {
+        case .buttons:
+            break
+        case .sections(type: .signOut):
+            UserDefaultsManager.shared.setValue(false, and: .isLoggedIn)
+            let controller = LogInController()
+            if let window = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let sceneDelegate = window.delegate as? SceneDelegate {
+                sceneDelegate.window?.rootViewController = controller
+            }
+        case .sections(type: .gift):
+            if let scene = view.window?.windowScene {
+                AppStore.requestReview(in: scene)
+            }
+        default:
+            break
+        }
+    }
 }

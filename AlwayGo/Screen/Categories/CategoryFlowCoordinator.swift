@@ -19,9 +19,9 @@ class CategoryFlowCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = CategoryDetailController()
+        let controller = CategoryDetailController(viewModel: .init(categoryModel: categoryModel,
+                                                                   allCategories: categoryModel))
         controller.title = "\(title ?? "") / Categories"
-        controller.viewModel.categoryModel = categoryModel
         navigationController.show(controller, sender: nil)
     }
     

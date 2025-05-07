@@ -18,7 +18,7 @@ class ProfileUserView: UIView {
     
     private lazy var userInitialLetters: UILabel = {
         let label = UILabel()
-        label.text = "GI"
+        label.text = userName.first?.uppercased()
         label.font = .customFont(.sfProSemibold, size: 22)
         label.textColor = .app
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +27,7 @@ class ProfileUserView: UIView {
     
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Hi, Gulta"
+        label.text = "Hi, \(userName)"
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.font = .customFont(.sfProSemibold, size: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ class ProfileUserView: UIView {
     
     private lazy var userEmailLabel: UILabel = {
         let label = UILabel()
-        label.text = "psjshdh@privaterelay.appleid.com"
+        label.text = UserDefaultsManager.shared.getString(for: .email)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.font = .customFont(.sfProRegular, size: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -85,6 +85,8 @@ class ProfileUserView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private let userName = UserDefaultsManager.shared.getString(for: .username)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -148,4 +150,5 @@ class ProfileUserView: UIView {
             addNumberButton.bottomAnchor.constraint(equalTo: addNumberView.bottomAnchor, constant: -16)
         ])
     }
+
 }

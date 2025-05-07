@@ -34,6 +34,9 @@ class SignUpController: BaseController {
         let field = UITextField()
         field.placeholder = "Username"
         field.borderStyle = .none
+        field.returnKeyType = .next
+        field.tag = 1
+        field.delegate = self
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -48,6 +51,9 @@ class SignUpController: BaseController {
         let field = UITextField()
         field.placeholder = "Email"
         field.borderStyle = .none
+        field.returnKeyType = .next
+        field.tag = 2
+        field.delegate = self
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -64,6 +70,9 @@ class SignUpController: BaseController {
         field.borderStyle = .none
         field.rightView = hidePasswordButton
         field.rightViewMode = .always
+        field.returnKeyType = .done
+        field.tag = 3
+        field.delegate = self
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -266,7 +275,7 @@ class SignUpController: BaseController {
               let passwordText = passwordField.text else { return }
         if isValidEmailComplex(emailText) && isValidPassword(passwordText) {
             viewModel.getRegisterData(firstName: usernameText,
-                                      lastName: "test",
+                                      lastName: "testtt",
                                       email: emailText,
                                       password: passwordText)
         } else {
@@ -291,6 +300,16 @@ class SignUpController: BaseController {
         view.addSubViews(signUpLabel, textFieldsStack, conditionLabel, termsButton, termsLabel, createAccountButton, signUpButtonStack, alreadyLabel, loginButton, leftOrView, orLabel, rightOrView, triangleImage, littleTriangleImage)
         textFieldsStack.addArrangedSubViews(usernameField, usernameView, emailField, emailView, passwordField, passwordView)
         signUpButtonStack.addArrangedSubViews(facebookButton, googleButton, appleButton)
+        let dismissKeyboard = UIGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(dismissKeyboard)
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     override func configureConstraints() {
@@ -358,5 +377,16 @@ class SignUpController: BaseController {
         viewModel.errorMessage = { error in
             print("Error happened. \(error)")
         }
+    }
+}
+
+extension SignUpController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let field = view.viewWithTag(textField.tag + 1) as? UITextField {
+            field.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }

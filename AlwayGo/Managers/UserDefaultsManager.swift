@@ -7,11 +7,14 @@
 
 import Foundation
 
-class UserDefaultsManager {
+final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
+    private init() {}
     
     enum UserDefaultsTypes: String {
         case isLoggedIn = "isLoggedIn"
+        case email = "email"
+        case username = "username"
     }
     
     func setValue(_ value: Any, and key: UserDefaultsTypes) {
@@ -22,7 +25,7 @@ class UserDefaultsManager {
         UserDefaults.standard.bool(forKey: key.rawValue)
     }
     
-    func handle() {
-        
+    func getString(for key: UserDefaultsTypes) -> String {
+        UserDefaults.standard.string(forKey: key.rawValue) ?? ""
     }
 }

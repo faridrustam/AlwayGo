@@ -37,6 +37,7 @@ class HomeController: BaseController {
         textField.attributedPlaceholder = attributedString
         textField.attributedPlaceholder = attributedString2
         textField.textColor = .darkGray
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -64,7 +65,11 @@ class HomeController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }  
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     override func configureUI() {
         navigationItem.backButtonTitle = ""
@@ -287,5 +292,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .newSeason, .arriveIn, .home, .kids, .denimFits:
             return .init(width: collectionView.frame.width, height: 270)
         }
+    }
+}
+
+extension HomeController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
     }
 }

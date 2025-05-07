@@ -11,7 +11,7 @@ protocol CategoriesManagerUseCase {
     func getCategories(completion: @escaping (([CategoryModel]?, String?) -> Void))
 }
 
-class CategoriesManager: CategoriesManagerUseCase {
+final class CategoriesManager: CategoriesManagerUseCase {
     func getCategories(completion: @escaping (([CategoryModel]?, String?) -> Void)) {
         let url = NetworkHelper.shared.configureURL(with: "/category/nested")
         NetworkManager.shared.sendRequest(url: url, model: [CategoryModel].self, completion: completion)

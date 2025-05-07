@@ -12,11 +12,15 @@ class CategoriesController: BaseController {
         let search = UISearchBar()
         search.delegate = self
         search.backgroundImage = UIImage()
-//        search.obscuresBackgroundDuringPresentation = false
-//        search.searchResultsUpdater = self
-//        search.isHidden = true
+        search.placeholder = "Search"
         search.translatesAutoresizingMaskIntoConstraints = false
         return search
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(refreshStarted), for: .valueChanged)
+        return refresh
     }()
     
     private lazy var collection: UICollectionView = {
@@ -24,6 +28,7 @@ class CategoriesController: BaseController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 4
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.refreshControl = refreshControl
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -37,9 +42,18 @@ class CategoriesController: BaseController {
     
     let viewModel = CategoriesViewModel()
     private var collectionTopAnchor: NSLayoutConstraint?
+    
+    @objc func refreshStarted() {
+        viewModel.resetCategories()
+        refreshControl.endRefreshing()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +77,8 @@ class CategoriesController: BaseController {
         collection.register(CategoryControllerCell.self, forCellWithReuseIdentifier: "\(CategoryControllerCell.self)")
         collectionTopAnchor = collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         collectionTopAnchor?.isActive = false
+        let dismissKeyboard = UIGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(dismissKeyboard)
     }
     
     override func configureConstraints() {
@@ -97,18 +113,20 @@ class CategoriesController: BaseController {
         }
     }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @objc func magnifierButtonTapped(_ sender: UIButton) {
         collectionTopAnchor?.isActive = false
-        collectionTopAnchor = collection.topAnchor.constraint(equalTo: searchController.bottomAnchor, constant: 16)
         if !sender.isSelected {
             navigationItem.rightBarButtonItem?.tintColor = .clear
+            collectionTopAnchor = collection.topAnchor.constraint(equalTo: searchController.bottomAnchor, constant: 16)
             UIView.animate(withDuration: 0.5) { [weak self] in
                 guard let self else { return }
                 view.addSubview(searchController)
                 collectionTopAnchor?.isActive = true
-                searchController.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
-                searchController.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
-                searchController.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
+                handleSearchLayout()
                 view.layoutIfNeeded()
             }
         } else {
@@ -121,6 +139,12 @@ class CategoriesController: BaseController {
             }
         }
         sender.isSelected = !sender.isSelected
+    }
+    
+    private func handleSearchLayout() {
+        searchController.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+        searchController.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
+        searchController.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
     }
 }
 
@@ -149,17 +173,14 @@ extension CategoriesController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
-extension CategoriesController: UISearchBarDelegate, UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        print("")
-    }
-    
+extension CategoriesController: UISearchBarDelegate {    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if !searchText.isEmpty {
             viewModel.categoryModel = viewModel.allCategories.filter { $0.name?.lowercased().contains(searchText.lowercased()) ?? false }
         } else {
             viewModel.categoryModel = viewModel.allCategories
-        }        
+            searchBar.resignFirstResponder()
+        }
         collection.reloadData()
     }
 }

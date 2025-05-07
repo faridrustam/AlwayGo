@@ -23,6 +23,7 @@ class LogInViewModel {
             if let data {
                 model = data
                 print(data)
+                UserDefaultsManager.shared.setValue(model?.user?.firstName ?? "", and: .username)
                 success?()
             } else if let error {
                 errorMessage?(error)
