@@ -39,6 +39,8 @@ class ClothesCollectionCell: UICollectionViewCell {
         return collection
     }()
     
+    var productList: [Product]?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -78,18 +80,22 @@ class ClothesCollectionCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(with text: String) {
+    func configureCell(with text: String, product: [Product]?) {
         cellLabel.text = text
+        productList = product
+        collection.reloadData()
     }
 }
 
 extension ClothesCollectionCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        productList?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCell.self)", for: indexPath) as! ClothesCell
+        guard let productList = productList else { return cell }
+        cell.configureProuctCell(product: productList[indexPath.item])
         return cell
     }
     
