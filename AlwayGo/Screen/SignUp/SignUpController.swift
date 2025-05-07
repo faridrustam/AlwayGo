@@ -62,6 +62,8 @@ class SignUpController: BaseController {
         let field = UITextField()
         field.placeholder = "Password"
         field.borderStyle = .none
+        field.rightView = hidePasswordButton
+        field.rightViewMode = .always
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -259,17 +261,35 @@ class SignUpController: BaseController {
         if termsButton.isSelected {
             
         }
-        viewModel.getRegisterData(firstName: usernameField.text ?? "",
-                                  lastName: "test",
-                                  email: emailField.text ?? "",
-                                  password: passwordField.text ?? "")
+        guard let usernameText = usernameField.text,
+              let emailText = emailField.text,
+              let passwordText = passwordField.text else { return }
+        if isValidEmailComplex(emailText) && isValidPassword(passwordText) {
+            viewModel.getRegisterData(firstName: usernameText,
+                                      lastName: "test",
+                                      email: emailText,
+                                      password: passwordText)
+        } else {
+            showAlert()
+        }
+    }
+    
+    private func isValidEmailComplex(_ email: String) -> Bool {
+        let emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,64}$"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES[c] %@", emailRegex)
+        return emailPredicate.evaluate(with: email)
+    }
+    
+    func isValidPassword(_ password: String) -> Bool {
+        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+        let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+        return passwordPredicate.evaluate(with: password)
     }
     
     override func configureUI() {
         view.backgroundColor = .white
         view.addSubViews(signUpLabel, textFieldsStack, conditionLabel, termsButton, termsLabel, createAccountButton, signUpButtonStack, alreadyLabel, loginButton, leftOrView, orLabel, rightOrView, triangleImage, littleTriangleImage)
         textFieldsStack.addArrangedSubViews(usernameField, usernameView, emailField, emailView, passwordField, passwordView)
-        passwordField.addSubview(hidePasswordButton)
         signUpButtonStack.addArrangedSubViews(facebookButton, googleButton, appleButton)
     }
     
@@ -281,11 +301,6 @@ class SignUpController: BaseController {
             textFieldsStack.topAnchor.constraint(equalTo: signUpLabel.bottomAnchor, constant: 36),
             textFieldsStack.leadingAnchor.constraint(equalTo: signUpLabel.leadingAnchor),
             textFieldsStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
-            
-            hidePasswordButton.widthAnchor.constraint(equalToConstant: 24),
-            hidePasswordButton.heightAnchor.constraint(equalToConstant: 24),
-            hidePasswordButton.trailingAnchor.constraint(equalTo: passwordField.trailingAnchor, constant: 0),
-            hidePasswordButton.centerYAnchor.constraint(equalTo: passwordField.centerYAnchor),
             
             conditionLabel.topAnchor.constraint(equalTo: textFieldsStack.bottomAnchor, constant: 16),
             conditionLabel.leadingAnchor.constraint(equalTo: textFieldsStack.leadingAnchor),

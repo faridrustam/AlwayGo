@@ -9,7 +9,7 @@ import Foundation
 
 class LogInViewModel {
     let loginManager = LoginManager()
-    var model: LoginModel?
+    private(set) var model: LoginModel?
     var success: (() -> Void)?
     var errorMessage: ((String) -> Void)?
     

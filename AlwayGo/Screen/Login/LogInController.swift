@@ -6,12 +6,9 @@
 //
 
 import UIKit
+import CoreML
 
 class LogInController: BaseController {
-    let viewModel = LogInViewModel()
-    
-    var isTermsButtonSelected = false
-    
     private lazy var logInLabel: UILabel = {
         let label = UILabel()
         label.text = "Log in"
@@ -47,7 +44,10 @@ class LogInController: BaseController {
     private lazy var passwordField: UITextField = {
         let field = UITextField()
         field.placeholder = "Password"
+        field.rightView = hidePasswordButton
+        field.rightViewMode = .always
         field.borderStyle = .none
+        field.isSecureTextEntry = true
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -60,7 +60,7 @@ class LogInController: BaseController {
     
     private lazy var hidePasswordButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "eye"), for: .normal)
+        button.setImage(UIImage(named: "eye.slash"), for: .normal)
         button.imageView?.image?.withRenderingMode(.alwaysTemplate)
         button.tintColor = .gray
         button.addTarget(self, action: #selector(hidePasswordButtonTapped), for: .touchUpInside)
@@ -192,15 +192,30 @@ class LogInController: BaseController {
         return image
     }()
     
+    let viewModel = LogInViewModel()
+    var isTermsButtonSelected = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func configureUI() {
         view.backgroundColor = .systemBackground
-        view.addSubViews(logInLabel, textFieldsStack, forgotLabel, logInButton, signUpButtonStack, alreadyLabel, signUpButton, triangleImage, littleTriangleImage, leftOrView, orLabel, rightOrView)
+        view.addSubViews(
+            logInLabel,
+            textFieldsStack,
+            forgotLabel,
+            logInButton,
+            signUpButtonStack,
+            alreadyLabel,
+            signUpButton,
+            triangleImage,
+            littleTriangleImage,
+            leftOrView,
+            orLabel,
+            rightOrView
+        )
         textFieldsStack.addArrangedSubViews(usernameField, usernameView, passwordField, passwordView)
-        passwordField.addSubview(hidePasswordButton)
         signUpButtonStack.addArrangedSubViews(facebookButton, googleButton, appleButton)
     }
     
@@ -212,11 +227,6 @@ class LogInController: BaseController {
             textFieldsStack.topAnchor.constraint(equalTo: logInLabel.bottomAnchor, constant: 56),
             textFieldsStack.leadingAnchor.constraint(equalTo: logInLabel.leadingAnchor),
             textFieldsStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
-            
-            hidePasswordButton.widthAnchor.constraint(equalToConstant: 24),
-            hidePasswordButton.heightAnchor.constraint(equalToConstant: 24),
-            hidePasswordButton.trailingAnchor.constraint(equalTo: passwordField.trailingAnchor, constant: 0),
-            hidePasswordButton.centerYAnchor.constraint(equalTo: passwordField.centerYAnchor),
             
             forgotLabel.topAnchor.constraint(equalTo: textFieldsStack.bottomAnchor, constant: 12),
             forgotLabel.trailingAnchor.constraint(equalTo: textFieldsStack.trailingAnchor),
@@ -260,12 +270,30 @@ class LogInController: BaseController {
     }
     
     override func configureviewModel() {
-        viewModel.success = {
+        viewModel.success = { [weak self] in
+            guard let self else { return }
             print("Success")
+            handleSuccessCase()
         }
-        viewModel.errorMessage = { error in 
-            print("Error happened. \(error)")
+        viewModel.errorMessage = { [weak self] error in
+            guard let self else { return }
+            print("Error happened: \(error)")
+            handleErrorCase()
         }
+    }
+    
+    private func handleSuccessCase() {
+        UserDefaultsManager.shared.setValue(true, and: .isLoggedIn)
+        let controller = TabBarController()
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = window.delegate as? SceneDelegate else { return }
+        sceneDelegate.window?.rootViewController = controller
+    }
+    
+    private func handleErrorCase() {
+        usernameView.backgroundColor = .red
+        passwordView.backgroundColor = .red
+        hidePasswordButton.tintColor = .red
     }
     
     @objc func hidePasswordButtonTapped(_ sender: UIButton) {
@@ -286,7 +314,10 @@ class LogInController: BaseController {
     }
     
     @objc func loginButtonTapped() {
-        viewModel.getLoginData(with: usernameField.text ?? "", and: passwordField.text ?? "")
+        if let userText = usernameField.text, !userText.isEmpty,
+           let passwordText = passwordField.text, !passwordText.isEmpty {
+            viewModel.getLoginData(with: userText, and: passwordText)
+        }
     }
     
     @objc func forgotPasswordButtonTapped() {

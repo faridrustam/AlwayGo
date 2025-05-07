@@ -27,13 +27,20 @@ class CategoryProductController: BaseController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
-
+    
+    private lazy var shareSheet: UIActivityViewController = {
+        let sheet = UIActivityViewController(activityItems: [viewModel.getURL()], applicationActivities: nil)
+        return sheet
+    }()
+    
+    let viewModel = CategoryProductViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @objc func shareButtonTapped() {
-        
+        present(shareSheet, animated: true)
     }
     
     override func configureUI() {
@@ -67,7 +74,7 @@ class CategoryProductController: BaseController {
         productHeaderView.filterButtonHandle = { [weak self] in
             guard let self else { return }
             let coordinator = CategoryFlowCoordinator(navigationController: navigationController ?? UINavigationController(),
-                                                        title: nil)
+                                                      title: nil)
             coordinator.showFilter()
         }
     }

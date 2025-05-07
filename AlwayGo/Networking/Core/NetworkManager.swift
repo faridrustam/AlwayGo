@@ -8,12 +8,10 @@
 import Foundation
 import Alamofire
 
-enum EncodingType {
-    case url
-    case json
-}
-
 class NetworkManager {
+    static let shared = NetworkManager()
+    private init() {}
+    
     func sendRequest<T: Codable>(url: String,
                                  method: HTTPMethod = .get,
                                  encoding: EncodingType = .url,
