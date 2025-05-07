@@ -140,4 +140,10 @@ class ClothesCell: UICollectionViewCell {
             bagButton.centerYAnchor.constraint(equalTo: bagView.centerYAnchor),
         ])
     }
+    
+    func configureProuctCell(product: Product) {
+        clothName.text = product.title
+        clothPrice.text = "\(product.variants?.first?.price ?? 0) ₼"
+        clothImage.setImage(with: product.variants?.first?.images?.first?.url)
+    }
 }
