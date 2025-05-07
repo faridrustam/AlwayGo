@@ -64,7 +64,7 @@ class HomeController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }  
+    }
     
     override func configureUI() {
         navigationItem.backButtonTitle = ""
@@ -127,7 +127,15 @@ class HomeController: BaseController {
     }
     
     override func configureviewModel() {
-        print("")
+        viewModel.getCategoryData()
+        viewModel.success = { [weak self] in
+            guard let self else { return }
+            print("ProductItems count:", self.viewModel.productItems.count)
+                for item in self.viewModel.productItems {
+                    print("Title: \(item.title ?? "No Title"), Products: \(item.items?.count)")
+                }
+            collection.reloadData()
+        }
     }
 }
 
@@ -140,6 +148,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellType = viewModel.cellTypes[indexPath.item]
         
+        
         switch cellType {
         case .header:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HeaderCollectionCell.self)",
@@ -150,25 +159,33 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! SalesCollectionCell
             return cell
             
-        case .categories:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionCell.self)",
-                                                          for: indexPath) as! CategoryCollectionCell
-            return cell
+//        case .categories:
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionCell.self)",
+//                                                          for: indexPath) as! CategoryCollectionCell
+//            return cell
             
         case .forYou:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
-            cell.configureCell(with: "For you")
-            cell.handleSeeMoreButton = { [weak self] in
-                guard let self else { return }
-                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
+            if viewModel.productItems.indices.contains(0) {
+                let productType = viewModel.productItems[0]
+                cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
             }
-            cell.handleCellSelection = { [weak self] in
-                guard let self else { return }
-                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
-            }
+            
+            return cell
+
+        case .recentlyViewed:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
+                                                          for: indexPath) as! ClothesCollectionCell
+                let productType = viewModel.productItems[1]
+                cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
+            return cell
+
+        case .trendingNow:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
+                                                          for: indexPath) as! ClothesCollectionCell
+                let productType = viewModel.productItems[2]
+                cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
             return cell
             
         case .appExclusive:
@@ -176,92 +193,9 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! AppExclusiveCollectionCell
             return cell
             
-        case .recentlyViewed:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
-                                                          for: indexPath) as! ClothesCollectionCell
-            cell.configureCell(with: "Recently viewed")
-            cell.handleSeeMoreButton = { [weak self] in
-                guard let self else { return }
-                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
-            }
-            cell.handleCellSelection = { [weak self] in
-                guard let self else { return }
-                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
-            }
-            return cell
-            
         case .topStores:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TopStoresCollectionCell.self)",
                                                           for: indexPath) as! TopStoresCollectionCell
-            return cell
-            
-        case .trendingNow:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
-                                                          for: indexPath) as! ClothesCollectionCell
-            cell.configureCell(with: "Trending now")
-            cell.handleSeeMoreButton = { [weak self] in
-                guard let self else { return }
-                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
-            }
-            cell.handleCellSelection = { [weak self] in
-                guard let self else { return }
-                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
-            }
-            return cell
-            
-        case .bestDealsDiscounts:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
-                                                          for: indexPath) as! ClothesCollectionCell
-            cell.configureCell(with: "Best deals & Discounts")
-            cell.handleSeeMoreButton = { [weak self] in
-                guard let self else { return }
-                let coordinator = SeeMoreCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
-            }
-            cell.handleCellSelection = { [weak self] in
-                guard let self else { return }
-                let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController())
-                coordinator.start()
-            }
-            return cell
-            
-        case .typeLabel:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(LabelCell.self)",
-                                                          for: indexPath) as! LabelCell
-            return cell
-            
-        case .newSeason:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
-                                                          for: indexPath) as! DiscoverCell
-            cell.configure(text: "New season")
-            return cell
-            
-        case .arriveIn:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
-                                                          for: indexPath) as! DiscoverCell
-            cell.configure(text: "Just arrive in")
-            return cell
-            
-        case .home:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
-                                                          for: indexPath) as! DiscoverCell
-            cell.configure(text: "Home")
-            return cell
-            
-        case .kids:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
-                                                          for: indexPath) as! DiscoverCell
-            cell.configure(text: "Kids")
-            return cell
-            
-        case .denimFits:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DiscoverCell.self)",
-                                                          for: indexPath) as! DiscoverCell
-            cell.configure(text: "Denim fits")
             return cell
         }
     }
@@ -274,18 +208,14 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return .init(width: collectionView.frame.width, height: 50)
         case .sales:
             return .init(width: collectionView.frame.width, height: 132)
-        case .categories:
-            return .init(width: collectionView.frame.width, height: 212)
-        case .forYou, .bestDealsDiscounts, .trendingNow, .recentlyViewed:
+//        case .categories:
+//            return .init(width: collectionView.frame.width, height: 212)
+        case .forYou, .trendingNow, .recentlyViewed:
             return .init(width: collectionView.frame.width, height: 340)
         case .appExclusive:
             return .init(width: collectionView.frame.width, height: 95)
         case .topStores:
             return .init(width: collectionView.frame.width, height: 130)
-        case .typeLabel:
-            return .init(width: collectionView.frame.width, height: 30)
-        case .newSeason, .arriveIn, .home, .kids, .denimFits:
-            return .init(width: collectionView.frame.width, height: 270)
         }
     }
 }
