@@ -37,6 +37,7 @@ class HomeController: BaseController {
         textField.attributedPlaceholder = attributedString
         textField.attributedPlaceholder = attributedString2
         textField.textColor = .darkGray
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -217,5 +218,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .topStores:
             return .init(width: collectionView.frame.width, height: 130)
         }
+    }
+}
+
+extension HomeController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
     }
 }

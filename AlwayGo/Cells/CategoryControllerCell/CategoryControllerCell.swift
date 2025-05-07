@@ -10,7 +10,6 @@ import UIKit
 class CategoryControllerCell: UICollectionViewCell {
     private lazy var cellImage: UIImageView = {
         let image = UIImageView()
-//        image.image = UIImage(named: "AccessoriesPhoto")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()

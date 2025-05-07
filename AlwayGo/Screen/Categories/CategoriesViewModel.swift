@@ -51,4 +51,11 @@ class CategoriesViewModel {
             }
         }
     }
+    
+    func resetCategories() {
+        allCategories.removeAll()
+        categoryModel.removeAll()
+        getCategoriesData()
+        state = .success
+    }
 }

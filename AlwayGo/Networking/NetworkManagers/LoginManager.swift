@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoginManager: AuthenticationManagerUseCase {
+final class LoginManager: AuthenticationManagerUseCase {
     
     func getRegisterData<T: Codable>(params: [String : Any],
                                      model: T.Type,

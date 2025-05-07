@@ -27,10 +27,13 @@ class LogInController: BaseController {
         return stack
     }()
     
-    private lazy var usernameField: UITextField = {
+    private lazy var emailField: UITextField = {
         let field = UITextField()
-        field.placeholder = "Username"
+        field.placeholder = "Email"
         field.borderStyle = .none
+        field.returnKeyType = .continue
+        field.tag = 1
+        field.delegate = self
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -48,6 +51,9 @@ class LogInController: BaseController {
         field.rightViewMode = .always
         field.borderStyle = .none
         field.isSecureTextEntry = true
+        field.returnKeyType = .done
+        field.tag = 2
+        field.delegate = self
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -199,6 +205,10 @@ class LogInController: BaseController {
         super.viewDidLoad()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     override func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubViews(
@@ -215,7 +225,7 @@ class LogInController: BaseController {
             orLabel,
             rightOrView
         )
-        textFieldsStack.addArrangedSubViews(usernameField, usernameView, passwordField, passwordView)
+        textFieldsStack.addArrangedSubViews(emailField, usernameView, passwordField, passwordView)
         signUpButtonStack.addArrangedSubViews(facebookButton, googleButton, appleButton)
     }
     
@@ -314,14 +324,33 @@ class LogInController: BaseController {
     }
     
     @objc func loginButtonTapped() {
-        if let userText = usernameField.text, !userText.isEmpty,
+        if let emailText = emailField.text, !emailText.isEmpty,
            let passwordText = passwordField.text, !passwordText.isEmpty {
-            viewModel.getLoginData(with: userText, and: passwordText)
+            viewModel.getLoginData(with: emailText, and: passwordText)
+            UserDefaultsManager.shared.setValue(emailText, and: .email)
+            let status = KeychainManager.shared.savePassword(service: Bundle.main.bundlePath,
+                                                             account: emailText,
+                                                             password: passwordText)
+            let data = KeychainManager.shared.getPassword(service: Bundle.main.bundlePath, account: emailText)
+            if status {
+                print("Data successfully saved to keychain: \(data ?? "")")
+            }
         }
     }
     
     @objc func forgotPasswordButtonTapped() {
         let coordinator = LogInCoordinator(navigationController: navigationController ?? UINavigationController())
         coordinator.start()
+    }
+}
+
+extension LogInController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let field = view.viewWithTag(textField.tag + 1) as? UITextField {
+            field.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
