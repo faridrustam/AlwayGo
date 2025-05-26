@@ -8,8 +8,6 @@
 import UIKit
 
 class ProductController: BaseController {
-    let viewModel = ProductViewModel()
-    
     private lazy var table: UITableView = {
         let table = UITableView()
         table.delegate = self
@@ -19,8 +17,6 @@ class ProductController: BaseController {
         table.register(ProductSizeCell.self, forCellReuseIdentifier: "\(ProductSizeCell.self)")
         table.register(ProductInfoCell.self, forCellReuseIdentifier: "\(ProductInfoCell.self)")
         table.register(ProductCell.self, forCellReuseIdentifier: "\(ProductCell.self)")
-        let header = ProductHeader(frame: .init(x: 0, y: 0, width: table.frame.width, height: 538))
-        table.tableHeaderView = header
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -34,8 +30,8 @@ class ProductController: BaseController {
         
     private lazy var productPrice: UILabel = {
         let label = UILabel()
-        label.text = "$149.00"
         label.textColor = .black
+        label.text = "\(viewModel.price) ₼"
         label.font = .customFont(.sfProSemibold, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -70,11 +66,46 @@ class ProductController: BaseController {
         return button
     }()
     
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let loadingView = UIActivityIndicatorView(style: .medium)
+        loadingView.tintColor = .blue
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        return loadingView
+    }()
+    
+    private let viewModel: ProductViewModel
+    
+    init(viewModel: ProductViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    func configurePrice(with price: String) {
+        productPrice.text = price
+    }
+    
+    private func configureTableHeader() {
+        let header = ProductHeader(frame: .init(x: 0, y: 0, width: table.frame.width, height: 538))
+        table.tableHeaderView = header
+        header.presentShare = { [weak self] share in
+            guard let self else { return }
+            present(share, animated: true)
+        }
+        guard let variant = viewModel.productData?.variants else { return }
+        header.configureImage(with: variant, and: viewModel.productData?.title ?? "")
+        header.id = viewModel.productData?.id
+    }
+    
     override func configureUI() {
+        loadingView.startAnimating()
         let topBorder = UIView(frame: CGRect(x: 0, y: 0, width: 400, height: 1))
         topBorder.backgroundColor = UIColor.systemGray5
         bottomView.addSubview(topBorder)
@@ -83,12 +114,11 @@ class ProductController: BaseController {
         navigationController?.navigationBar.backIndicatorImage = backButton
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton
         view.backgroundColor = .white
-        view.addSubViews(table, bottomView)
-        bottomView.addSubViews(productPrice, shippingLabel, checkoutButton, addBagButton)
-        
     }
     
     override func configureConstraints() {
+        view.addSubViews(table, bottomView, loadingView)
+        bottomView.addSubViews(productPrice, shippingLabel, checkoutButton, addBagButton)
         NSLayoutConstraint.activate([
             table.topAnchor.constraint(equalTo: view.topAnchor, constant: -48),
             table.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -115,8 +145,31 @@ class ProductController: BaseController {
             bottomView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             bottomView.heightAnchor.constraint(equalToConstant: 66),
-            bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+    
+    override func configureviewModel() {
+        viewModel.getProductDetail()
+        viewModel.sendState = { [weak self] state in
+            guard let self else { return }
+            switch state {
+            case .success:
+                table.reloadData()
+            case .loading:
+                loadingView.startAnimating()
+            case .loaded:
+                loadingView.stopAnimating()
+                configureTableHeader()
+            case .error(message: let message):
+                print(message)
+            case .idle:
+                break
+            }
+        }
     }
 }
 
@@ -136,18 +189,27 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
         switch cellName {
         case .color:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductColorCell.self)") as! ProductColorCell
+            guard let value = viewModel.productData?.specs?[1].values else { return cell }
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
             cell.selectionStyle = .none
+            cell.configureCell(with: value[indexPath.row].key ?? "",
+                               and: value)
+            cell.selectedCell = {}
             return cell
         case .size:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductSizeCell.self)") as! ProductSizeCell
+            guard let values = viewModel.productData?.specs?[indexPath.row].values else { return cell }
             cell.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
             cell.selectionStyle = .none
+            cell.configureArray(with: values)
+            cell.selectedCell = {}
             return cell
+            
         case .info:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(ProductInfoCell.self)") as! ProductInfoCell
             cell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             cell.selectionStyle = .none
+            cell.configureInfo(with: viewModel.productData?.description ?? "")
             return cell
             
         case .expandable(let type):
@@ -157,10 +219,6 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
             case .features:
                 cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
             case .reviews:
-                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
-            case .overviewAndVideos:
-                cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
-            case .photos:
                 cell.configureCell(with: viewModel.model[indexPath.section].cellInfo?[indexPath.row] ?? "")
             }
             return cell
@@ -180,15 +238,13 @@ extension ProductController: UITableViewDelegate, UITableViewDataSource {
         
         switch cellTypes {
         case .color:
-            return 80
+            return 160
         case .info:
             return UITableView.automaticDimension
-        case .expandable, .size:
+        case .size:
+            return 100
+        case .expandable:
             return 56
         }
     }
-}
-
-#Preview {
-    ProductController()
 }

@@ -7,6 +7,8 @@
 
 import UIKit
 import StoreKit
+import Contacts
+import ContactsUI
 
 class ProfileController: BaseController {
     private lazy var profileView: ProfileUserView = {
@@ -130,12 +132,17 @@ extension ProfileController: UITableViewDelegate, UITableViewDataSource {
                let sceneDelegate = window.delegate as? SceneDelegate {
                 sceneDelegate.window?.rootViewController = controller
             }
-        case .sections(type: .gift):
+        case .sections(type: .rateApp):
             if let scene = view.window?.windowScene {
                 AppStore.requestReview(in: scene)
             }
-        default:
-            break
+        case .sections(type: .contact):
+            let vc = CNContactPickerViewController()
+            present(vc, animated: true)
+        case .sections(type: .profile):
+            guard let bundle = Bundle.main.bundleIdentifier,
+                  let settingsURL = URL(string: UIApplication.openSettingsURLString + bundle)  else { return }
+            UIApplication.shared.open(settingsURL)
         }
     }
 }

@@ -332,9 +332,7 @@ class LogInController: BaseController {
                                                              account: emailText,
                                                              password: passwordText)
             let data = KeychainManager.shared.getPassword(service: Bundle.main.bundlePath, account: emailText)
-            if status {
-                print("Data successfully saved to keychain: \(data ?? "")")
-            }
+            KeychainManager.shared.saveEmail(email: emailText)
         }
     }
     

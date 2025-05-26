@@ -90,6 +90,7 @@ class ResetPasswordController: BaseController {
     @objc func resetPasswordButtonTapped() {
         if let text = emailField.text, !text.isEmpty, isValidEmailComplex(text) {
             viewModel.getForgetPasswordData(with: text)
+            showAlert(title: "Success", message: "Email has been sent")
         } else {
             showAlert()
         }

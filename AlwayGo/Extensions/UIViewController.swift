@@ -9,8 +9,8 @@ import UIKit
 import Foundation
 
 extension UIViewController {
-    func showAlert() {
-        let alertController = UIAlertController(title: "Error", message: "Please enter valid email or password", preferredStyle: .alert)
+    func showAlert(title: String = "Error", message: String = "Please enter valid email or password") {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Ok", style: .cancel)
         alertController.addAction(action)
         present(alertController, animated: true)

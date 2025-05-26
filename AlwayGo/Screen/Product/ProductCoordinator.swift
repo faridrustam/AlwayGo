@@ -10,13 +10,19 @@ import Foundation
 
 class ProductCoordinator: Coordinator {
     var navigationController: UINavigationController
+    let id: String
+    let price: Int
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, id: String, price: Int) {
         self.navigationController = navigationController
+        self.id = id
+        self.price = price
     }
     
     func start() {
-        let controller = ProductController()
+        let controller = ProductController(viewModel: .init(productManager: ProductManager(),
+                                                            id: id,
+                                                            price: price))
         controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)
     }

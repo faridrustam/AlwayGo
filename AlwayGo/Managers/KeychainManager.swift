@@ -43,14 +43,52 @@ final class KeychainManager {
         
         let status = SecItemCopyMatching(query as CFDictionary, &passwordData)
         
-        
-        if status != errSecSuccess,
+        if status == errSecSuccess,
            let data = passwordData as? Data,
            let password = String(data: data, encoding: .utf8) {
             return password
         } else {
             return nil
         }
+    }
+    
+    func saveEmail(email: String) {
+        let emailData = email.data(using: .utf8)
+        
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: "userEmail",
+            kSecValueData as String: emailData! as Data
+        ]
+        
+        SecItemDelete(query as CFDictionary)
+        
+        let status = SecItemAdd(query as CFDictionary, nil)
+        if status == errSecSuccess {
+            print("Email saved successfully")
+        } else {
+            print("Error saving email")
+        }
+    }
+    
+    func getEmail() -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: "userEmail",
+            kSecReturnData as String: kCFBooleanTrue ?? false,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        
+        var emailData: AnyObject?
+        
+        let status = SecItemCopyMatching(query as CFDictionary, &emailData)
+        
+        if status == errSecSuccess,
+           let data = emailData as? Data,
+           let email = String(data: data, encoding: .utf8) {
+            return email
+        }
+        return nil        
     }
     
     func deletePassword() {
