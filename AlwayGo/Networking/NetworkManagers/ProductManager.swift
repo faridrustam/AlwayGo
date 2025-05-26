@@ -12,11 +12,13 @@ enum ProductEndpoint: String {
 }
 
 final class ProductManager: ProductManagerUseCase {
-    
-    let manager = NetworkManager()
-    
     func getProductData(endpoint: ProductEndpoint, completion: @escaping ((TotalProduct?, String?) -> Void)) {
         let path = NetworkHelper.shared.configureURL(with: endpoint.rawValue)
-        manager.sendRequest(url: path, model: TotalProduct.self, completion: completion)
+        NetworkManager.shared.sendRequest(url: path, model: TotalProduct.self, completion: completion)
+    }
+    
+    func getProductDetail(id: String, completion: @escaping (Product?, String?) -> Void) {
+        let path = NetworkHelper.shared.configureURL(with: "/product/\(id)")
+        NetworkManager.shared.sendRequest(url: path, model: Product.self, completion: completion)
     }
 }

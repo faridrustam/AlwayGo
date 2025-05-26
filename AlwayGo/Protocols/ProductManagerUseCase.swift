@@ -9,4 +9,5 @@ import Foundation
 
 protocol ProductManagerUseCase {
     func getProductData(endpoint: ProductEndpoint, completion: @escaping ((TotalProduct?, String?) -> Void))
+    func getProductDetail(id: String, completion: @escaping ((Product?, String?) -> Void))
 }

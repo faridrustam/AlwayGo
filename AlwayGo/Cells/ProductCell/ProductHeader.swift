@@ -8,18 +8,17 @@
 import UIKit
 
 class ProductHeader: UIView {
-    var index = 0
-    var productImages = ["ProductImage", "ProductImage", "ProductImage", "ProductImage"]
-    
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.isPagingEnabled = true
+        collection.backgroundColor = .systemGray5
         collection.showsHorizontalScrollIndicator = false
         collection.delegate = self
         collection.dataSource = self
+        collection.register(ProductHeaderCell.self, forCellWithReuseIdentifier: "\(ProductHeaderCell.self)")
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -61,6 +60,7 @@ class ProductHeader: UIView {
     private lazy var shareButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "ShareButton"), for: .normal)
+        button.addTarget(self, action: #selector(shareSheetTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -77,23 +77,9 @@ class ProductHeader: UIView {
         return view
     }()
     
-    private lazy var playButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "PlayButton"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var playButtonView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 20
-        view.layer.shadowColor = UIColor.gray.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowOpacity = 1
-        view.backgroundColor = .white
-        view.addSubview(playButton)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var shareSheet: UIActivityViewController = {
+        let sheet = UIActivityViewController(activityItems: [getURL()], applicationActivities: nil)
+        return sheet
     }()
     
     private lazy var likesBackgroundView: UIView = {
@@ -134,7 +120,6 @@ class ProductHeader: UIView {
     
     private lazy var productName: UILabel = {
         let label = UILabel()
-        label.text = "Hair dryer Dyson HD07\nNICKEL PINK"
         label.textColor = .black
         label.numberOfLines = 2
         label.font = .customFont(.sfProSemibold, size: 16)
@@ -192,7 +177,12 @@ class ProductHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
+    private var index = 0
+    private var productImages = [Variant]()
+    var id: String?
+    var presentShare: ((UIActivityViewController) -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -204,19 +194,35 @@ class ProductHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func shareSheetTapped() {
+        presentShare?(shareSheet)
+    }
+    
+    func configureImage(with variant: [Variant], and name: String) {
+        productImages = variant
+        productName.text = name
+        collection.reloadData()
+    }
+    
+    private func getURL() -> URL {
+        guard let url = URL(string: NetworkHelper.shared.configureURL(with: "\(id ?? "")")) else {
+            return URL(string: "")!
+        }
+        return url
+    }
+    
     private func configureUI() {
         backgroundColor = .white
-        addSubViews(collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack)
-        buttonsStack.addArrangedSubViews(heartButtonView, shareButtonView, playButtonView)
-        likesBackgroundView.addSubview(likesView)
-        likesView.addSubViews(likesCount, heartImage)
         userReviewStack.addArrangedSubViews(starImage, ratingLabel, commentButton, commentCountLabel)
-        collection.backgroundColor = .systemGray5
-        collection.register(ProductHeaderCell.self, forCellWithReuseIdentifier: "\(ProductHeaderCell.self)")
         pageControl.numberOfPages = productImages.count
     }
     
     private func configureConstraints() {
+        addSubViews(collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack)
+        buttonsStack.addArrangedSubViews(heartButtonView, shareButtonView)
+        likesBackgroundView.addSubview(likesView)
+        likesView.addSubViews(likesCount, heartImage)
+        
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: topAnchor),
             collection.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -237,14 +243,8 @@ class ProductHeader: UIView {
                 .centerYAnchor),
             shareButton.centerXAnchor.constraint(equalTo: shareButtonView.centerXAnchor),
             
-            playButton.centerYAnchor.constraint(equalTo: playButtonView.centerYAnchor),
-            playButton.centerXAnchor.constraint(equalTo: playButtonView.centerXAnchor),
-            
             shareButtonView.widthAnchor.constraint(equalToConstant: 40),
             shareButtonView.heightAnchor.constraint(equalToConstant: 40),
-            
-            playButtonView.widthAnchor.constraint(equalToConstant: 40),
-            playButtonView.heightAnchor.constraint(equalToConstant: 40),
             
             likesBackgroundView.trailingAnchor.constraint(equalTo: collection.trailingAnchor),
             likesBackgroundView.bottomAnchor.constraint(equalTo: collection.bottomAnchor, constant: -16),
@@ -266,13 +266,13 @@ class ProductHeader: UIView {
             pageControl.centerXAnchor.constraint(equalTo: collection.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: collection.bottomAnchor, constant: -16),
             
+            productName.topAnchor.constraint(equalTo: collection.bottomAnchor, constant: 8),
             productName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-//            productName.trailingAnchor.constraint(equalTo: checkStockLabel.leadingAnchor, constant: -4),
-            
+            productName.bottomAnchor.constraint(equalTo: userReviewStack.topAnchor, constant: -8),
+        
             checkStockLabel.centerYAnchor.constraint(equalTo: productName.centerYAnchor),
             checkStockLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            userReviewStack.topAnchor.constraint(equalTo: productName.bottomAnchor, constant: 4),
             userReviewStack.leadingAnchor.constraint(equalTo: productName.leadingAnchor),
             userReviewStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             
@@ -289,7 +289,9 @@ extension ProductHeader: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ProductHeaderCell.self)", for: indexPath) as! ProductHeaderCell
-        cell.configureImage(with: productImages[indexPath.row])
+        guard let image = productImages.first?.images?[indexPath.item].url else { return cell }
+        print("IMAGE: \(image.count)")
+        cell.configureImage(with: image)
         return cell
     }
     
@@ -301,8 +303,4 @@ extension ProductHeader: UICollectionViewDelegate, UICollectionViewDataSource, U
         pageControl.currentPage = Int(floorf(Float(scrollView.contentOffset.x) / Float(scrollView.frame.size.width)))
         index = pageControl.currentPage
     }
-}
-
-#Preview {
-    ProductHeader()
 }

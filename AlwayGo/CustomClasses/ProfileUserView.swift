@@ -36,7 +36,7 @@ class ProfileUserView: UIView {
     
     private lazy var userEmailLabel: UILabel = {
         let label = UILabel()
-        label.text = UserDefaultsManager.shared.getString(for: .email)
+        label.text = KeychainManager.shared.getEmail()
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.font = .customFont(.sfProRegular, size: 12)
         label.translatesAutoresizingMaskIntoConstraints = false

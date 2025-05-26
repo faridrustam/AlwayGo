@@ -42,13 +42,6 @@ class HomeController: BaseController {
         return textField
     }()
     
-    private lazy var cameraImage: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "Camera")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -71,7 +64,7 @@ class HomeController: BaseController {
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.isHidden = true
         view.addSubViews(searchView, collection)
-        searchView.addSubViews(searchImage, searchTextField, cameraImage)
+        searchView.addSubViews(searchImage, searchTextField)
         view.backgroundColor = .white
         collection.backgroundColor = .white
         collection.delegate = self
@@ -94,12 +87,7 @@ class HomeController: BaseController {
             
             searchTextField.centerYAnchor.constraint(equalTo: searchImage.centerYAnchor),
             searchTextField.leadingAnchor.constraint(equalTo: searchImage.trailingAnchor, constant: 12),
-            searchTextField.trailingAnchor.constraint(equalTo: cameraImage.leadingAnchor, constant: -12),
-            
-            cameraImage.widthAnchor.constraint(equalToConstant: 24),
-            cameraImage.heightAnchor.constraint(equalToConstant: 24),
-            cameraImage.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -24),
-            cameraImage.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
+            searchTextField.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -12),
             
             collection.topAnchor.constraint(equalTo: searchView.bottomAnchor, constant: 16),
             collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -132,9 +120,9 @@ class HomeController: BaseController {
         viewModel.success = { [weak self] in
             guard let self else { return }
             print("ProductItems count:", self.viewModel.productItems.count)
-                for item in self.viewModel.productItems {
-                    print("Title: \(item.title ?? "No Title"), Products: \(item.items?.count)")
-                }
+            for item in self.viewModel.productItems {
+                print("Title: \(item.title ?? "No Title"), Products: \(item.items?.count ?? 0)")
+            }
             collection.reloadData()
         }
     }
@@ -160,33 +148,61 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! SalesCollectionCell
             return cell
             
-//        case .categories:
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionCell.self)",
-//                                                          for: indexPath) as! CategoryCollectionCell
-//            return cell
+            //        case .categories:
+            //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionCell.self)",
+            //                                                          for: indexPath) as! CategoryCollectionCell
+            //            return cell
             
         case .forYou:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(0) {
                 let productType = viewModel.productItems[0]
+                print("Cell 1: \(productType.items?[0].id ?? "")")
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
+                cell.handleCellSelection = { [weak self] in
+                    guard let self else { return }
+                    let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                         id: productType.items?[0].id ?? "",
+                                                         price: productType.items?[0].variants?[0].price ?? 0)
+                    coordinator.start()
+                }
             }
-            
             return cell
-
+            
         case .recentlyViewed:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            if viewModel.productItems.indices.contains(1) {
                 let productType = viewModel.productItems[1]
+                print("Cell 2: \(productType.items?[1].id ?? "")")
+                
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
+                cell.handleCellSelection = { [weak self] in
+                    guard let self else { return }
+                    let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                         id: productType.items?[1].id ?? "",
+                                                         price: productType.items?[1].variants?[1].price ?? 0)
+                    coordinator.start()
+                }
+            }
             return cell
-
+            
         case .trendingNow:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
+            if viewModel.productItems.indices.contains(2) {
                 let productType = viewModel.productItems[2]
+                print("Cell 3: \(productType.items?[2].id ?? "")")
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
+                cell.handleCellSelection = { [weak self] in
+                    guard let self else { return }
+                    let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                         id: productType.items?[2].id ?? "",
+                                                         price: productType.items?[2].variants?[2].price ?? 0)
+                    coordinator.start()
+                }
+            }
             return cell
             
         case .appExclusive:
@@ -209,8 +225,8 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return .init(width: collectionView.frame.width, height: 50)
         case .sales:
             return .init(width: collectionView.frame.width, height: 132)
-//        case .categories:
-//            return .init(width: collectionView.frame.width, height: 212)
+            //        case .categories:
+            //            return .init(width: collectionView.frame.width, height: 212)
         case .forYou, .trendingNow, .recentlyViewed:
             return .init(width: collectionView.frame.width, height: 340)
         case .appExclusive:

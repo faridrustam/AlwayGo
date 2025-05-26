@@ -22,10 +22,10 @@ enum CellType {
 }
 
 class HomeViewModel {
-    var product: [Product]?
-    var filteredProducts: [Product] = []
-    var productItems: [ProductModel] = []
-    let manager = ProductManager()
+    private(set) var product: [Product]?
+    private(set) var filteredProducts: [Product] = []
+    private(set) var productItems: [ProductModel] = []
+    private let manager = ProductManager()
     var success: (() -> Void)?
     
     let cellTypes: [CellType] = [.header, .sales, .forYou,
@@ -33,23 +33,26 @@ class HomeViewModel {
                                  .trendingNow]
     
     func getCategoryData() {
-        getItems(title: "Shirts") {
-                self.getItems(title: "Sport Coats") {
-                    self.getItems(title: "Pants") {
-                        self.success?()
-                    }
+        getItems(title: "Shirts") { [weak self] in
+            guard let self else { return }
+            getItems(title: "Sport Coats") {
+                self.getItems(title: "Pants") {
+                    self.success?()
                 }
             }
         }
+    }
     
     func getItems(title: String, completion: @escaping () -> Void) {
-        manager.getProductData(endpoint: .product) { data, errorMessage in
+        manager.getProductData(endpoint: .product) { [weak self] data, errorMessage in
+            guard let self else { return }
             if let errorMessage {
                 print(errorMessage)
             } else if let data {
-                self.product = data.products
-                let filtered = self.filterCategory(category: title)
-                self.productItems.append(.init(title: title, items: filtered))
+                product = data.products
+                let filtered = filterCategory(category: title)
+                productItems.append(.init(title: title, items: filtered))
+                print(productItems)
                 completion()
             }
         }

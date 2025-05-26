@@ -117,12 +117,6 @@ extension CategoryDetailController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let coordinator = CategoryFlowCoordinator(navigationController: navigationController ?? UINavigationController(),
-                                                  title: viewModel.cells[indexPath.row])
-        coordinator.showProduct()
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }

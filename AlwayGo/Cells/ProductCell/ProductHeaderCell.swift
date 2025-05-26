@@ -40,6 +40,7 @@ class ProductHeaderCell: UICollectionViewCell {
     }
     
     func configureImage(with imageName: String) {
-        productImage.image = UIImage(named: imageName)
+//        productImage.image = UIImage(named: imageName)
+        productImage.setImage(with: imageName)
     }
 }

@@ -95,7 +95,7 @@ extension ClothesCollectionCell: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCell.self)", for: indexPath) as! ClothesCell
         guard let productList = productList else { return cell }
-        cell.configureProuctCell(product: productList[indexPath.item])
+        cell.configureProductCell(product: productList[indexPath.item])
         return cell
     }
     
