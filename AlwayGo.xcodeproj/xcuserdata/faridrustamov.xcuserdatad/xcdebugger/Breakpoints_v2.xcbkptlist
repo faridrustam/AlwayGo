@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "703CB4F5-EDA0-4CC6-90C6-AFDEC1D2A5B5"
+            uuid = "BF4BF156-7440-41D7-8FC0-31D057ECD6E0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AlwayGo/Screen/Home/HomeController.swift"
+            filePath = "AlwayGo/Screen/Login/LogInViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "configureviewModel()"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "getLoginData(with:and:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

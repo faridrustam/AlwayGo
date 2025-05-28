@@ -22,7 +22,7 @@ class LogInViewModel {
             guard let self else { return }
             if let data {
                 model = data
-                print(data)
+                KeychainManager.shared.saveToken(token: data.token ?? "", account: data.user?.email ?? "")
                 UserDefaultsManager.shared.setValue(model?.user?.firstName ?? "", and: .username)
                 success?()
             } else if let error {
