@@ -88,10 +88,74 @@ final class KeychainManager {
            let email = String(data: data, encoding: .utf8) {
             return email
         }
-        return nil        
+        return nil
     }
     
     func deletePassword() {
         
+    }
+    
+    func saveToken(token: String, account: String) {
+        guard let data = token.data(using: .utf8) else { return }
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+            kSecAttrService as String: "com.alwayGo.token",
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked
+        ]
+        
+        SecItemDelete(query as CFDictionary)
+        
+        let status = SecItemAdd(query as CFDictionary, nil)
+        
+        if status != errSecSuccess {
+                print("Failed to save token: \(status)")
+            } else {
+                print("Token saved successfully.")
+            }
+    }
+    
+    func readToken(account: String) -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+            kSecAttrService as String: "com.alwayGo.token",
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        
+        var item: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        
+        if status == errSecSuccess {
+            if let data = item as? Data,
+               let token = String(data: data, encoding: .utf8) {
+                return token
+            }
+        } else {
+            print("Failed to read token: \(status)")
+        }
+        return nil
+    }
+    
+    func getSavedEmailAccount() -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecReturnAttributes as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        
+        var result: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+        
+        if status == errSecSuccess,
+           let item = result as? [String: Any],
+           let account = item[kSecAttrAccount as String] as? String {
+            return account
+        }
+        
+        print("Could not retrieve account: \(status)")
+        return nil
     }
 }

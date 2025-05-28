@@ -52,7 +52,6 @@ class HomeViewModel {
                 product = data.products
                 let filtered = filterCategory(category: title)
                 productItems.append(.init(title: title, items: filtered))
-                print(productItems)
                 completion()
             }
         }
