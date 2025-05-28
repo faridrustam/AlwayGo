@@ -158,4 +158,15 @@ final class KeychainManager {
         print("Could not retrieve account: \(status)")
         return nil
     }
+    
+    func deleteToken(account: String) {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+            kSecAttrService as String: "com.alwayGo.token"
+        ]
+
+        let status = SecItemDelete(query as CFDictionary)
+        print(status == errSecSuccess ? "Token deleted for account: \(account)" : "Failed to delete token: \(status)")
+    }
 }

@@ -127,6 +127,9 @@ extension ProfileController: UITableViewDelegate, UITableViewDataSource {
             break
         case .sections(type: .signOut):
             UserDefaultsManager.shared.setValue(false, and: .isLoggedIn)
+            if let currentEmail = KeychainManager.shared.getSavedEmailAccount() {
+                KeychainManager.shared.deleteToken(account: currentEmail)
+            }
             let controller = LogInController()
             if let window = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let sceneDelegate = window.delegate as? SceneDelegate {
