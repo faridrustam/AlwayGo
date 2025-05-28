@@ -10,8 +10,13 @@ import Foundation
 class LogInViewModel {
     let loginManager = LoginManager()
     private(set) var model: LoginModel?
-    var success: (() -> Void)?
-    var errorMessage: ((String) -> Void)?
+    var sendState: ((ViewState) -> Void)?
+    
+    private var state: ViewState = .idle {
+        didSet {
+            sendState?(state)
+        }
+    }
     
     func getLoginData(with email: String, and password: String) {
         let params: [String: Any] = [
@@ -24,9 +29,9 @@ class LogInViewModel {
                 model = data
                 KeychainManager.shared.saveToken(token: data.token ?? "", account: data.user?.email ?? "")
                 UserDefaultsManager.shared.setValue(model?.user?.firstName ?? "", and: .username)
-                success?()
+                state = .success
             } else if let error {
-                errorMessage?(error)
+                state = .error(message: error)
             }
         }
     }

@@ -62,6 +62,7 @@ class ProductController: BaseController {
         button.backgroundColor = .app
         button.layer.borderWidth = 0.2
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(addBagButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -86,6 +87,17 @@ class ProductController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    @objc func addBagButtonTapped() {
+        let params: [String: [String: Any]] = [
+            "list": [
+                "productId": viewModel.productData?.id ?? "",
+                "variantId": viewModel.productData?.variants?.first?.id ?? "",
+                "count": 1
+            ]
+        ]
+        viewModel.sendCartData(params: params)
     }
     
     func configurePrice(with price: String) {
@@ -165,7 +177,7 @@ class ProductController: BaseController {
                 loadingView.stopAnimating()
                 configureTableHeader()
             case .error(message: let message):
-                print(message)
+                showAlert(message: message)
             case .idle:
                 break
             }

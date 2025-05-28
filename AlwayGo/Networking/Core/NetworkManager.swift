@@ -8,6 +8,12 @@
 import Foundation
 import Alamofire
 
+enum NetworkError: Error {
+    case invalidURL
+    case invalidData
+    case invalidStatusCode(Int)
+}
+
 final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
@@ -16,7 +22,7 @@ final class NetworkManager {
                                  method: HTTPMethod = .get,
                                  encoding: EncodingType = .url,
                                  params: Parameters? = nil,
-                                 header: HTTPHeaders? = nil,
+                                 header: HTTPHeaders? = NetworkHelper.shared.header,
                                  model: T.Type,
                                  completion: @escaping ((T?, String?) -> Void)) {
         AF.request(url,
