@@ -7,15 +7,46 @@
 
 import Foundation
 
-struct Cart: Codable {
-    let userId: String?
-    let items: [Item]?
-    let totalPrice: Int?
+struct CartPostModel: Codable {
+    let id: String
+    let list: [List]
+    let totalPrice, totalDiscount: Int
+    let createdAt, updatedAt: String
+    let v: Int
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case list, totalPrice, totalDiscount, createdAt, updatedAt
+        case v = "__v"
+    }
 }
 
-// MARK: - Item
-struct Item: Codable {
-    let id: Int?
-    let productName: String?
-    let quantity, price, totalPrice: Int?
+// MARK: - List
+struct List: Codable {
+    let productID, variantID: String
+    let price, discount, count: Int
+    let id: String
+
+    enum CodingKeys: String, CodingKey {
+        case productID = "productId"
+        case variantID = "variantId"
+        case price, discount, count
+        case id = "_id"
+    }
+}
+
+struct CartModel: Codable {
+    let list: CartList
+}
+
+// MARK: - List
+struct CartList: Codable {
+    let productID, variantID: String
+    let count: Int
+
+    enum CodingKeys: String, CodingKey {
+        case productID = "productId"
+        case variantID = "variantId"
+        case count
+    }
 }

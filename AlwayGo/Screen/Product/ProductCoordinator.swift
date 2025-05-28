@@ -21,6 +21,7 @@ class ProductCoordinator: Coordinator {
     
     func start() {
         let controller = ProductController(viewModel: .init(productManager: ProductManager(),
+                                                            cartManager: CartManager(),
                                                             id: id,
                                                             price: price))
         controller.hidesBottomBarWhenPushed = true

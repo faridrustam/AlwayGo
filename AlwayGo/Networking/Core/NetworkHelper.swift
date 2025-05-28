@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 enum EncodingType {
     case url
@@ -16,7 +17,8 @@ final class NetworkHelper {
     static let shared = NetworkHelper()
     private init() {}
     private let baseURL = "https://eccomerce-mongoose.vercel.app/api"
-    
+    let header: HTTPHeaders = ["Authorization": "Bearer "]
+
     func configureURL(with url: String) -> String {
         return baseURL + url
     }

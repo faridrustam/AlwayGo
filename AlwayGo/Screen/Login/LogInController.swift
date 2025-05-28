@@ -280,15 +280,16 @@ class LogInController: BaseController {
     }
     
     override func configureviewModel() {
-        viewModel.success = { [weak self] in
+        viewModel.sendState = { [weak self] state in
             guard let self else { return }
-            print("Success")
-            handleSuccessCase()
-        }
-        viewModel.errorMessage = { [weak self] error in
-            guard let self else { return }
-            print("Error happened: \(error)")
-            handleErrorCase()
+            switch state {
+            case .success:
+                handleSuccessCase()
+            case .error(message: let message):
+                handleErrorCase()
+            default:
+                break
+            }
         }
     }
     
