@@ -7,6 +7,12 @@
 
 import Foundation
 
-class CartViewModel {
+final class CartViewModel {
+    var sendState: ((ViewState) -> Void)?
     
+    var state: ViewState = .idle {
+        didSet {
+            sendState?(state)
+        }
+    }
 }

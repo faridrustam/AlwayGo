@@ -159,6 +159,15 @@ class ProductController: BaseController {
             switch state {
             case .success:
                 table.reloadData()
+                if let email = KeychainManager.shared.getSavedEmailAccount() {
+                                    if let token = KeychainManager.shared.readToken(account: email) {
+                                        print("Retrieved token: \(token)")
+                                    } else {
+                                        print("Token not found for account: \(email)")
+                                    }
+                                } else {
+                                    print("No saved email account found in Keychain.")
+                                }
             case .loading:
                 loadingView.startAnimating()
             case .loaded:

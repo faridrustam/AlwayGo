@@ -8,18 +8,15 @@
 import UIKit
 
 class CartController: BaseController {
-    private lazy var selectionButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     
-    private lazy var selectAllLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Select all"
-        label.font = .customFont(.sfProRegular, size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var collection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 8
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.backgroundColor = .systemBackground
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
     }()
 
     override func viewDidLoad() {
@@ -27,23 +24,40 @@ class CartController: BaseController {
     }
 
     override func configureUI() {
-        navigationItem.title = "Cart"
+        navigationItem.title = "CART"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.customFont(.sfProSemibold, size: 16),
                                                                    .foregroundColor: UIColor.black]
     }
-    
+        
     override func configureConstraints() {
-        view.addSubViews(selectionButton, selectAllLabel)
+        view.addSubViews(collection)
         NSLayoutConstraint.activate([
-            selectionButton.widthAnchor.constraint(equalToConstant: 24),
-            selectionButton.heightAnchor.constraint(equalToConstant: 24),
-            selectionButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
-            selectionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
+            collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    override func configureviewModel() {
+        
     }
 }
 
-
-#Preview {
-    CartController()
-}
+//extension CartController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        
+//    }
+//}
