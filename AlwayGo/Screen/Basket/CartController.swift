@@ -8,42 +8,65 @@
 import UIKit
 
 class CartController: BaseController {
-    private lazy var selectionButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    
+    private lazy var collection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 14
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.backgroundColor = .systemBackground
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
     }()
     
-    private lazy var selectAllLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Select all"
-        label.font = .customFont(.sfProRegular, size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let loadingView = UIActivityIndicatorView(style: .medium)
+        loadingView.tintColor = .blue
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        return loadingView
     }()
-
+    
+    private let viewModel = CartViewModel(cartManager: CartManager())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     override func configureUI() {
-        navigationItem.title = "Cart"
+        navigationItem.title = "CART \(viewModel.items?.list?.count ?? 0)"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.customFont(.sfProSemibold, size: 16),
                                                                    .foregroundColor: UIColor.black]
     }
     
     override func configureConstraints() {
-        view.addSubViews(selectionButton, selectAllLabel)
+        view.addSubViews(collection)
         NSLayoutConstraint.activate([
-            selectionButton.widthAnchor.constraint(equalToConstant: 24),
-            selectionButton.heightAnchor.constraint(equalToConstant: 24),
-            selectionButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
-            selectionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
+            collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    override func configureviewModel() {
+        viewModel.getCartItems()
+        viewModel.sendState = { [weak self] state in
+            guard let self else { return }
+            switch state {
+            case .success:
+                collection.reloadData()
+            case .loading:
+                loadingView.startAnimating()
+            case .loaded:
+                loadingView.stopAnimating()
+            case .error(message: let message):
+                showAlert(message: message)
+            case .idle:
+                break
+            }
+        }
+    }
 }
-
-
-#Preview {
-    CartController()
-}
+//extension CartController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+//    
+//}

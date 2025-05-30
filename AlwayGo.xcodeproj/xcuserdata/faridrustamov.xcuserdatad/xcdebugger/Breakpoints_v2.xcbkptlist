@@ -7,16 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BF4BF156-7440-41D7-8FC0-31D057ECD6E0"
+            uuid = "E695C796-3105-4761-B8E9-C91A6EA73C42"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AlwayGo/Screen/Login/LogInViewModel.swift"
+            filePath = "AlwayGo/Screen/Basket/CartController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "getLoginData(with:and:)"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "configureviewModel()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A3E51C52-7A58-4D1B-B21B-77A382B92E61"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AlwayGo/Networking/NetworkManagers/CartManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "getProductData(completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

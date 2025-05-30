@@ -72,7 +72,6 @@ class ProductViewModel {
             guard let self else { return }
             if let data {
                 cartModel = data
-                print("CART MODEL: \(cartModel)")
                 state = .success
             } else if let error {
                 state = .error(message: error)
