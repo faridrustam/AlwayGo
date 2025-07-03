@@ -42,7 +42,6 @@ class CategoriesViewModel {
             if let data {
                 categoryModel = data
                 allCategories = data
-                print(categoryModel)
                 state = .loaded
                 state = .success
             } else if let error {

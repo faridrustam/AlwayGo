@@ -105,15 +105,19 @@ class ProductController: BaseController {
     }
     
     private func configureTableHeader() {
-        let header = ProductHeader(frame: .init(x: 0, y: 0, width: table.frame.width, height: 538))
+        guard let product = viewModel.productData else { return }
+        let header = ProductHeader(frame: .init(x: 0, y: 0, width: table.frame.width, height: 538),
+                                   product: viewModel.products,
+                                   id: product.id ?? "")
         table.tableHeaderView = header
         header.presentShare = { [weak self] share in
             guard let self else { return }
             present(share, animated: true)
         }
-        guard let variant = viewModel.productData?.variants else { return }
-        header.configureImage(with: variant, and: viewModel.productData?.title ?? "")
-        header.id = viewModel.productData?.id
+        header.configureImage(with: product.variants ?? [], and: product.title ?? "")
+        FileManagerHelper.shared.readDataFromFile { data in
+            header.product = data
+        }
     }
     
     override func configureUI() {
@@ -130,7 +134,7 @@ class ProductController: BaseController {
     
     override func configureConstraints() {
         view.addSubViews(table, bottomView, loadingView)
-        bottomView.addSubViews(productPrice, shippingLabel, checkoutButton, addBagButton)
+        bottomView.addSubViews(productPrice, shippingLabel, checkoutButton, addBagButton) 
         NSLayoutConstraint.activate([
             table.topAnchor.constraint(equalTo: view.topAnchor, constant: -48),
             table.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -164,7 +168,7 @@ class ProductController: BaseController {
         ])
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.getProductDetail()
         viewModel.sendState = { [weak self] state in
             guard let self else { return }

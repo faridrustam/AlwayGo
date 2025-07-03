@@ -10,14 +10,13 @@ import UIKit
 class FavoritesCell: UICollectionViewCell {
     private lazy var productImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "Men")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     private lazy var productCompany: UILabel = {
         let label = UILabel()
-        label.text = "Technoaze"
+        label.text = "Dress"
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.font = .customFont(.sfProMedium, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +25,6 @@ class FavoritesCell: UICollectionViewCell {
     
     private lazy var productName: UILabel = {
         let label = UILabel()
-        label.text = "Asus VivoBook 15 X 1504ZA-Nj547Wi5-1235U 8 Gb 512 Gb 15.6” W11H Laptop"
         label.font = .customFont(.sfProMedium, size: 12)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
         label.numberOfLines = 1
@@ -67,20 +65,6 @@ class FavoritesCell: UICollectionViewCell {
         return stack
     }()
     
-    private lazy var sizeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.app.cgColor
-        button.layer.cornerRadius = 8
-        button.setTitle("Size", for: .normal)
-        button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.87), for: .normal)
-        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight: .forceRightToLeft
-        button.setImage(UIImage(named: "DownButton"), for: .normal)
-        button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private lazy var addToCartButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .app
@@ -88,9 +72,13 @@ class FavoritesCell: UICollectionViewCell {
         button.layer.cornerRadius = 8
         button.setTitle("Add to cart", for: .normal)
         button.titleLabel?.font = .customFont(.sfProSemibold, size: 16)
+        button.addTarget(self, action: #selector(addToCartButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private let cartManager = CartManager()
+    var product: Product?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -103,11 +91,22 @@ class FavoritesCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc private func addToCartButtonTapped() {
+        guard let product else { return }
+        let params: [String: [String: Any]] = [
+            "list": [
+                "productId": product.id ?? "",
+                "variantId": product.variants?.first?.id ?? "",
+                "count": 1
+            ]
+        ]
+        cartManager.sendProductData(params: params) { _, _ in }
+    }
+    
     private func configureUI() {
-
         contentView.backgroundColor = .white
         contentView.addSubViews(productImage, productCompany, productName, ratingImage, productShipping, productPrice, buttonStack)
-        buttonStack.addArrangedSubViews(sizeButton, addToCartButton)
+        buttonStack.addArrangedSubViews(addToCartButton)
     }
     
     private func configureConstraints() {
@@ -137,12 +136,13 @@ class FavoritesCell: UICollectionViewCell {
             buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             addToCartButton.widthAnchor.constraint(equalToConstant: 148),
-            addToCartButton.heightAnchor.constraint(equalToConstant: 40),
-            sizeButton.widthAnchor.constraint(equalToConstant: 92)
+            addToCartButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
-}
-
-#Preview {
-    FavoritesCell()
+    
+    func addProduct(with product: Product) {
+        productImage.setImage(with: product.variants?.first?.images?.first?.url ?? "")
+        productName.text = product.title
+        productPrice.text = String(describing: product.variants?.first?.price ?? 0) + " ₼"
+    }
 }

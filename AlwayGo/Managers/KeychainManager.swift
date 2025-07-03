@@ -110,10 +110,10 @@ final class KeychainManager {
         let status = SecItemAdd(query as CFDictionary, nil)
         
         if status != errSecSuccess {
-                print("Failed to save token: \(status)")
-            } else {
-                print("Token saved successfully.")
-            }
+            print("Failed to save token: \(status)")
+        } else {
+            print("Token saved successfully.")
+        }
     }
     
     func readToken(account: String) -> String? {
@@ -165,7 +165,7 @@ final class KeychainManager {
             kSecAttrAccount as String: account,
             kSecAttrService as String: "com.alwayGo.token"
         ]
-
+        
         let status = SecItemDelete(query as CFDictionary)
         print(status == errSecSuccess ? "Token deleted for account: \(account)" : "Failed to delete token: \(status)")
     }

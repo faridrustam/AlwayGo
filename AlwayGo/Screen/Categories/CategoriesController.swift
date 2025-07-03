@@ -94,13 +94,13 @@ class CategoriesController: BaseController {
         collectionTopAnchor?.isActive = true
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.getCategoriesData()
         viewModel.sendState = { [weak self] state in
             guard let self else { return }
             switch state {
             case .error(let message):
-                print(message)
+                showAlert(message: message)
             case .success:
                 collection.reloadData()
             case .loading:

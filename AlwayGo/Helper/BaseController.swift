@@ -14,12 +14,12 @@ class BaseController: UIViewController {
         
         configureUI()
         configureConstraints()
-        configureviewModel()
+        configureViewModel()
     }
     
     func configureUI() {}
     
     func configureConstraints() {}
     
-    func configureviewModel() {}
+    func configureViewModel() {}
 }

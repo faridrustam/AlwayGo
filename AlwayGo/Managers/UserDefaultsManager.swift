@@ -15,6 +15,7 @@ final class UserDefaultsManager {
         case isLoggedIn = "isLoggedIn"
         case email = "email"
         case username = "username"
+        case isHeartButtonTapped = "isHeartButtonTapped"
     }
     
     func setValue(_ value: Any, and key: UserDefaultsTypes) {
@@ -27,5 +28,13 @@ final class UserDefaultsManager {
     
     func getString(for key: UserDefaultsTypes) -> String {
         UserDefaults.standard.string(forKey: key.rawValue) ?? ""
+    }
+    
+    func setButtonState(_ value: Bool, and key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+    }
+    
+    func getButtonState(for key: String) -> Bool {
+        UserDefaults.standard.bool(forKey: key)
     }
 }

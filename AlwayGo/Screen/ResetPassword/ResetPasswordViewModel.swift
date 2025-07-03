@@ -22,7 +22,6 @@ class ResetPasswordViewModel {
             guard let self else { return }
             if let data {
                 model = data
-                print(data)
                 success?()
             } else if let error {
                 errorMessage?(error)
