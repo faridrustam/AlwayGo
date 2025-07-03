@@ -279,13 +279,13 @@ class LogInController: BaseController {
         ])
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.sendState = { [weak self] state in
             guard let self else { return }
             switch state {
             case .success:
                 handleSuccessCase()
-            case .error(message: let message):
+            case .error(message: _):
                 handleErrorCase()
             default:
                 break
@@ -299,6 +299,10 @@ class LogInController: BaseController {
         guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let sceneDelegate = window.delegate as? SceneDelegate else { return }
         sceneDelegate.window?.rootViewController = controller
+        KeychainManager.shared.saveEmail(email: emailField.text ?? "")
+        let status = KeychainManager.shared.savePassword(service: Bundle.main.bundlePath,
+                                                         account: emailField.text ?? "",
+                                                         password: passwordField.text ?? "")
     }
     
     private func handleErrorCase() {
@@ -329,11 +333,6 @@ class LogInController: BaseController {
            let passwordText = passwordField.text, !passwordText.isEmpty {
             viewModel.getLoginData(with: emailText, and: passwordText)
             UserDefaultsManager.shared.setValue(emailText, and: .email)
-            let status = KeychainManager.shared.savePassword(service: Bundle.main.bundlePath,
-                                                             account: emailText,
-                                                             password: passwordText)
-            let data = KeychainManager.shared.getPassword(service: Bundle.main.bundlePath, account: emailText)
-            KeychainManager.shared.saveEmail(email: emailText)
         }
     }
     

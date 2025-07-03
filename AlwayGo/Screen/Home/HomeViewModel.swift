@@ -42,8 +42,8 @@ class HomeViewModel {
             }
         }
     }
-    
-    func getItems(title: String, completion: @escaping () -> Void) {
+   
+   func getItems(title: String, completion: @escaping () -> Void) {
         manager.getProductData(endpoint: .product) { [weak self] data, errorMessage in
             guard let self else { return }
             if let errorMessage {

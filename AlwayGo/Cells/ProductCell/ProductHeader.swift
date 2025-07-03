@@ -39,8 +39,11 @@ class ProductHeader: UIView {
     }()
     
     private lazy var heartButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "ProductHeartButton"), for: .normal)
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -78,7 +81,7 @@ class ProductHeader: UIView {
     }()
     
     private lazy var shareSheet: UIActivityViewController = {
-        let sheet = UIActivityViewController(activityItems: [getURL()], applicationActivities: nil)
+        let sheet = UIActivityViewController(activityItems: [getURL() as Any], applicationActivities: nil)
         return sheet
     }()
     
@@ -177,15 +180,27 @@ class ProductHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+        
     private var index = 0
     private var productImages = [Variant]()
-    var id: String?
+    var product = Set<Product>()
+    private var id: String = ""
     var presentShare: ((UIActivityViewController) -> Void)?
+    var configureButton: ((UIButton) -> Void)?
     
-    override init(frame: CGRect) {
+    private var isTapped: Bool {
+        get {
+            UserDefaultsManager.shared.getButtonState(for: id)
+        } set {
+            UserDefaultsManager.shared.setButtonState(newValue, and: id)
+        }
+    }
+    
+    init(frame: CGRect, product: Set<Product>, id: String) {
         super.init(frame: frame)
         
+        self.product = product
+        self.id = id
         configureUI()
         configureConstraints()
     }
@@ -194,30 +209,40 @@ class ProductHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func shareSheetTapped() {
+    @objc private func heartButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        isTapped = sender.isSelected
+        handleButtonState()
+    }
+    
+    @objc private func shareSheetTapped() {
         presentShare?(shareSheet)
     }
     
-    func configureImage(with variant: [Variant], and name: String) {
-        productImages = variant
-        productName.text = name
-        collection.reloadData()
+    private func handleButtonState() {
+        heartButton.isSelected = isTapped
+        if isTapped {
+            FileManagerHelper.shared.writeDataTo(data: product)
+        } else {
+            FileManagerHelper.shared.deleteData(from: product)
+        }
     }
     
-    private func getURL() -> URL {
-        guard let url = URL(string: NetworkHelper.shared.configureURL(with: "\(id ?? "")")) else {
-            return URL(string: "")!
+    private func getURL() -> URL? {
+        guard let url = URL(string: NetworkHelper.shared.configureURL(with: "\(id)")) else {
+            return nil
         }
         return url
     }
     
     private func configureUI() {
         backgroundColor = .white
-        userReviewStack.addArrangedSubViews(starImage, ratingLabel, commentButton, commentCountLabel)
         pageControl.numberOfPages = productImages.count
+        handleButtonState()
     }
     
     private func configureConstraints() {
+        userReviewStack.addArrangedSubViews(starImage, ratingLabel, commentButton, commentCountLabel)
         addSubViews(collection, pageControl, buttonsStack, likesBackgroundView, likesView, productName, checkStockLabel, userReviewStack)
         buttonsStack.addArrangedSubViews(heartButtonView, shareButtonView)
         likesBackgroundView.addSubview(likesView)
@@ -229,7 +254,7 @@ class ProductHeader: UIView {
             collection.trailingAnchor.constraint(equalTo: trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: productName.topAnchor, constant: -16),
             
-            buttonsStack.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            buttonsStack.topAnchor.constraint(equalTo: topAnchor, constant: 32),
             buttonsStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             buttonsStack.widthAnchor.constraint(equalToConstant: 40),
             
@@ -239,8 +264,7 @@ class ProductHeader: UIView {
             heartButton.centerYAnchor.constraint(equalTo: heartButtonView.centerYAnchor),
             heartButton.centerXAnchor.constraint(equalTo: heartButtonView.centerXAnchor),
             
-            shareButton.centerYAnchor.constraint(equalTo: shareButtonView
-                .centerYAnchor),
+            shareButton.centerYAnchor.constraint(equalTo: shareButtonView.centerYAnchor),
             shareButton.centerXAnchor.constraint(equalTo: shareButtonView.centerXAnchor),
             
             shareButtonView.widthAnchor.constraint(equalToConstant: 40),
@@ -267,11 +291,11 @@ class ProductHeader: UIView {
             pageControl.bottomAnchor.constraint(equalTo: collection.bottomAnchor, constant: -16),
             
             productName.topAnchor.constraint(equalTo: collection.bottomAnchor, constant: 8),
-            productName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            productName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             productName.bottomAnchor.constraint(equalTo: userReviewStack.topAnchor, constant: -8),
         
             checkStockLabel.centerYAnchor.constraint(equalTo: productName.centerYAnchor),
-            checkStockLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            checkStockLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
             
             userReviewStack.leadingAnchor.constraint(equalTo: productName.leadingAnchor),
             userReviewStack.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -279,6 +303,12 @@ class ProductHeader: UIView {
             starImage.widthAnchor.constraint(equalToConstant: 14),
             starImage.heightAnchor.constraint(equalToConstant: 14)
         ])
+    }
+    
+    func configureImage(with variant: [Variant], and name: String) {
+        productImages = variant
+        productName.text = name
+        collection.reloadData()
     }
 }
 

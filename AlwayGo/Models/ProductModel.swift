@@ -14,7 +14,7 @@ struct TotalProduct: Codable {
 }
 
 // MARK: - Product
-struct Product: Codable {
+struct Product: Codable, Hashable, Equatable {
     let id, title, slug: String?
     let categories: [Category]?
     let description: String?
@@ -29,6 +29,14 @@ struct Product: Codable {
         case id = "_id"
         case title, slug, categories, description, details, tags, specs, variants, createdAt, updatedAt
         case v = "__v"
+    }
+    
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id ?? "")
     }
 }
 

@@ -29,7 +29,6 @@ class ClothesCell: UICollectionViewCell {
     private lazy var clothName: UILabel = {
        let label = UILabel()
         label.text = "Miss Murem Kruvuaze Baglamali Hirka"
-        print(label.text?.count ?? 1)
         label.font = .customFont(.sfProRegular, size: 14)
         var mutableString = NSMutableAttributedString(string: label.text ?? "")
         mutableString.addAttribute(.foregroundColor,
@@ -51,20 +50,22 @@ class ClothesCell: UICollectionViewCell {
         return label
     }()
     
-    private let heartView: UIView = {
-        let view = UIButton()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 12
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+//    private let heartView: UIView = {
+//        let view = UIButton()
+//        view.backgroundColor = .white
+//        view.layer.cornerRadius = 12
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        return view
+//    }()
     
-    private lazy var heartButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "heartButton"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    private lazy var heartButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setImage(UIImage(systemName: "heart"), for: .normal)
+//        button.tintColor = .black
+//        button.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
     private lazy var bagView: UIView = {
         let view = UIView()
@@ -82,6 +83,9 @@ class ClothesCell: UICollectionViewCell {
         return button
     }()
     
+    var configureButton: (() -> Void)?
+    private var isButtonTapped = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -93,12 +97,31 @@ class ClothesCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    @objc func heartButtonTapped() {
+//        isButtonTapped.toggle()
+//        if isButtonTapped {
+//            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//            heartButton.tintColor = .black
+//            NotificationCenter.default.post(name: Notification.Name("HeartButtonTapped"), object: nil)
+//        } else {
+//            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+//        }
+//    }
+    
     private func configureUI() {
-        cellView.addSubViews(clothImage, clothName, clothPrice, heartView, bagView)
+        cellView.addSubViews(clothImage, clothName, clothPrice, bagView)
         contentView.addSubview(cellView)
-        heartView.addSubview(heartButton)
+//        heartView.addSubview(heartButton)
         bagView.addSubview(bagButton)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(didTapButton),
+//                                               name: Notification.Name("HeartTapped"),
+//                                               object: nil)
     }
+    
+//    @objc func didTapButton() {
+//        heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//    }
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
@@ -118,20 +141,20 @@ class ClothesCell: UICollectionViewCell {
             
             clothPrice.topAnchor.constraint(equalTo: clothName.bottomAnchor, constant: 4),
             clothPrice.leadingAnchor.constraint(equalTo: clothName.leadingAnchor),
-            
-            heartView.widthAnchor.constraint(equalToConstant: 24),
-            heartView.heightAnchor.constraint(equalToConstant: 24),
-            heartView.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 8),
-            heartView.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -8),
-            
-            heartButton.widthAnchor.constraint(equalToConstant: 14.4),
-            heartButton.heightAnchor.constraint(equalToConstant: 14.4),
-            heartButton.centerXAnchor.constraint(equalTo: heartView.centerXAnchor),
-            heartButton.centerYAnchor.constraint(equalTo: heartView.centerYAnchor),
+//            
+//            heartView.widthAnchor.constraint(equalToConstant: 24),
+//            heartView.heightAnchor.constraint(equalToConstant: 24),
+//            heartView.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 8),
+//            heartView.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -8),
+//            
+//            heartButton.widthAnchor.constraint(equalToConstant: 14.4),
+//            heartButton.heightAnchor.constraint(equalToConstant: 14.4),
+//            heartButton.centerXAnchor.constraint(equalTo: heartView.centerXAnchor),
+//            heartButton.centerYAnchor.constraint(equalTo: heartView.centerYAnchor),
             
             bagView.widthAnchor.constraint(equalToConstant: 24),
             bagView.heightAnchor.constraint(equalToConstant: 24),
-            bagView.trailingAnchor.constraint(equalTo: heartView.trailingAnchor),
+            bagView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             bagView.bottomAnchor.constraint(equalTo: clothImage.bottomAnchor, constant: -8),
             
             bagButton.widthAnchor.constraint(equalToConstant: 14.4),

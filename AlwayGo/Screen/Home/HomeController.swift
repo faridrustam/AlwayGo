@@ -52,7 +52,7 @@ class HomeController: BaseController {
         return collection
     }()
     
-    let viewModel = HomeViewModel()
+    private let viewModel = HomeViewModel()
     
     //MARK: - LifeCycle
     
@@ -115,14 +115,10 @@ class HomeController: BaseController {
                             forCellWithReuseIdentifier: "\(LabelCell.self)")
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.getCategoryData()
         viewModel.success = { [weak self] in
             guard let self else { return }
-            print("ProductItems count:", self.viewModel.productItems.count)
-            for item in self.viewModel.productItems {
-                print("Title: \(item.title ?? "No Title"), Products: \(item.items?.count ?? 0)")
-            }
             collection.reloadData()
         }
     }
@@ -158,10 +154,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(0) {
                 let productType = viewModel.productItems[0]
-                print("Cell 1: \(productType.items?[0].id ?? "")")
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
                     guard let self else { return }
+                    // Id and items changed from 0 to indexPath.ro
                     let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController(),
                                                          id: productType.items?[0].id ?? "",
                                                          price: productType.items?[0].variants?[0].price ?? 0)
@@ -175,7 +171,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(1) {
                 let productType = viewModel.productItems[1]
-                print("Cell 2: \(productType.items?[1].id ?? "")")
                 
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
@@ -193,7 +188,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(2) {
                 let productType = viewModel.productItems[2]
-                print("Cell 3: \(productType.items?[2].id ?? "")")
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
                     guard let self else { return }
