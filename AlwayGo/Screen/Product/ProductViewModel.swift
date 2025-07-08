@@ -25,10 +25,9 @@ class ProductViewModel {
     private let id: String
     private var cartModel: CartPostModel?
     private(set) var productData: Product?
+    var products = Set<Product>()
     let price: Int
     var model = ProductCellModel.cellTypes
-//    let name: String?
-//    var value: Value?
     var sendState: ((ViewState) -> Void)?
     
     var state: ViewState = .idle {
@@ -58,6 +57,7 @@ class ProductViewModel {
             guard let self else { return }
             if let data {
                 productData = data
+                products.insert(data)
                 state = .loaded
                 state = .success
             } else if let error {
@@ -78,19 +78,4 @@ class ProductViewModel {
             }
         }
     }
-    
-//    func getFilteredProducts(with index: Int) {
-//        state = .loading
-//        productManager.getProductDetail(id: id) { [weak self] data, error in
-//            guard let self else { return }
-//            if let data {
-//                value = data.specs?[index].values?.filter { $0.key == self.name }.first
-//                state = .loaded
-//                state = .success
-//            } else if let error {
-//                state = .error(message: error)
-//                state = .loaded
-//            }
-//        }
-//    }
 }

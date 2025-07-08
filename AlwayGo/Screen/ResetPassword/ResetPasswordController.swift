@@ -153,7 +153,7 @@ class ResetPasswordController: BaseController {
         ])
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.success = {
             print("Success")
         }

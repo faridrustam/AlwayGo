@@ -370,7 +370,7 @@ class SignUpController: BaseController {
         ])
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.success = {
             print("Success")
         }

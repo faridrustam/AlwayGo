@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ItemsView: UIView {
+final class ItemsView: UIView {
     private lazy var itemsCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "15 items"
+        label.text = String(describing: products.count) + " items"
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         label.font = .customFont(.sfProRegular, size: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -21,13 +21,12 @@ class ItemsView: UIView {
         let button = UIButton()
         button.setTitle("Recently added", for: .normal)
         button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.6), for: .normal)
-        button.setImage(UIImage(named: "RecentlyDown"), for: .normal)
         button.titleLabel?.font = .customFont(.sfProRegular, size: 14)
-        button.imageView?.tintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
-        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight: .forceRightToLeft
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private var products: [Product] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,5 +53,9 @@ class ItemsView: UIView {
             recentlyAddedButton.centerYAnchor.constraint(equalTo: itemsCountLabel.centerYAnchor),
             recentlyAddedButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
+    }
+    
+    func addProduct(product: [Product]) {
+        products = product
     }
 }

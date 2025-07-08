@@ -8,9 +8,6 @@
 import UIKit
 
 class ClothesCollectionCell: UICollectionViewCell {
-    var handleSeeMoreButton: (() -> Void)?
-    var handleCellSelection: (() -> Void)?
-    
     private lazy var cellLabel: UILabel = {
         let label = UILabel()
         label.font = .customFont(.sfProMedium, size: 20)
@@ -40,6 +37,8 @@ class ClothesCollectionCell: UICollectionViewCell {
     }()
     
     var productList: [Product]?
+    var handleSeeMoreButton: (() -> Void)?
+    var handleCellSelection: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

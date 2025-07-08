@@ -52,7 +52,7 @@ class HomeController: BaseController {
         return collection
     }()
     
-    let viewModel = HomeViewModel()
+    private let viewModel = HomeViewModel()
     
     //MARK: - LifeCycle
     
@@ -115,23 +115,10 @@ class HomeController: BaseController {
                             forCellWithReuseIdentifier: "\(LabelCell.self)")
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.getCategoryData()
         viewModel.success = { [weak self] in
             guard let self else { return }
-            print("ProductItems count:", self.viewModel.productItems.count)
-            for item in self.viewModel.productItems {
-                print("Title: \(item.title ?? "No Title"), Products: \(item.items?.count ?? 0)")
-            }
-            if let email = KeychainManager.shared.getSavedEmailAccount() {
-                                if let token = KeychainManager.shared.readToken(account: email) {
-                                    print("Retrieved token: \(token)")
-                                } else {
-                                    print("Token not found for account: \(email)")
-                                }
-                            } else {
-                                print("No saved email account found in Keychain.")
-                            }
             collection.reloadData()
         }
     }
@@ -161,6 +148,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
                     guard let self else { return }
+                    // Id and items changed from 0 to indexPath.ro
                     let coordinator = ProductCoordinator(navigationController: navigationController ?? UINavigationController(),
                                                          id: productType.items?[0].id ?? "",
                                                          price: productType.items?[0].variants?[0].price ?? 0)

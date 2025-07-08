@@ -70,7 +70,7 @@ class CategoryDetailController: BaseController {
         tableTopAnchor?.isActive = true
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         
     }
     

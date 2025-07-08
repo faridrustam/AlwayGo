@@ -62,7 +62,6 @@ class ProductSizeCell: UITableViewCell {
     func configureArray(with array: [Value]) {
         size = array
         collection.reloadData()
-        print(size)
     }
     
     private func configureUI() {
