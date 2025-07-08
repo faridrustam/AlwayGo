@@ -12,7 +12,6 @@ struct ProductModel {
 }
 
 enum CellType {
-    case header
     case sales
     case forYou
     case appExclusive
@@ -28,7 +27,7 @@ class HomeViewModel {
     private let manager = ProductManager()
     var success: (() -> Void)?
     
-    let cellTypes: [CellType] = [.header, .sales, .forYou,
+    let cellTypes: [CellType] = [.sales, .forYou,
                                  .appExclusive, .recentlyViewed, .topStores,
                                  .trendingNow]
     

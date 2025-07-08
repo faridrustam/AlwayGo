@@ -123,6 +123,15 @@ class HomeController: BaseController {
             for item in self.viewModel.productItems {
                 print("Title: \(item.title ?? "No Title"), Products: \(item.items?.count ?? 0)")
             }
+            if let email = KeychainManager.shared.getSavedEmailAccount() {
+                                if let token = KeychainManager.shared.readToken(account: email) {
+                                    print("Retrieved token: \(token)")
+                                } else {
+                                    print("Token not found for account: \(email)")
+                                }
+                            } else {
+                                print("No saved email account found in Keychain.")
+                            }
             collection.reloadData()
         }
     }
@@ -139,26 +148,16 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         
         
         switch cellType {
-        case .header:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HeaderCollectionCell.self)",
-                                                          for: indexPath) as! HeaderCollectionCell
-            return cell
         case .sales:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SalesCollectionCell.self)",
                                                           for: indexPath) as! SalesCollectionCell
             return cell
-            
-            //        case .categories:
-            //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionCell.self)",
-            //                                                          for: indexPath) as! CategoryCollectionCell
-            //            return cell
             
         case .forYou:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(0) {
                 let productType = viewModel.productItems[0]
-                print("Cell 1: \(productType.items?[0].id ?? "")")
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
                     guard let self else { return }
@@ -175,8 +174,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(1) {
                 let productType = viewModel.productItems[1]
-                print("Cell 2: \(productType.items?[1].id ?? "")")
-                
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
                     guard let self else { return }
@@ -193,7 +190,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(2) {
                 let productType = viewModel.productItems[2]
-                print("Cell 3: \(productType.items?[2].id ?? "")")
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
                     guard let self else { return }
@@ -221,12 +217,8 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         let cellType = viewModel.cellTypes[indexPath.item]
         
         switch cellType {
-        case .header:
-            return .init(width: collectionView.frame.width, height: 50)
         case .sales:
             return .init(width: collectionView.frame.width, height: 132)
-            //        case .categories:
-            //            return .init(width: collectionView.frame.width, height: 212)
         case .forYou, .trendingNow, .recentlyViewed:
             return .init(width: collectionView.frame.width, height: 340)
         case .appExclusive:

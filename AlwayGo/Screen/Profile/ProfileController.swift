@@ -51,7 +51,7 @@ class ProfileController: BaseController {
     override func configureConstraints() {
         NSLayoutConstraint.activate([
             profileView.widthAnchor.constraint(equalToConstant: 370),
-            profileView.heightAnchor.constraint(equalToConstant: 220),
+            profileView.heightAnchor.constraint(equalToConstant: 90),
             profileView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             profileView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -143,9 +143,11 @@ extension ProfileController: UITableViewDelegate, UITableViewDataSource {
             let vc = CNContactPickerViewController()
             present(vc, animated: true)
         case .sections(type: .profile):
-            guard let bundle = Bundle.main.bundleIdentifier,
-                  let settingsURL = URL(string: UIApplication.openSettingsURLString + bundle)  else { return }
-            UIApplication.shared.open(settingsURL)
+            let controller = OrderController()
+            navigationController?.present(controller, animated: true)
+        case .sections(type: .security):
+            let controller = OrderController()
+            navigationController?.show(controller, sender: nil)
         }
     }
 }

@@ -146,4 +146,10 @@ class ClothesCell: UICollectionViewCell {
         clothPrice.text = "\(product.variants?.first?.price ?? 0) ₼"
         clothImage.setImage(with: product.variants?.first?.images?.first?.url)
     }
+    
+    func configureProductCell2(product: OrderProduct, url: ListVariant) {
+        clothName.text = product.title
+        clothPrice.text = "\(product.variants?.first?.price ?? 0) ₼"
+        clothImage.setImage(with: url.images?.first?.url ?? "")
+    }
 }

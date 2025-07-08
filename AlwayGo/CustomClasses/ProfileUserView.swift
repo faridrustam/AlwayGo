@@ -102,9 +102,9 @@ class ProfileUserView: UIView {
     private func configureUI() {
         backgroundColor = .white
         layer.cornerRadius = 8
-        addSubViews(userNameView, userNameLabel, userEmailLabel, settingsButton, addNumberView)
+        addSubViews(userNameView, userNameLabel, userEmailLabel, settingsButton/*, addNumberView*/)
         userNameView.addSubview(userInitialLetters)
-        addNumberView.addSubViews(exclamationImage, addNumberLabel, addNumberButton)
+        //addNumberView.addSubViews(exclamationImage, addNumberLabel, addNumberButton)
     }
     
     private func configureConstraints() {
@@ -128,26 +128,26 @@ class ProfileUserView: UIView {
             settingsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
             settingsButton.topAnchor.constraint(equalTo: topAnchor, constant: 32),
             
-            addNumberView.widthAnchor.constraint(equalToConstant: 338),
-            addNumberView.heightAnchor.constraint(equalToConstant: 116),
-            addNumberView.topAnchor.constraint(equalTo: userNameView.bottomAnchor, constant: 12),
-            addNumberView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            addNumberView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//            addNumberView.widthAnchor.constraint(equalToConstant: 338),
+//            addNumberView.heightAnchor.constraint(equalToConstant: 116),
+//            addNumberView.topAnchor.constraint(equalTo: userNameView.bottomAnchor, constant: 12),
+//            addNumberView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+//            addNumberView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            exclamationImage.widthAnchor.constraint(equalToConstant: 24),
-            exclamationImage.heightAnchor.constraint(equalToConstant: 24),
-            exclamationImage.leadingAnchor.constraint(equalTo: addNumberView.leadingAnchor, constant: 16),
-            exclamationImage.topAnchor.constraint(equalTo: addNumberView.topAnchor, constant: 16),
-            
-            addNumberLabel.centerYAnchor.constraint(equalTo: exclamationImage.centerYAnchor),
-            addNumberLabel.leadingAnchor.constraint(equalTo: exclamationImage.trailingAnchor, constant: 12),
-            addNumberLabel.trailingAnchor.constraint(equalTo: addNumberView.trailingAnchor, constant: -4),
-            
-            addNumberButton.widthAnchor.constraint(equalToConstant: 144),
-            addNumberButton.heightAnchor.constraint(equalToConstant: 40),
-            addNumberButton.topAnchor.constraint(equalTo: addNumberLabel.bottomAnchor, constant: 12),
-            addNumberButton.leadingAnchor.constraint(equalTo: addNumberLabel.leadingAnchor),
-            addNumberButton.bottomAnchor.constraint(equalTo: addNumberView.bottomAnchor, constant: -16)
+//            exclamationImage.widthAnchor.constraint(equalToConstant: 24),
+//            exclamationImage.heightAnchor.constraint(equalToConstant: 24),
+//            exclamationImage.leadingAnchor.constraint(equalTo: addNumberView.leadingAnchor, constant: 16),
+//            exclamationImage.topAnchor.constraint(equalTo: addNumberView.topAnchor, constant: 16),
+//            
+//            addNumberLabel.centerYAnchor.constraint(equalTo: exclamationImage.centerYAnchor),
+//            addNumberLabel.leadingAnchor.constraint(equalTo: exclamationImage.trailingAnchor, constant: 12),
+//            addNumberLabel.trailingAnchor.constraint(equalTo: addNumberView.trailingAnchor, constant: -4),
+//            
+//            addNumberButton.widthAnchor.constraint(equalToConstant: 144),
+//            addNumberButton.heightAnchor.constraint(equalToConstant: 40),
+//            addNumberButton.topAnchor.constraint(equalTo: addNumberLabel.bottomAnchor, constant: 12),
+//            addNumberButton.leadingAnchor.constraint(equalTo: addNumberLabel.leadingAnchor),
+//            addNumberButton.bottomAnchor.constraint(equalTo: addNumberView.bottomAnchor, constant: -16)
         ])
     }
 
