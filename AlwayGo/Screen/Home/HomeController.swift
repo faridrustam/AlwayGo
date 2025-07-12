@@ -135,19 +135,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         
         
         switch cellType {
-        case .header:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HeaderCollectionCell.self)",
-                                                          for: indexPath) as! HeaderCollectionCell
-            return cell
         case .sales:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SalesCollectionCell.self)",
                                                           for: indexPath) as! SalesCollectionCell
             return cell
-            
-            //        case .categories:
-            //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionCell.self)",
-            //                                                          for: indexPath) as! CategoryCollectionCell
-            //            return cell
             
         case .forYou:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ClothesCollectionCell.self)",
@@ -171,7 +162,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                           for: indexPath) as! ClothesCollectionCell
             if viewModel.productItems.indices.contains(1) {
                 let productType = viewModel.productItems[1]
-                
                 cell.configureCell(with: productType.title ?? "No Title", product: productType.items)
                 cell.handleCellSelection = { [weak self] in
                     guard let self else { return }
@@ -215,12 +205,8 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         let cellType = viewModel.cellTypes[indexPath.item]
         
         switch cellType {
-        case .header:
-            return .init(width: collectionView.frame.width, height: 50)
         case .sales:
             return .init(width: collectionView.frame.width, height: 132)
-            //        case .categories:
-            //            return .init(width: collectionView.frame.width, height: 212)
         case .forYou, .trendingNow, .recentlyViewed:
             return .init(width: collectionView.frame.width, height: 340)
         case .appExclusive:

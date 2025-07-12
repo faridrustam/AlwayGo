@@ -67,15 +67,13 @@ struct CartGetModel: Codable {
 
 // MARK: - List
 struct GetCartList: Codable {
-    let productID: ProductId?
-    let variantID: String?
+    let productId: ProductId?
+    let variantId: String?
     let price, discount, count: Int?
     let id: String?
 
     enum CodingKeys: String, CodingKey {
-        case productID = "productId"
-        case variantID = "variantId"
-        case price, discount, count
+        case price, discount, count, productId, variantId
         case id = "_id"
     }
 }

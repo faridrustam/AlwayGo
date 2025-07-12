@@ -14,6 +14,7 @@ enum ProfileCells {
 
 enum Section {
     case profile
+    case security
     case contact
     case rateApp
     case signOut
