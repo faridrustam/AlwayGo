@@ -115,7 +115,7 @@ class CartController: BaseController {
         ])
     }
     
-    override func configureviewModel() {
+    override func configureViewModel() {
         viewModel.getCartItems()
         viewModel.sendState = { [weak self] state in
             guard let self else { return }
@@ -146,6 +146,18 @@ class CartController: BaseController {
     }
     
     @objc private func goToCheckout() {
+        let item = viewModel.items?.list?[0]
+        let params: [String: [String: Any]] = [
+            "list": [
+                "productId": item?.productId?.id ?? "",
+                "variantId": item?.variantId ?? "",
+                "count": 1
+            ]
+        ]
+        viewModel.sendOrderData(params: params)
+        guard let navigationController = navigationController else { return }
+        let coordinator = OrderCoordinator(navigationController: navigationController)
+        coordinator.start()
     }
 }
 

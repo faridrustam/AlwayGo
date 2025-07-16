@@ -51,7 +51,16 @@ final class CartViewModel {
         }
     }
     
-    func sendOrderData() {
+    func sendOrderData(params: [String: [String: Any]]) {
+        orderManager.createOrder(params: params) { data, error in
+            if let error {
+                self.state = .error(message: error)
+            } else if let data {
+                print(data)
+                self.items = nil
+                self.state = .success
+            }
+        }
     }
     
     func resetProducts() {
